@@ -1,0 +1,31 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background-color: var(--white);
+  border-bottom: 2px solid var(--unifor-blue-dark);
+}
+
+.logo a {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: var(--unifor-blue-dark);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--unifor-blue-dark);
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: var(--unifor-blue-light);
+}

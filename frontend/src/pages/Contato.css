@@ -1,0 +1,92 @@
+.contato-container {
+  padding: 60px 10%;
+  background-color: #f4f7f6;
+  min-height: 80vh;
+}
+
+.contato-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.contato-header h1 {
+  color: var(--unifor-blue-dark);
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.contato-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.contato-content {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 50px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.contato-form {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--unifor-blue-dark);
+}
+
+.form-group input, 
+.form-group textarea {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.btn-enviar {
+  background-color: var(--unifor-blue-light);
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+
+.btn-enviar:hover {
+  background-color: var(--unifor-blue-dark);
+}
+
+.contato-info {
+  background-color: var(--unifor-blue-dark);
+  color: white;
+  padding: 40px;
+  border-radius: 15px;
+  height: fit-content;
+}
+
+.contato-info h3 {
+  margin-bottom: 25px;
+  border-bottom: 2px solid var(--unifor-blue-light);
+  padding-bottom: 10px;
+}
+
+.contato-info p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
