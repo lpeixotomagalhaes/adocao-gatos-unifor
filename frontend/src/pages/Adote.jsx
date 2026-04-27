@@ -66,7 +66,7 @@ const Adote = () => {
         </div>
       </section>
 
-      <section className="filtros-panel">
+     <section className="filtros-panel esconder">
         <div className="busca-box-nova">
           <span className="busca-icone">🔍</span>
           <input 
@@ -77,29 +77,46 @@ const Adote = () => {
           />
         </div>
 
-        <div className="filtros-controles">
-          <select value={filtroSexo} onChange={(e) => setFiltroSexo(e.target.value)}>
-            <option value="Todos">Sexo (Todos)</option>
-            <option value="Macho">Macho</option>
-            <option value="Fêmea">Fêmea</option>
-          </select>
-          <select value={filtroStatus} onChange={(e) => setFiltroStatus(e.target.value)}>
-            <option value="Todos">Status (Todos)</option>
-            <option value="Disponível">Disponível</option>
-            <option value="Pendente">Adoção Pendente</option>
-          </select>
-          <label className="checkbox-label">
-            <input type="checkbox" checked={somenteCastrados} onChange={(e) => setSomenteCastrados(e.target.checked)} /> Castrados
-          </label>
-          <label className="checkbox-label">
-            <input type="checkbox" checked={somenteVacinados} onChange={(e) => setSomenteVacinados(e.target.checked)} /> Vacinados
-          </label>
+        <div className="filtros-controles-grid">
+          <div className="filtro-grupo">
+            <label>Sexo</label>
+            <select value={filtroSexo} onChange={(e) => setFiltroSexo(e.target.value)}>
+              <option value="Todos">Selecione</option>
+              <option value="Macho">Macho</option>
+              <option value="Fêmea">Fêmea</option>
+            </select>
+          </div>
+
+          <div className="filtro-grupo">
+            <label>Status</label>
+            <select value={filtroStatus} onChange={(e) => setFiltroStatus(e.target.value)}>
+              <option value="Todos">Selecione</option>
+              <option value="Disponível">Disponível</option>
+              <option value="Pendente">Adoção Pendente</option>
+            </select>
+          </div>
+
+          <div className="filtro-grupo">
+            <label>Condição de Saúde</label>
+            <div className="checkbox-wrapper">
+              <label className="checkbox-label-grande">
+                <input type="checkbox" checked={somenteCastrados} onChange={(e) => setSomenteCastrados(e.target.checked)} /> 
+                Castrados
+              </label>
+              <label className="checkbox-label-grande">
+                <input type="checkbox" checked={somenteVacinados} onChange={(e) => setSomenteVacinados(e.target.checked)} /> 
+                Vacinados
+              </label>
+            </div>
+          </div>
         </div>
       </section>
 
-      <div className="resultados-resumo">
+      <div className="resultados-resumo esconder">
         <p>Mostrando <strong>{gatosFiltrados.length}</strong> resultado(s)</p>
-        <button className="btn-limpar" onClick={() => { setBusca(''); setFiltroSexo('Todos'); setFiltroStatus('Todos'); setSomenteCastrados(false); setSomenteVacinados(false); }}>🔄 Limpar</button>
+        <button className="btn-limpar" onClick={() => { setBusca(''); setFiltroSexo('Todos'); setFiltroStatus('Todos'); setSomenteCastrados(false); setSomenteVacinados(false); }}>
+          🔄 Limpar Filtros
+        </button>
       </div>
 
       <section className="gatos-grid">

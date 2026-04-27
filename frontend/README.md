@@ -21,7 +21,7 @@ O **Resgatinhos Unifor** nasceu da necessidade de conectar os felinos resgatados
 
 1. **Clone o repositório:**
 ```bash
-git clone [https://github.com/lpeixotomagalhaes/adocao-gatos-unifor.git](https://github.com/lpeixotomagalhaes/adocao-gatos-unifor.git)
+git clone https://github.com/lpeixotomagalhaes/adocao-gatos-unifor.git
 ```
 2. **Acesse a pasta:**
 ```bash

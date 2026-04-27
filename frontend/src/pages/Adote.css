@@ -4,7 +4,7 @@
   min-height: 80vh;
 }
 
-/* --- Nova Seção de Regras Amigável --- */
+/* --- Seção de Regras Amigável --- */
 .regras-amigaveis {
   background-color: #f0f7ff; 
   padding: 50px;
@@ -73,19 +73,18 @@
   line-height: 1.5;
 }
 
-/* --- Painel de Filtros --- */
+/* --- NOVO LAYOUT DE FILTROS --- */
 .filtros-panel {
   background-color: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-  margin-bottom: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* --- Novo Design da Barra de Pesquisa --- */
 .busca-box-nova {
   display: flex;
   align-items: center;
@@ -94,6 +93,7 @@
   padding: 5px 20px;
   border: 2px solid transparent;
   transition: all 0.3s ease;
+  margin-bottom: 40px;
 }
 
 .busca-box-nova:focus-within {
@@ -114,7 +114,7 @@
   border: none;
   background: transparent;
   font-size: 1.1rem;
-  outline: none; /* Tira a borda preta padrão do navegador */
+  outline: none;
   color: var(--unifor-blue-dark);
 }
 
@@ -122,76 +122,122 @@
   color: #999;
 }
 
-.filtros-controles {
+.filtros-controles-grid {
   display: flex;
-  gap: 20px;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 60px; 
   flex-wrap: wrap;
 }
 
-.filtros-controles select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  background-color: white;
-  min-width: 150px;
+.filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
 }
 
-.checkbox-label {
+.filtro-grupo > label {
+  font-weight: 800;
+  color: var(--unifor-blue-light); 
+  margin-bottom: 12px;
+  font-size: 1.15rem;
+}
+
+.filtro-grupo select {
+  padding: 12px 25px;
+  border: 2px solid #e0e4e8;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: var(--unifor-blue-dark);
+  background-color: #f8f9fa;
+  min-width: 180px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filtro-grupo select:focus, 
+.filtro-grupo select:hover {
+  border-color: var(--unifor-blue-light);
+  background-color: white;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  gap: 25px;
+  height: 100%;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.checkbox-label-grande {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 500;
-  color: var(--unifor-blue-dark);
+  gap: 10px;
   cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--unifor-blue-dark);
+  transition: opacity 0.2s;
 }
 
-/* --- Barra de Resumo de Resultados --- */
+.checkbox-label-grande:hover {
+  opacity: 0.8;
+}
+
+.checkbox-label-grande input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  accent-color: var(--unifor-blue-light);
+}
+
+/* Área de Resumo e Botão de Limpar */
 .resultados-resumo {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 35px;
-  padding: 15px 25px;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  gap: 15px;
+  margin-bottom: 50px;
 }
 
 .resultados-resumo p {
-  color: #444;
-  font-size: 1.05rem;
+  font-size: 1.3rem;
+  color: #555;
   margin: 0;
 }
 
-.destaque-disponivel {
-  color: #1e8e3e;
-  font-weight: 600;
-}
-
 .btn-limpar {
-  background: transparent;
-  color: var(--unifor-blue-dark);
-  border: 1px solid var(--unifor-blue-dark);
-  padding: 8px 15px;
-  border-radius: 20px;
+  background-color: transparent;
+  color: var(--unifor-blue-light);
+  border: 2px solid var(--unifor-blue-light);
+  padding: 10px 25px;
+  border-radius: 30px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
+  font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
 .btn-limpar:hover {
-  background: var(--unifor-blue-dark);
+  background-color: var(--unifor-blue-light);
   color: white;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .filtros-controles-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
 }
 
 /* --- O Grid e os Cards --- */
 .gatos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Mais largos */
-  gap: 40px; /* Mais respiro */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+  gap: 40px; 
 }
 
 .gato-card {
@@ -202,16 +248,23 @@
   display: flex;
   flex-direction: column;
   border: 1px solid #f0f0f0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Prepara para a animação do hover */
+}
+
+/* 😻 A animação que você pediu! */
+.gato-card:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
 .gato-foto {
   width: 100%;
-  height: 260px; /* Foto mais imponente */
+  height: 260px; 
   object-fit: cover;
 }
 
 .gato-info {
-  padding: 25px; /* Mais espaço interno */
+  padding: 25px; 
   display: flex;
   flex-direction: column;
   flex-grow: 1;
