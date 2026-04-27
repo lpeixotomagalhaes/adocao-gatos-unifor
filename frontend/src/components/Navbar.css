@@ -29,3 +29,70 @@
 .nav-links a:hover {
   color: var(--unifor-blue-light);
 }
+/* Animação nos links do menu */
+.nav-links a {
+  display: inline-block;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.nav-links a:hover {
+  transform: scale(1.1); /* Faz a palavra crescer 10% */
+}
+
+.logo a {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.logo a:hover {
+  transform: scale(1.05);
+}
+/* Animação da Logo vindo da esquerda */
+@keyframes deslizarDaEsquerda {
+  0% { opacity: 0; transform: translateX(-80px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.logo a {
+  display: inline-block;
+  animation: deslizarDaEsquerda 0.8s ease-out forwards;
+  transition: transform 0.2s ease;
+}
+
+.logo a:hover {
+  transform: scale(1.05);
+}
+
+/* Efeito de aumentar os links do menu */
+.nav-links a {
+  display: inline-block;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.nav-links a:hover {
+  transform: scale(1.1);
+}
+/* Logo vindo da esquerda */
+@keyframes deslizarDaEsquerda {
+  0% { opacity: 0; transform: translateX(-50px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.logo {
+  animation: deslizarDaEsquerda 0.7s ease-out forwards;
+}
+
+/* Botões aparecendo depois */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.nav-item {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.anim-1 { animation-delay: 0.3s; }
+.anim-2 { animation-delay: 0.4s; }
+.anim-3 { animation-delay: 0.5s; }

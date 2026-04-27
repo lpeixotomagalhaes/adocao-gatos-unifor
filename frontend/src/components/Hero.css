@@ -45,12 +45,78 @@
   font-weight: bold;
   font-size: 1.2rem;
   cursor: pointer;
-  transition: transform 0.2s;
+  /* Animação inicial de entrada */
+  opacity: 0;
+  animation: fadeSlideUp 0.8s ease-out 0.4s forwards;
+  
+  /* Preparando para o efeito Hover */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra inicial levinha */
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* O mesmo efeito do botão "Conheça os gatinhos" */
+.hero-btn:hover {
+  transform: scale(1.05) translateY(-3px) !important;
+  background-color: var(--unifor-blue-dark) !important;
+  color: var(--white) !important;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+.hero-image-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-image-wrapper img {
+  width: 100%;
+  max-width: 550px;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  object-fit: cover;
+}
+/* --- ANIMAÇÕES DO HERO --- */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-content h1 {
+  /* Título entra primeiro */
+  animation: fadeSlideUp 0.8s ease-out forwards;
+}
+
+.hero-content p {
+  opacity: 0; /* Começa invisível */
+  /* Entra 0.2 segundos depois do título */
+  animation: fadeSlideUp 0.8s ease-out 0.2s forwards; 
+}
+
+/* --- ESTILO E HOVER DO BOTÃO --- */
+.hero-btn {
+  background-color: var(--white);
+  color: var(--unifor-blue-dark);
+  padding: 18px 40px;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hero-btn:hover {
-  transform: scale(1.05);
-  background-color: #f0f0f0;
+  transform: scale(1.05) translateY(-3px) !important;
+  /* Mudamos a cor para o azul claro igual o outro botão! */
+  background-color: var(--unifor-blue-light) !important;
+  color: var(--white) !important;
+  box-shadow: 0 10px 20px rgba(0, 170, 255, 0.3);
 }
 
 .hero-image-wrapper {
@@ -65,4 +131,16 @@
   border-radius: 24px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   object-fit: cover;
+}
+
+/* --- ANIMAÇÕES DE SCROLL EXCLUSIVAS DO HERO --- */
+.hero-esconder {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.hero-esconder.mostrar {
+  opacity: 1;
+  transform: translateY(0);
 }

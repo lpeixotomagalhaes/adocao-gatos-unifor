@@ -1,0 +1,112 @@
+.footer-container {
+  background-color: var(--unifor-blue-dark);
+  color: var(--white);
+  padding: 60px 10% 20px 10%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: auto;
+  overflow: hidden; /* Evita que a animação crie barra de rolagem horizontal */
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-logo {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+.footer-brand p {
+  color: #ccc;
+  line-height: 1.6;
+  font-size: 1rem;
+  max-width: 80%;
+}
+
+.footer-container h4 {
+  color: var(--white);
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--unifor-blue-light);
+  padding-bottom: 10px;
+  display: inline-block;
+}
+
+.footer-links ul, 
+.footer-contact ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li, 
+.footer-contact li {
+  margin-bottom: 12px;
+}
+
+.footer-links a, 
+.footer-contact a, 
+.social-links a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaçamento entre o ícone e o texto */
+}
+
+.footer-links a:hover, 
+.footer-contact a:hover, 
+.social-links a:hover {
+  color: var(--unifor-blue-light);
+  transform: translateX(5px);
+}
+
+.social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* --- ANIMAÇÕES DE SCROLL DO FOOTER --- */
+.footer-esconder {
+  opacity: 0;
+  transform: translateY(40px); /* Padrão: Sobe de baixo para cima */
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+/* Substitui a animação padrão na marca para vir da ESQUERDA */
+.footer-esconder.desliza-esquerda {
+  transform: translateX(-60px);
+}
+
+.footer-esconder.mostrar {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.footer-esconder.desliza-esquerda.mostrar {
+  transform: translateX(0);
+}
+
+@media (max-width: 900px) {
+  .footer-content { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .footer-content { grid-template-columns: 1fr; }
+  .footer-brand p { max-width: 100%; }
+}

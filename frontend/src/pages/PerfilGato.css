@@ -1,0 +1,150 @@
+/* Banner principal azul */
+.perfil-banner-azul {
+  background-color: var(--unifor-blue-dark);
+  color: var(--white);
+  padding: 60px 10%;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+}
+
+.perfil-conteudo {
+  display: flex;
+  gap: 60px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.perfil-imagem {
+  flex: 1;
+  max-width: 450px;
+}
+
+.perfil-imagem img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.perfil-dados-brancos {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.perfil-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 15px;
+}
+
+.perfil-cabecalho h1 {
+  font-size: 3rem;
+  margin: 0;
+  color: var(--white);
+}
+
+.badge-status-branco {
+  font-size: 0.9rem;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.badge-status-branco.disponível { background-color: #1e8e3e; color: white; }
+.badge-status-branco.pendente { background-color: #f29900; color: white; }
+.badge-status-branco.adotado { background-color: #5f6368; color: white; }
+
+.perfil-info-basica {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 25px;
+  font-size: 1.2rem;
+}
+
+.perfil-saude-transparente {
+  background-color: rgba(255, 255, 255, 0.1); /* Fundo transparente */
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.perfil-saude-transparente h3, .perfil-descricao h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: var(--unifor-blue-light); /* Destaque no azul claro */
+}
+
+.perfil-saude-transparente ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1.8;
+}
+
+.perfil-descricao p {
+  line-height: 1.7;
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+}
+
+.btn-quero-adotar-forms {
+  margin-top: auto;
+  background-color: var(--unifor-blue-light);
+  color: white;
+  padding: 18px 30px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  align-self: flex-start;
+}
+
+.btn-quero-adotar-forms:hover {
+  background-color: white;
+  color: var(--unifor-blue-dark);
+  transform: translateY(-3px);
+}
+
+.perfil-erro {
+  text-align: center;
+  padding: 100px;
+  color: var(--unifor-blue-dark);
+}
+
+/* Ajustes da Seção de Regras que já veio do Adote.css */
+.perfil-regras {
+  margin: 60px 10%;
+}
+
+@media (max-width: 768px) {
+  .perfil-conteudo {
+    flex-direction: column;
+  }
+  .btn-quero-adotar-forms {
+    width: 100%;
+  }
+}
+/* Animação de entrada suave */
+@keyframes fadeSlideUp {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.perfil-conteudo {
+  animation: fadeSlideUp 0.8s ease-out forwards;
+}
+
+.perfil-regras {
+  opacity: 0;
+  animation: fadeSlideUp 0.8s ease-out 0.3s forwards;
+}

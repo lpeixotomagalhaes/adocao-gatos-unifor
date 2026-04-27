@@ -1,49 +1,45 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './GatosDestaque.css'; // Chamando o arquivo de estilos
 
 const GatosDestaque = () => {
-  // Dados provisórios (mock) até conectarmos o PostgreSQL
+  const navigate = useNavigate();
+
   const gatos = [
-  { id: 1, nome: 'Mingau', foto: 'https://placekitten.com/300/300' },
-  { id: 2, nome: 'Luna', foto: 'https://placekitten.com/305/305' },
-  { id: 3, nome: 'Frajola', foto: 'https://placekitten.com/310/310' },
- ];
+    { id: 1, nome: 'Mingau', foto: 'https://loremflickr.com/320/260/cat?lock=1' },
+    { id: 2, nome: 'Luna', foto: 'https://loremflickr.com/320/260/cat?lock=2' },
+    { id: 3, nome: 'Frajola', foto: 'https://loremflickr.com/320/260/cat?lock=3' },
+  ];
+
   return (
-    <section style={{ padding: '50px 5%', backgroundColor: '#f9f9f9', textAlign: 'center' }}>
-      <h2 style={{ color: '#003366', marginBottom: '30px' }}>Adote um resgatinho</h2>
+    <section className="destaque-section">
+      <h2 className="destaque-titulo">Adote um resgatinho</h2>
       
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
+      <div className="destaque-grid">
         {gatos.map((gato) => (
-          <div key={gato.id} style={{ 
-            backgroundColor: '#fff', 
-            padding: '20px', 
-            borderRadius: '10px', 
-            boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-            width: '250px'
-          }}>
-            <div style={{ 
-              width: '100%', 
-              height: '200px', 
-              backgroundColor: '#e0e0e0', 
-              borderRadius: '8px', 
-              marginBottom: '15px' 
-            }}>
-              {/* Imagem do gato virá aqui */}
+          <div key={gato.id} className="destaque-card">
+            <img 
+              src={gato.foto} 
+              alt={`Foto do gato ${gato.nome}`} 
+              className="destaque-foto"
+            />
+            <div className="destaque-info">
+              <h3>{gato.nome}</h3>
+              <button 
+                className="btn-saiba-mais-mini" 
+                onClick={() => navigate(`/gato/${gato.id}`)}
+              >
+                Saiba Mais
+              </button>
             </div>
-            <h3 style={{ color: '#333' }}>{gato.nome}</h3>
           </div>
         ))}
       </div>
 
-      <button style={{
-        marginTop: '40px',
-        padding: '15px 30px',
-        backgroundColor: '#0056b3',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '5px',
-        fontSize: '1rem',
-        cursor: 'pointer'
-      }}>
+      <button 
+        className="btn-ver-todos"
+        onClick={() => navigate('/adote')}
+      >
         Conheça os gatinhos disponíveis
       </button>
     </section>

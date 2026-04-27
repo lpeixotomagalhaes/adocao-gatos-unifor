@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Contato.css';
 
 const Contato = () => {
+  // Ativando o motor de animação de scroll
+  useEffect(() => {
+    // Rola para o topo ao abrir a página
+    window.scrollTo(0, 0);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('mostrar');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const hiddenElements = document.querySelectorAll('.esconder');
+    hiddenElements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <main className="contato-container">
-      <section className="contato-header">
+      {/* Cabeçalho animado (entra rápido) */}
+      <section className="contato-header esconder">
         <h1>Fale Conosco</h1>
         <p>Tem alguma dúvida sobre o processo de adoção? Entre em contato com a gente!</p>
       </section>
 
       <section className="contato-content">
-        <form className="contato-form">
+        {/* Formulário com pequeno atraso */}
+        <form className="contato-form esconder atraso-1">
           <div className="form-group">
             <label htmlFor="nome">Nome Completo</label>
             <input type="text" id="nome" placeholder="Digite seu nome" required />
@@ -34,10 +55,11 @@ const Contato = () => {
           <button type="submit" className="btn-enviar">Enviar Mensagem</button>
         </form>
 
-        <div className="contato-info">
+        {/* Informações da direita com atraso maior para dar efeito cascata */}
+        <div className="contato-info esconder atraso-2">
           <h3>Informações Úteis</h3>
           <p><strong>📍 Localização:</strong> Bloco M - Medicina Veterinária Unifor</p>
-          <p><strong>⏰ Horário de Atendimento:</strong> Segunda a Sexta, 08h às 18h</p>
+          <p><strong>⏰ Atendimento:</strong> Segunda a Sexta, 08h às 18h</p>
           <p><strong>📧 E-mail:</strong> veterinaria@unifor.br</p>
         </div>
       </section>

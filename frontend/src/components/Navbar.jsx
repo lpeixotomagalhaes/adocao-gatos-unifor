@@ -1,17 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './Navbar.css'; // Isso avisa o React para usar o estilo que você criou
+import { Link, useLocation } from 'react-router-dom';
+import './Navbar.css';
 
 const Navbar = () => {
+  const location = useLocation(); // Descobre em qual página estamos
+
   return (
-    <nav className="navbar">
+    // O key={location.pathname} força a animação a rodar de novo ao mudar de página
+    <nav className="navbar" key={location.pathname}>
       <div className="logo">
         <Link to="/">🐾 Resgatinhos Unifor</Link>
       </div>
       <ul className="nav-links">
-        <li><Link to="/">Sobre Nós</Link></li>
-        <li><Link to="/adote">Adote</Link></li>
-        <li><Link to="/contato">Contato</Link></li>
+        <li className="nav-item anim-1"><Link to="/">Sobre Nós</Link></li>
+        <li className="nav-item anim-2"><Link to="/adote">Adote</Link></li>
+        <li className="nav-item anim-3"><Link to="/contato">Contato</Link></li>
       </ul>
     </nav>
   );

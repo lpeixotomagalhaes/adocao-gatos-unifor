@@ -85,12 +85,41 @@
   gap: 20px;
 }
 
-.busca-box input {
+/* --- Novo Design da Barra de Pesquisa --- */
+.busca-box-nova {
+  display: flex;
+  align-items: center;
+  background-color: #f0f4f8;
+  border-radius: 30px;
+  padding: 5px 20px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.busca-box-nova:focus-within {
+  border-color: var(--unifor-blue-light);
+  background-color: white;
+  box-shadow: 0 5px 15px rgba(0, 170, 255, 0.1);
+}
+
+.busca-icone {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  opacity: 0.6;
+}
+
+.busca-box-nova input {
   width: 100%;
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  padding: 12px 0;
+  border: none;
+  background: transparent;
   font-size: 1.1rem;
+  outline: none; /* Tira a borda preta padrão do navegador */
+  color: var(--unifor-blue-dark);
+}
+
+.busca-box-nova input::placeholder {
+  color: #999;
 }
 
 .filtros-controles {

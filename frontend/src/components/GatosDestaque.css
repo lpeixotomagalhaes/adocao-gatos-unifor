@@ -1,0 +1,90 @@
+.destaque-section {
+  padding: 80px 5%;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.destaque-titulo {
+  color: var(--unifor-blue-dark);
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+}
+
+.destaque-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.destaque-card {
+  background-color: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Prepara para a animação */
+}
+
+/* Efeito de crescer ao passar o mouse */
+.destaque-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.destaque-foto {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.destaque-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.destaque-info h3 {
+  color: var(--unifor-blue-dark);
+  margin: 0 0 15px 0;
+  font-size: 1.5rem;
+}
+
+.btn-saiba-mais-mini {
+  margin-top: auto;
+  background-color: transparent;
+  color: var(--unifor-blue-light);
+  border: 2px solid var(--unifor-blue-light);
+  padding: 8px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-saiba-mais-mini:hover {
+  background-color: var(--unifor-blue-light);
+  color: white;
+}
+
+.btn-ver-todos {
+  margin-top: 50px;
+  padding: 15px 35px;
+  background-color: var(--unifor-blue-light);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 170, 255, 0.3);
+  transition: transform 0.2s, background 0.3s;
+}
+
+.btn-ver-todos:hover {
+  transform: scale(1.05);
+  background-color: var(--unifor-blue-dark);
+}
