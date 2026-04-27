@@ -1,0 +1,268 @@
+.adote-container {
+  padding: 50px 10%;
+  background-color: #f8f9fa;
+  min-height: 80vh;
+}
+
+/* --- Nova Seção de Regras Amigável --- */
+.regras-amigaveis {
+  background-color: #f0f7ff; 
+  padding: 50px;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 50px;
+  box-shadow: 0 4px 15px rgba(0, 51, 102, 0.05); 
+}
+
+.regras-amigaveis h2 {
+  color: var(--unifor-blue-dark);
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.regras-amigaveis p {
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+}
+
+.regras-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap; 
+}
+
+.regra-item {
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.regra-icone {
+  font-size: 2.5rem;
+  background-color: white;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.regra-item:hover .regra-icone {
+  transform: translateY(-5px);
+}
+
+.regra-item h3 {
+  color: var(--unifor-blue-dark);
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.regra-item p {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* --- Painel de Filtros --- */
+.filtros-panel {
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.busca-box input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1.1rem;
+}
+
+.filtros-controles {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filtros-controles select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+  min-width: 150px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--unifor-blue-dark);
+  cursor: pointer;
+}
+
+/* --- Barra de Resumo de Resultados --- */
+.resultados-resumo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+  padding: 15px 25px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+.resultados-resumo p {
+  color: #444;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.destaque-disponivel {
+  color: #1e8e3e;
+  font-weight: 600;
+}
+
+.btn-limpar {
+  background: transparent;
+  color: var(--unifor-blue-dark);
+  border: 1px solid var(--unifor-blue-dark);
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.btn-limpar:hover {
+  background: var(--unifor-blue-dark);
+  color: white;
+}
+
+/* --- O Grid e os Cards --- */
+.gatos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Mais largos */
+  gap: 40px; /* Mais respiro */
+}
+
+.gato-card {
+  background: white;
+  border-radius: 18px; 
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05); 
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f0f0f0;
+}
+
+.gato-foto {
+  width: 100%;
+  height: 260px; /* Foto mais imponente */
+  object-fit: cover;
+}
+
+.gato-info {
+  padding: 25px; /* Mais espaço interno */
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.card-header h2 {
+  color: var(--unifor-blue-dark);
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.status-badge {
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.status-badge.disponível { background-color: #e6f4ea; color: #1e8e3e; }
+.status-badge.pendente { background-color: #fef7e0; color: #f29900; }
+.status-badge.adotado { background-color: #f1f3f4; color: #5f6368; }
+
+.gato-dados-basicos {
+  color: #555;
+  margin: 5px 0 15px 0;
+  font-size: 1rem;
+}
+
+.saude-tags {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 15px 0;
+}
+
+.tag {
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.tag.positiva { background-color: #e6f4ea; color: #1e8e3e; border: 1px solid #ceead6; }
+.tag.alerta { background-color: #fce8e6; color: #d93025; border: 1px solid #fad2cf; }
+
+.fiv-felv-info {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 25px;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.btn-adotar-card {
+  margin-top: auto;
+  background-color: var(--unifor-blue-light);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-adotar-card:hover {
+  background-color: var(--unifor-blue-dark);
+}
+
+.nenhum-resultado {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px;
+  color: #666;
+}
