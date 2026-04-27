@@ -47,4 +47,6 @@ adocao-gatos-unifor/
 └── package.json
 ```
 ## 👨‍💻 Autor
-* **Lucas Peixoto Magalhães** Github: @lpeixotomagalhaes
+* **Lucas Peixoto Magalhães** Github: [@lpeixotomagalhaes](https://github.com/lpeixotomagalhaes)
+---
+* Feito com 💙 para ajudar os animais.
