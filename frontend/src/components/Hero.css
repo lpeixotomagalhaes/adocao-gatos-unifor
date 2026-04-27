@@ -111,6 +111,20 @@
   transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* --- ESTILO E HOVER DO BOTÃO --- */
+.hero-btn {
+  background-color: var(--white);
+  color: var(--unifor-blue-dark);
+  padding: 18px 40px;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
 .hero-btn:hover {
   transform: scale(1.05) translateY(-3px) !important;
   /* Mudamos a cor para o azul claro igual o outro botão! */
