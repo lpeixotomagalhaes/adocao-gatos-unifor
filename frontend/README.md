@@ -49,7 +49,7 @@ Siga as instruções abaixo para rodar o ambiente de desenvolvimento na sua máq
 ### Passos
 
 1. **Clone o repositório:**
-```bash
+``` 
 git clone [https://github.com/lpeixotomagalhaes/adocao-gatos-unifor.git](https://github.com/lpeixotomagalhaes/adocao-gatos-unifor.git)
 Acesse a pasta do projeto:
 
