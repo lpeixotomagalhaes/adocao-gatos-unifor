@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import './PerfilGato.css';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import "./PerfilGato.css";
 
 const PerfilGato = () => {
   const { id } = useParams();
@@ -10,23 +10,90 @@ const PerfilGato = () => {
     window.scrollTo(0, 0); // Força a tela a ir para o pixel 0x0 (topo) sempre que abrir
   }, []);
 
-  const gatosMock = [
-    { id: 1, nome: 'Mingau', sexo: 'Macho', idade: '2 anos', foto: 'https://loremflickr.com/400/500/cat?lock=1', castrado: true, vacinado: true, fiv: 'Negativo', felv: 'Negativo', status: 'Disponível', descricao: 'Oie galera, tudo bem? Sou o Mingau! Fui resgatado perto do bloco de veterinária e sou um gatinho super carinhoso. Adoro um cafuné e um sachê no fim do dia. Estou prontinho para encontrar minha família definitiva!' },
-    { id: 2, nome: 'Luna', sexo: 'Fêmea', idade: '1 ano', foto: 'https://loremflickr.com/400/500/cat?lock=2', castrado: false, vacinado: true, fiv: 'Negativo', felv: 'Negativo', status: 'Disponível', descricao: 'Oie! Eu sou a Luna. Sou um pouco tímida no começo, mas quando ganho confiança viro um grude. Procuro uma família paciente e cheia de amor.' },
-    { id: 3, nome: 'Frajola', sexo: 'Macho', idade: '3 meses', foto: 'https://loremflickr.com/400/500/cat?lock=3', castrado: false, vacinado: false, fiv: 'Negativo', felv: 'Negativo', status: 'Pendente', descricao: 'Sou um filhotinho cheio de energia! Adoro brincar com bolinhas de papel.' },
-    { id: 4, nome: 'Amora', sexo: 'Fêmea', idade: '4 meses', foto: 'https://loremflickr.com/400/500/cat?lock=4', castrado: true, vacinado: true, fiv: 'Negativo', felv: 'Negativo', status: 'Disponível', descricao: 'Sou super curiosa e adoro explorar todos os cantos da casa.' },
-    { id: 5, nome: 'Simba', sexo: 'Macho', idade: '1.5 anos', foto: 'https://loremflickr.com/400/500/cat?lock=5', castrado: true, vacinado: false, fiv: 'Positivo', felv: 'Negativo', status: 'Disponível', descricao: 'Apesar de ser FIV positivo, sou muito saudável e tenho muito amor para dar. Preciso ser filho único ou conviver com outros gatinhos FIV+.' },
-    { id: 6, nome: 'Nina', sexo: 'Fêmea', idade: '3 anos', foto: 'https://loremflickr.com/400/500/cat?lock=6', castrado: true, vacinado: true, fiv: 'Negativo', felv: 'Negativo', status: 'Adotado', descricao: 'Já encontrei minha família! Obrigado por torcerem por mim.' }
-  ];
+  const navegarPara = useNavigate();
+  const [gato, setGato] = useState(null);
+  const [carregando, setCarregando] = useState(true);
+  const [mensagemStatus, setMensagemStatus] = useState("");
 
-  const gato = gatosMock.find((g) => g.id === parseInt(id));
+  // Estado que guarda as respostas do usuário
+  const [formularioAdocao, setFormularioAdocao] = useState({
+    nomeCandidato: "",
+    vinculoUnifor: "Aluno",
+    idade: "",
+    telefone: "",
+    tipoMoradia: "Casa",
+    possuiTelas: "Sim",
+    motivoAdocao: "",
+  });
 
-  if (!gato) return <div className="perfil-erro"><h2>Gatinho não encontrado 😿</h2></div>;
+  // Busca o gato do banco de dados quando a página abre
+  useEffect(() => {
+    async function buscarGatoPorId() {
+      try {
+        const resposta = await fetch(`http://localhost:5000/api/gatos/${id}`);
+        if (!resposta.ok) return navegarPara("/adote");
 
-  // LINK DO GOOGLE FORMS OFICIAL:
-  const abrirFormulario = () => {
-    window.open('https://docs.google.com/forms/d/e/1FAIpQLSfrcxkBvJiLFzaM0sCL2pDS7EQbDcIDURithPOP8zVCoulAxA/viewform', '_blank');
+        const dados = await resposta.json();
+        setGato(dados);
+        setCarregando(false);
+      } catch (erro) {
+        navegarPara("/adote");
+      }
+    }
+    buscarGatoPorId();
+  }, [id, navegarPara]);
+
+  // Atualiza o estado conforme a pessoa digita no formulário
+  const lidarMudancaInput = (evento) => {
+    const { name, value } = evento.target;
+    setFormularioAdocao({ ...formularioAdocao, [name]: value });
   };
+
+  // Envia os dados para a sua API e para a aba "Solicitações" do Admin
+  const enviarPedidoAdocao = async (evento) => {
+    evento.preventDefault();
+    setMensagemStatus("Enviando...");
+    try {
+      const cargaDados = { ...formularioAdocao, gatoId: id };
+      const resposta = await fetch("http://localhost:5000/api/formularios", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(cargaDados),
+      });
+
+      if (resposta.ok) {
+        setMensagemStatus(
+          "Formulário enviado com sucesso! Acompanhe pelo seu telefone.",
+        );
+        setFormularioAdocao({
+          nomeCandidato: "",
+          vinculoUnifor: "Aluno",
+          idade: "",
+          telefone: "",
+          tipoMoradia: "Casa",
+          possuiTelas: "Sim",
+          motivoAdocao: "",
+        });
+      } else {
+        setMensagemStatus("Erro ao enviar. Tente novamente.");
+      }
+    } catch (erro) {
+      setMensagemStatus("Erro de conexão com o servidor.");
+    }
+  };
+
+  if (carregando)
+    return (
+      <div className="perfil-erro">
+        <h2>Buscando gatinho... 🐾</h2>
+      </div>
+    );
+  if (!gato)
+    return (
+      <div className="perfil-erro">
+        <h2>Gatinho não encontrado 😿</h2>
+      </div>
+    );
 
   return (
     <main>
@@ -39,12 +106,20 @@ const PerfilGato = () => {
           <div className="perfil-dados-brancos">
             <div className="perfil-cabecalho">
               <h1>{gato.nome}</h1>
-              <span className={`badge-status-branco ${gato.status.toLowerCase()}`}>{gato.status}</span>
+              <span
+                className={`badge-status-branco ${gato.status.toLowerCase()}`}
+              >
+                {gato.status}
+              </span>
             </div>
 
             <div className="perfil-info-basica">
-              <p><strong>Sexo:</strong> {gato.sexo}</p>
-              <p><strong>Idade:</strong> {gato.idade}</p>
+              <p>
+                <strong>Sexo:</strong> {gato.sexo}
+              </p>
+              <p>
+                <strong>Idade:</strong> {gato.idade}
+              </p>
             </div>
 
             <div className="perfil-saude-transparente">
@@ -52,7 +127,10 @@ const PerfilGato = () => {
               <ul>
                 <li>{gato.castrado ? "✔ Castrado" : "✖ Não Castrado"}</li>
                 <li>{gato.vacinado ? "✔ Vacinado" : "✖ Não Vacinado"}</li>
-                <li>FIV: <strong>{gato.fiv}</strong> | FeLV: <strong>{gato.felv}</strong></li>
+                <li>
+                  FIV: <strong>{gato.fiv}</strong> | FeLV:{" "}
+                  <strong>{gato.felv}</strong>
+                </li>
               </ul>
             </div>
 
@@ -61,22 +139,85 @@ const PerfilGato = () => {
               <p>{gato.descricao}</p>
             </div>
 
-            <button className="btn-quero-adotar-forms" onClick={abrirFormulario}>
-              Quero Adotar o {gato.nome}!
-            </button>
+            <div className="formulario-adocao-container" style={{ marginTop: '30px', backgroundColor: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <h3 style={{ marginBottom: '15px' }}>Formulário de Interesse</h3>
+              
+              {mensagemStatus && <p style={{ color: '#00AAFF', fontWeight: 'bold', marginBottom: '15px' }}>{mensagemStatus}</p>}
+              
+              <form onSubmit={enviarPedidoAdocao} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <input type="text" name="nomeCandidato" placeholder="Seu Nome Completo" value={formularioAdocao.nomeCandidato} onChange={lidarMudancaInput} required style={{ padding: '12px', borderRadius: '8px', border: 'none' }} />
+                
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <select name="vinculoUnifor" value={formularioAdocao.vinculoUnifor} onChange={lidarMudancaInput} style={{ flex: 1, padding: '12px', borderRadius: '8px', border: 'none' }}>
+                    <option value="Aluno">Sou Aluno Unifor</option>
+                    <option value="Professor">Sou Professor</option>
+                    <option value="Funcionário">Sou Funcionário</option>
+                    <option value="Comunidade Externa">Comunidade Externa</option>
+                  </select>
+                  <input type="number" name="idade" placeholder="Idade" value={formularioAdocao.idade} onChange={lidarMudancaInput} required style={{ width: '90px', padding: '12px', borderRadius: '8px', border: 'none' }} />
+                </div>
+
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <input type="text" name="telefone" placeholder="Telefone (WhatsApp)" value={formularioAdocao.telefone} onChange={lidarMudancaInput} required style={{ flex: 1, padding: '12px', borderRadius: '8px', border: 'none' }} />
+                  <select name="tipoMoradia" value={formularioAdocao.tipoMoradia} onChange={lidarMudancaInput} style={{ flex: 1, padding: '12px', borderRadius: '8px', border: 'none' }}>
+                    <option value="Casa">Casa</option>
+                    <option value="Apartamento">Apartamento</option>
+                  </select>
+                </div>
+
+                <select name="possuiTelas" value={formularioAdocao.possuiTelas} onChange={lidarMudancaInput} style={{ padding: '12px', borderRadius: '8px', border: 'none' }}>
+                  <option value="Sim">Possuo telas de proteção nas janelas</option>
+                  <option value="Não">Não possuo telas de proteção</option>
+                  <option value="Vou instalar">Vou instalar as telas</option>
+                </select>
+
+                <textarea name="motivoAdocao" placeholder={`Por que você deseja adotar o(a) ${gato.nome}?`} rows="3" value={formularioAdocao.motivoAdocao} onChange={lidarMudancaInput} required style={{ padding: '12px', borderRadius: '8px', border: 'none', resize: 'vertical' }}></textarea>
+
+                <button type="submit" disabled={gato.status === 'Adotado'} className="btn-quero-adotar-forms" style={{ marginTop: '10px', width: '100%', opacity: gato.status === 'Adotado' ? 0.5 : 1, cursor: gato.status === 'Adotado' ? 'not-allowed' : 'pointer' }}>
+                  {gato.status === 'Adotado' ? 'Gatinho já adotado' : `Enviar Pedido de Adoção`}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </section>
 
       <section className="regras-amigaveis perfil-regras">
         <h2>Tudo o que você precisa saber para adotar</h2>
-        <p>Adoção é um ato de amor e muita responsabilidade. Veja o que é preciso:</p>
-        
+        <p>
+          Adoção é um ato de amor e muita responsabilidade. Veja o que é
+          preciso:
+        </p>
+
         <div className="regras-cards">
-          <div className="regra-item"><div className="regra-icone">👤</div><h3>Maior de 18 anos</h3><p>É necessário ser maior de idade ou ter a autorização formal de um responsável legal.</p></div>
-          <div className="regra-item"><div className="regra-icone">📍</div><h3>Morar na Região</h3><p>Residir em Fortaleza ou região metropolitana (Eusébio, etc).</p></div>
-          <div className="regra-item"><div className="regra-icone">🏠</div><h3>Casa Segura</h3><p>Apartamentos devem ter telas de proteção. Casas sem acesso livre à rua.</p></div>
-          <div className="regra-item"><div className="regra-icone">📋</div><h3>Formulário</h3><p>Preencher nosso formulário online e aguardar o contato da equipe.</p></div>
+          <div className="regra-item">
+            <div className="regra-icone">👤</div>
+            <h3>Maior de 18 anos</h3>
+            <p>
+              É necessário ser maior de idade ou ter a autorização formal de um
+              responsável legal.
+            </p>
+          </div>
+          <div className="regra-item">
+            <div className="regra-icone">📍</div>
+            <h3>Morar na Região</h3>
+            <p>Residir em Fortaleza ou região metropolitana (Eusébio, etc).</p>
+          </div>
+          <div className="regra-item">
+            <div className="regra-icone">🏠</div>
+            <h3>Casa Segura</h3>
+            <p>
+              Apartamentos devem ter telas de proteção. Casas sem acesso livre à
+              rua.
+            </p>
+          </div>
+          <div className="regra-item">
+            <div className="regra-icone">📋</div>
+            <h3>Formulário</h3>
+            <p>
+              Preencher nosso formulário online e aguardar o contato da equipe.
+            </p>
+          </div>
         </div>
       </section>
     </main>

@@ -1,0 +1,70 @@
+/* Reaproveitando a estrutura base da tela de Gatos */
+@import './AdminGatos.css'; 
+
+/* Ajustes Específicos para Solicitações */
+.col-destaque {
+  font-weight: bold;
+  color: #00AAFF;
+}
+
+.info-secundaria.small {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+/* Badges de Status das Solicitações */
+.status-aprovado {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.status-reprovado {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+/* Botões de Decisão (Aprovar/Rejeitar) */
+.col-acoes-decisao {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-decisao {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-decisao.aprovar {
+  background-color: #e6f4ea;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.btn-decisao.aprovar:hover {
+  background-color: #16a34a;
+  color: white;
+}
+
+.btn-decisao.rejeitar {
+  background-color: #fce8e6;
+  color: #ef4444;
+  border: 1px solid #fecaca;
+}
+
+.btn-decisao.rejeitar:hover {
+  background-color: #ef4444;
+  color: white;
+}
+
+.decisao-tomada {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-style: italic;
+  padding: 8px 0;
+}

@@ -6,20 +6,23 @@ const Adote = () => {
   const navigate = useNavigate();
 
   // Banco de dados grande para podermos scrollar bastante!
-  const gatosMock = [
-    { id: 1, nome: 'Mingau', sexo: 'Macho', idade: '2 anos', foto: 'https://loremflickr.com/320/260/cat?lock=1', castrado: true, vacinado: true, fiv: 'Negativo', felv: 'Negativo', status: 'Disponível' },
-    { id: 2, nome: 'Luna', sexo: 'Fêmea', idade: '1 ano', foto: 'https://loremflickr.com/320/260/cat?lock=2', castrado: false, vacinado: true, fiv: 'Negativo', felv: 'Negativo', status: 'Disponível' },
-    { id: 3, nome: 'Frajola', sexo: 'Macho', idade: '3 meses', foto: 'https://loremflickr.com/320/260/cat?lock=3', castrado: false, vacinado: false, fiv: 'Negativo', felv: 'Negativo', status: 'Pendente' },
-    { id: 4, nome: 'Amora', sexo: 'Fêmea', idade: '4 meses', foto: 'https://loremflickr.com/320/260/cat?lock=4', castrado: true, vacinado: true, fiv: 'Negativo', felv: 'Negativo', status: 'Disponível' },
-    { id: 5, nome: 'Simba', sexo: 'Macho', idade: '1.5 anos', foto: 'https://loremflickr.com/320/260/cat?lock=5', castrado: true, vacinado: false, fiv: 'Positivo', felv: 'Negativo', status: 'Disponível' },
-    { id: 6, nome: 'Nina', sexo: 'Fêmea', idade: '3 anos', foto: 'https://loremflickr.com/320/260/cat?lock=6', castrado: true, vacinado: true, fiv: 'Negativo', felv: 'Negativo', status: 'Adotado' },
-    { id: 7, nome: 'Tom', sexo: 'Macho', idade: '5 meses', foto: 'https://loremflickr.com/320/260/cat?lock=7', castrado: false, vacinado: true, fiv: 'Negativo', felv: 'Negativo', status: 'Disponível' },
-    { id: 8, nome: 'Mia', sexo: 'Fêmea', idade: '2.5 anos', foto: 'https://loremflickr.com/320/260/cat?lock=8', castrado: true, vacinado: true, fiv: 'Negativo', felv: 'Negativo', status: 'Disponível' },
-    { id: 9, nome: 'Garfield', sexo: 'Macho', idade: '4 anos', foto: 'https://loremflickr.com/320/260/cat?lock=9', castrado: true, vacinado: true, fiv: 'Positivo', felv: 'Negativo', status: 'Pendente' },
-    { id: 10, nome: 'Mel', sexo: 'Fêmea', idade: '6 meses', foto: 'https://loremflickr.com/320/260/cat?lock=10', castrado: false, vacinado: false, fiv: 'Negativo', felv: 'Negativo', status: 'Disponível' },
-    { id: 11, nome: 'Chico', sexo: 'Macho', idade: '1 ano', foto: 'https://loremflickr.com/320/260/cat?lock=11', castrado: true, vacinado: true, fiv: 'Negativo', felv: 'Negativo', status: 'Disponível' },
-    { id: 12, nome: 'Bela', sexo: 'Fêmea', idade: '5 anos', foto: 'https://loremflickr.com/320/260/cat?lock=12', castrado: true, vacinado: true, fiv: 'Negativo', felv: 'Positivo', status: 'Disponível' },
-  ];
+  const [listaGatos, setListaGatos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+
+  useEffect(() => {
+    async function carregarGatosDoBanco() {
+      try {
+        const resposta = await fetch('http://localhost:5000/api/gatos');
+        const dados = await resposta.json();
+        setListaGatos(dados);
+        setCarregando(false);
+      } catch (erro) {
+        console.error("Erro ao buscar gatos:", erro);
+        setCarregando(false);
+      }
+    }
+    carregarGatosDoBanco();
+  }, []);
 
   const [busca, setBusca] = useState('');
   const [filtroSexo, setFiltroSexo] = useState('Todos');
@@ -27,7 +30,7 @@ const Adote = () => {
   const [somenteCastrados, setSomenteCastrados] = useState(false);
   const [somenteVacinados, setSomenteVacinados] = useState(false);
 
-  const gatosFiltrados = gatosMock.filter((gato) => {
+  const gatosFiltrados = listaGatos.filter((gato) => {
     const matchNome = gato.nome.toLowerCase().includes(busca.toLowerCase());
     const matchSexo = filtroSexo === 'Todos' || gato.sexo === filtroSexo;
     const matchStatus = filtroStatus === 'Todos' || gato.status === filtroStatus;
