@@ -6,7 +6,8 @@ import './AdminDashboard.css';
 // Importando nossos componentes
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
-
+import AdminCard from '../components/AdminCard';
+import AdminSplitCard from '../components/AdminSplitCard';
 
 function AdminDashboard() {
   const [estatisticas, setEstatisticas] = useState(null);
@@ -21,32 +22,37 @@ function AdminDashboard() {
         const resposta = await fetch('http://localhost:5000/api/admin/dashboard', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
+
+        if (!resposta.ok) {
+          console.error("Erro no servidor. Faça login novamente.");
+          localStorage.removeItem('tokenAdmin');
+          return navegarPara('/admin/login');
+        }
+
         const dados = await resposta.json();
         
-        const castrados = Math.floor(dados.totalGatos * 0.8);
-        const vacinados = Math.floor(dados.totalGatos * 0.9);
+        const total = dados.totalGatos || 0; 
+        const castrados = Math.floor(total * 0.8);
+        const vacinados = Math.floor(total * 0.9);
 
         setEstatisticas({
-            ...dados,
+            totalGatos: total,
+            formulariosPendentes: dados.formulariosPendentes || 0,
+            gatosAdotados: dados.gatosAdotados || 0,
+            gatosDisponiveis: dados.gatosDisponiveis || 0,
             gatosCastrados: castrados,
-            faltamCastrar: dados.totalGatos - castrados,
+            faltamCastrar: total - castrados,
             gatosVacinados: vacinados,
-            faltamVacinar: dados.totalGatos - vacinados
+            faltamVacinar: total - vacinados,
+            graficoAdocoes: dados.graficoAdocoes || [] // Puxando o gráfico do Backend!
         });
       } catch (erro) {
-        console.error(erro);
+        console.error("Erro ao conectar com a API:", erro);
       }
     };
     carregarDados();
   }, [navegarPara]);
 
-  const dadosGraficoBarras = [
-    { mes: 'Jan', adotados: 2 },
-    { mes: 'Fev', adotados: 5 },
-    { mes: 'Mar', adotados: 4 },
-    { mes: 'Abr', adotados: 8 },
-  ];
-  
   const coresGrafico = ['#1E8E3E', '#00AAFF', '#F29900'];
 
   if (!estatisticas) return <div className="loading-dashboard">Carregando painel...</div>;
@@ -59,62 +65,33 @@ function AdminDashboard() {
         <AdminHeader />
 
         <div className="dashboard-content">
+          
           <div className="loca-cards-grid animar-subida atraso-1">
-            <div className="loca-card">
-              <span className="loca-card-title">Total Resgatados</span>
-              <span className="loca-card-value text-dark">{estatisticas.totalGatos}</span>
-            </div>
-            <div className="loca-card">
-              <span className="loca-card-title">Adoções Pendentes</span>
-              <span className="loca-card-value text-orange">{estatisticas.formulariosPendentes}</span>
-            </div>
-            <div className="loca-card">
-              <span className="loca-card-title">Gatos Adotados</span>
-              <span className="loca-card-value text-green">{estatisticas.gatosAdotados}</span>
-            </div>
-            <div className="loca-card">
-              <span className="loca-card-title">Gatos Disponíveis</span>
-              <span className="loca-card-value text-blue">{estatisticas.gatosDisponiveis}</span>
-            </div>
+            <AdminCard titulo="Total Resgatados" valor={estatisticas.totalGatos} corTexto="text-dark" />
+            <AdminCard titulo="Adoções Pendentes" valor={estatisticas.formulariosPendentes} corTexto="text-orange" />
+            <AdminCard titulo="Gatos Adotados" valor={estatisticas.gatosAdotados} corTexto="text-green" />
+            <AdminCard titulo="Gatos Disponíveis" valor={estatisticas.gatosDisponiveis} corTexto="text-blue" />
           </div>
 
           <div className="loca-cards-grid secondary-grid animar-subida atraso-2">
-            <div className="loca-card">
-              <span className="loca-card-title">Controle de Castração</span>
-              <div className="split-metric">
-                <div className="metric-part">
-                  <span className="loca-card-value text-blue">{estatisticas.gatosCastrados}</span>
-                  <small>Realizadas</small>
-                </div>
-                <div className="metric-divider"></div>
-                <div className="metric-part">
-                  <span className="loca-card-value text-orange">{estatisticas.faltamCastrar}</span>
-                  <small>Pendentes</small>
-                </div>
-              </div>
-            </div>
-            
-            <div className="loca-card">
-              <span className="loca-card-title">Controle de Vacinação</span>
-              <div className="split-metric">
-                <div className="metric-part">
-                  <span className="loca-card-value text-green">{estatisticas.gatosVacinados}</span>
-                  <small>Imunizados</small>
-                </div>
-                <div className="metric-divider"></div>
-                <div className="metric-part">
-                  <span className="loca-card-value text-orange">{estatisticas.faltamVacinar}</span>
-                  <small>Faltam</small>
-                </div>
-              </div>
-            </div>
+            <AdminSplitCard 
+              titulo="Controle de Castração" 
+              valorEsq={estatisticas.gatosCastrados} labelEsq="Realizadas" corEsq="text-blue"
+              valorDir={estatisticas.faltamCastrar} labelDir="Pendentes" corDir="text-orange"
+            />
+            <AdminSplitCard 
+              titulo="Controle de Vacinação" 
+              valorEsq={estatisticas.gatosVacinados} labelEsq="Imunizados" corEsq="text-green"
+              valorDir={estatisticas.faltamVacinar} labelDir="Faltam" corDir="text-orange"
+            />
           </div>
 
           <div className="loca-charts-grid animar-subida atraso-3">
             <div className="loca-chart-box">
               <h3>Evolução de Adoções Mensais</h3>
               <ResponsiveContainer width="100%" height={250}>
-                <BarChart data={dadosGraficoBarras}>
+                {/* AQUI O GRÁFICO É CONECTADO AO BANCO */}
+                <BarChart data={estatisticas.graficoAdocoes}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
                   <XAxis dataKey="mes" axisLine={false} tickLine={false} />
                   <YAxis axisLine={false} tickLine={false} />

@@ -1,20 +1,22 @@
 import React from 'react';
 
-const AdminSplitCard = ({ titulo, esq, dir }) => (
-  <div className="loca-card">
-    <span className="loca-card-title">{titulo}</span>
-    <div className="split-metric">
-      <div className="metric-part">
-        <span className={`loca-card-value ${esq.cor}`}>{esq.valor}</span>
-        <small>{esq.label}</small>
-      </div>
-      <div className="metric-divider"></div>
-      <div className="metric-part">
-        <span className={`loca-card-value ${dir.cor}`}>{dir.valor}</span>
-        <small>{dir.label}</small>
+const AdminSplitCard = ({ titulo, valorEsq, labelEsq, corEsq, valorDir, labelDir, corDir }) => {
+  return (
+    <div className="loca-card">
+      <span className="loca-card-title">{titulo}</span>
+      <div className="split-metric">
+        <div className="metric-part">
+          <span className={`loca-card-value ${corEsq}`}>{valorEsq}</span>
+          <small>{labelEsq}</small>
+        </div>
+        <div className="metric-divider"></div>
+        <div className="metric-part">
+          <span className={`loca-card-value ${corDir}`}>{valorDir}</span>
+          <small>{labelDir}</small>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default AdminSplitCard;

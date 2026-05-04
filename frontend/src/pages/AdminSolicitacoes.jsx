@@ -15,11 +15,29 @@ function AdminSolicitacoes() {
       const resposta = await fetch('http://localhost:5000/api/formularios', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
+      
+      // TRAVA DE SEGURANÇA 1: Se o servidor der o erro 400 da sua foto, a gente para por aqui e não quebra a tela.
+      if (!resposta.ok) {
+        console.error("Servidor retornou erro:", resposta.status);
+        setSolicitacoes([]); // Deixa a tabela vazia
+        setCarregando(false);
+        return;
+      }
+
       const dados = await resposta.json();
-      setSolicitacoes(dados);
+      
+      // TRAVA DE SEGURANÇA 2: Garante que os dados são realmente uma lista antes de salvar
+      if (Array.isArray(dados)) {
+        setSolicitacoes(dados);
+      } else {
+        setSolicitacoes([]);
+      }
+      
       setCarregando(false);
     } catch (erro) {
       console.error("Erro ao carregar solicitações", erro);
+      setSolicitacoes([]);
+      setCarregando(false);
     }
   };
 
@@ -64,11 +82,12 @@ function AdminSolicitacoes() {
     }
   };
 
+  // TRAVA DE SEGURANÇA 3: O React só vai fazer o .map() numa lista válida
+  const listaSegura = Array.isArray(solicitacoes) ? solicitacoes : [];
+
   return (
     <div className="loca-dashboard-container">
-      
       <AdminSidebar />
-
       <main className="loca-main-content">
         <AdminHeader />
 
@@ -95,19 +114,19 @@ function AdminSolicitacoes() {
                   </tr>
                 </thead>
                 <tbody>
-                  {solicitacoes.map((form) => (
+                  {listaSegura.map((form) => (
                     <tr key={form._id}>
-                      <td className="col-nome">{form.nomeCandidato}</td>
+                      <td className="col-nome">{form.nomeCandidato || 'Sem Nome'}</td>
                       <td>
-                        <span className="info-secundaria">{form.vinculoUnifor}</span><br/>
-                        <span className="info-secundaria small">{form.telefone}</span>
+                        <span className="info-secundaria">{form.vinculoUnifor || 'N/A'}</span><br/>
+                        <span className="info-secundaria small">{form.telefone || 'Sem contato'}</span>
                       </td>
                       <td className="col-destaque">
                         {form.gatoId ? form.gatoId.nome : 'Gato Removido'}
                       </td>
                       <td>
-                        <span className={`badge status-${form.statusAnalise.toLowerCase()}`}>
-                          {form.statusAnalise}
+                        <span className={`badge status-${form.statusAnalise?.toLowerCase() || 'pendente'}`}>
+                          {form.statusAnalise || 'Pendente'}
                         </span>
                       </td>
                       <td className="col-acoes-decisao">
@@ -122,9 +141,9 @@ function AdminSolicitacoes() {
                       </td>
                     </tr>
                   ))}
-                  {solicitacoes.length === 0 && (
+                  {listaSegura.length === 0 && (
                     <tr>
-                      <td colSpan="5" className="nenhum-registro">Nenhuma solicitação pendente no momento.</td>
+                      <td colSpan="5" className="nenhum-registro">Nenhuma solicitação encontrada no momento.</td>
                     </tr>
                   )}
                 </tbody>
