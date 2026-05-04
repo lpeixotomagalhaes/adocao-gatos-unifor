@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './AdminGatos.css'; // Podemos reaproveitar o estilo da tabela
+import './AdminGatos.css'; 
+import AdminSidebar from '../components/AdminSidebar';
+import AdminHeader from '../components/AdminHeader';
 
 function AdminAdotantes() {
   const [adotantes, setAdotantes] = useState([]);
@@ -17,7 +19,6 @@ function AdminAdotantes() {
         });
         const dados = await resposta.json();
         
-        // Filtra apenas as solicitações que foram 'Aprovadas'
         const apenasAprovados = dados.filter(form => form.statusAnalise === 'Aprovado');
         setAdotantes(apenasAprovados);
       } catch (erro) {
@@ -29,25 +30,11 @@ function AdminAdotantes() {
 
   return (
     <div className="loca-dashboard-container">
-      <aside className="loca-sidebar">
-        <div className="sidebar-header"><span className="logo-icon">🐾</span><h2>Admin Unifor</h2></div>
-        <div className="sidebar-menu-group">
-          <span className="menu-title">OPERAÇÃO</span>
-          <button className="menu-btn" onClick={() => navegarPara('/admin/dashboard')}>📊 Dashboard</button>
-          <button className="menu-btn" onClick={() => navegarPara('/admin/solicitacoes')}>📋 Solicitações</button>
-        </div>
-        <div className="sidebar-menu-group">
-          <span className="menu-title">GESTÃO</span>
-          <button className="menu-btn" onClick={() => navegarPara('/admin/gatos')}>🐈 Gatos Resgatados</button>
-          <button className="menu-btn active">👥 Adotantes</button>
-        </div>
-        <button className="btn-sair-loca" onClick={() => { localStorage.removeItem('tokenAdmin'); navegarPara('/admin'); }}>Sair do Sistema</button>
-      </aside>
+      
+      <AdminSidebar />
 
       <main className="loca-main-content">
-        <header className="loca-header animar-subida">
-          <div className="user-profile"><span>Administrador</span><div className="avatar">A</div></div>
-        </header>
+        <AdminHeader />
 
         <div className="dashboard-content animar-subida atraso-1">
           <div className="page-header">

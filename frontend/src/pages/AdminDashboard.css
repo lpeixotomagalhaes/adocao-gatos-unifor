@@ -289,3 +289,77 @@
 .atraso-3 {
   animation-delay: 0.4s;
 }
+/* EFEITO NO BOTÃO DO USUÁRIO */
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #475569;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative; /* Necessário para prender o balãozinho aqui */
+  padding: 8px 15px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.user-profile:hover {
+  background-color: #f1f5f9; /* Fundo cinza ao passar o mouse */
+}
+
+/* O BALÃOZINHO DE INFORMAÇÕES (DROPDOWN) */
+.perfil-dropdown {
+  position: absolute;
+  top: 110%; /* Fica logo abaixo do cabeçalho */
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 15px;
+  width: 200px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  
+  /* Escondido por padrão com animação */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+/* Quando passa o mouse no user-profile, o balãozinho aparece */
+.user-profile:hover .perfil-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-email {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.dropdown-cargo {
+  margin: 5px 0 10px 0;
+  font-size: 0.75rem;
+  color: #00AAFF;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.perfil-dropdown hr {
+  border: none;
+  border-top: 1px solid #f1f5f9;
+  margin: 12px 0;
+}
+
+.dropdown-acao {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #1e293b;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

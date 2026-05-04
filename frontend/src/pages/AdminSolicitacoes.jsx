@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdminSolicitacoes.css';
+import AdminSidebar from '../components/AdminSidebar';
+import AdminHeader from '../components/AdminHeader';
 
 function AdminSolicitacoes() {
   const [solicitacoes, setSolicitacoes] = useState([]);
@@ -36,7 +38,6 @@ function AdminSolicitacoes() {
     try {
       const token = localStorage.getItem('tokenAdmin');
       
-      // 1. Atualiza o status do formulário
       await fetch(`http://localhost:5000/api/formularios/${formId}`, {
         method: 'PUT',
         headers: {
@@ -46,7 +47,6 @@ function AdminSolicitacoes() {
         body: JSON.stringify({ statusAnalise: novoStatus })
       });
 
-      // 2. Se aprovou, já atualiza o status do gato para 'Adotado' no banco
       if (novoStatus === 'Aprovado' && gatoId) {
         await fetch(`http://localhost:5000/api/gatos/${gatoId}`, {
           method: 'PUT',
@@ -58,7 +58,6 @@ function AdminSolicitacoes() {
         });
       }
 
-      // Recarrega a tela para mostrar os dados atualizados
       carregarSolicitacoes();
     } catch (erro) {
       console.error("Erro ao atualizar status", erro);
@@ -67,37 +66,11 @@ function AdminSolicitacoes() {
 
   return (
     <div className="loca-dashboard-container">
-      {/* SIDEBAR */}
-      <aside className="loca-sidebar">
-        <div className="sidebar-header">
-          <span className="logo-icon">🐾</span>
-          <h2>Admin Unifor</h2>
-        </div>
-        
-        <div className="sidebar-menu-group">
-          <span className="menu-title">OPERAÇÃO</span>
-          <button className="menu-btn" onClick={() => navegarPara('/admin/dashboard')}>📊 Dashboard</button>
-          <button className="menu-btn active" onClick={() => navegarPara('/admin/solicitacoes')}>📋 Solicitações</button>
-        </div>
-
-        <div className="sidebar-menu-group">
-          <span className="menu-title">GESTÃO</span>
-          <button className="menu-btn" onClick={() => navegarPara('/admin/gatos')}>🐈 Gatos Resgatados</button>
-          <button className="menu-btn" onClick={() => navegarPara('/admin/adotantes')}>👥 Adotantes</button>
-        </div>
-
-        <button className="btn-sair-loca" onClick={() => { localStorage.removeItem('tokenAdmin'); navegarPara('/admin'); }}>
-          Sair do Sistema
-        </button>
-      </aside>
+      
+      <AdminSidebar />
 
       <main className="loca-main-content">
-        <header className="loca-header animar-subida">
-          <div className="user-profile">
-            <span>Administrador Resgatinhos</span>
-            <div className="avatar">A</div>
-          </div>
-        </header>
+        <AdminHeader />
 
         <div className="dashboard-content animar-subida atraso-1">
           <div className="page-header">
@@ -121,7 +94,6 @@ function AdminSolicitacoes() {
                     <th>Ações (Decisão)</th>
                   </tr>
                 </thead>
-            
                 <tbody>
                   {solicitacoes.map((form) => (
                     <tr key={form._id}>

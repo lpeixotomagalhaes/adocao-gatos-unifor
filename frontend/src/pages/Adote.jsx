@@ -137,7 +137,12 @@ const Adote = () => {
                 <span className={gato.castrado ? "tag positiva" : "tag alerta"}>{gato.castrado ? "✔ Cast" : "✖ Não Cast"}</span>
                 <span className={gato.vacinado ? "tag positiva" : "tag alerta"}>{gato.vacinado ? "✔ Vac" : "✖ Não Vac"}</span>
               </div>
-              <button className="btn-adotar-card" onClick={() => navigate(`/gato/${gato.id}`)}>Saiba Mais</button>
+              <button 
+  className="btn-adotar-card" 
+  onClick={() => navigate(`/gato/${gato._id}`)}
+>
+  Saiba Mais
+</button>
             </div>
           </div>
         ))}

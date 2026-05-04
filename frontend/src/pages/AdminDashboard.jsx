@@ -3,6 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import './AdminDashboard.css';
 
+// Importando nossos componentes
+import AdminSidebar from '../components/AdminSidebar';
+import AdminHeader from '../components/AdminHeader';
+
 
 function AdminDashboard() {
   const [estatisticas, setEstatisticas] = useState(null);
@@ -11,10 +15,7 @@ function AdminDashboard() {
   useEffect(() => {
     const carregarDados = async () => {
       const token = localStorage.getItem('tokenAdmin');
-      if (!token) {
-        navegarPara('/admin/login');
-        return;
-      }
+      if (!token) return navegarPara('/admin/login');
 
       try {
         const resposta = await fetch('http://localhost:5000/api/admin/dashboard', {
@@ -45,43 +46,17 @@ function AdminDashboard() {
     { mes: 'Mar', adotados: 4 },
     { mes: 'Abr', adotados: 8 },
   ];
-
+  
   const coresGrafico = ['#1E8E3E', '#00AAFF', '#F29900'];
 
   if (!estatisticas) return <div className="loading-dashboard">Carregando painel...</div>;
 
   return (
     <div className="loca-dashboard-container">
-      <aside className="loca-sidebar">
-        <div className="sidebar-header">
-          <span className="logo-icon">🐾</span>
-          <h2>Admin Unifor</h2>
-        </div>
-        
-        <div className="sidebar-menu-group">
-          <span className="menu-title">OPERAÇÃO</span>
-          <button className="menu-btn active">📊 Dashboard</button>
-          <button className="menu-btn" onClick={() => navegarPara('/admin/solicitacoes')}>📋 Solicitações</button>
-        </div>
-
-        <div className="sidebar-menu-group">
-          <span className="menu-title">GESTÃO</span>
-          <button className="menu-btn" onClick={() => navegarPara('/admin/gatos')}>🐈 Gatos Resgatados</button>
-          <button className="menu-btn" onClick={() => navegarPara('/admin/adotantes')}>👥 Adotantes</button>
-        </div>
-
-        <button className="btn-sair-loca" onClick={() => { localStorage.removeItem('tokenAdmin'); navegarPara('/admin/login'); }}>
-          Sair do Sistema
-        </button>
-      </aside>
+      <AdminSidebar />
 
       <main className="loca-main-content">
-        <header className="loca-header animar-subida">
-          <div className="user-profile">
-            <span>Administrador Resgatinhos</span>
-            <div className="avatar">A</div>
-          </div>
-        </header>
+        <AdminHeader />
 
         <div className="dashboard-content">
           <div className="loca-cards-grid animar-subida atraso-1">
@@ -169,7 +144,6 @@ function AdminDashboard() {
                     ))}
                   </Pie>
                   <Tooltip />
-                  {/* NOVA LEGENDA NATIVA AQUI */}
                   <Legend verticalAlign="bottom" align="center" iconType="circle" wrapperStyle={{ paddingTop: "15px", fontSize: "0.85rem" }} />
                 </PieChart>
               </ResponsiveContainer>
