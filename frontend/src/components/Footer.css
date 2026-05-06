@@ -88,7 +88,6 @@
   transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
 }
 
-/* Substitui a animação padrão na marca para vir da ESQUERDA */
 .footer-esconder.desliza-esquerda {
   transform: translateX(-60px);
 }
@@ -102,6 +101,7 @@
   transform: translateX(0);
 }
 
+/* --- RESPONSIVIDADE (Telas Menores) --- */
 @media (max-width: 900px) {
   .footer-content { grid-template-columns: 1fr 1fr; }
 }
@@ -109,4 +109,26 @@
 @media (max-width: 600px) {
   .footer-content { grid-template-columns: 1fr; }
   .footer-brand p { max-width: 100%; }
+}
+
+/* --- RESPONSIVIDADE PARA MONITORES GRANDES --- */
+@media (min-width: 1440px) {
+  .footer-container {
+    padding: 80px 15% 40px 15%; /* Mais espaçamento interno */
+  }
+
+  .footer-logo {
+    font-size: 2.2rem; /* Logo do rodapé maior */
+  }
+
+  .footer-container h4 {
+    font-size: 1.4rem; /* Títulos das colunas maiores */
+  }
+
+  .footer-brand p,
+  .footer-links a, 
+  .footer-contact a, 
+  .social-links a {
+    font-size: 1.15rem; /* Textos de parágrafos e links maiores */
+  }
 }

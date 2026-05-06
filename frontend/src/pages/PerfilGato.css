@@ -1,150 +1,124 @@
-/* Banner principal azul */
+/* --- FUNDO GERAL --- */
 .perfil-banner-azul {
   background-color: var(--unifor-blue-dark);
-  color: var(--white);
-  padding: 60px 10%;
-  min-height: 70vh;
+  padding: 60px 5% 80px 5%; 
   display: flex;
-  align-items: center;
+  justify-content: center;
+  color: white;
 }
 
+/* --- LAYOUT PRINCIPAL --- */
 .perfil-conteudo {
-  display: flex;
-  gap: 60px;
+  max-width: 1550px; /* Alargamos um pouco mais para caber a nova divisão horizontal */
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  display: flex;
+  gap: 50px; 
+  align-items: flex-start; 
 }
 
+/* Coluna 1: Imagem */
 .perfil-imagem {
-  flex: 1;
-  max-width: 450px;
+  flex: 0 0 380px; /* Tamanho ideal para dar espaço aos textos */
 }
 
 .perfil-imagem img {
   width: 100%;
-  height: 500px;
-  object-fit: cover;
   border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  object-fit: cover;
 }
 
+/* Caixa das Infos + Formulário */
 .perfil-dados-brancos {
   flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 450px; /* O Formulário tem 450px fixos, as infos pegam todo o resto */
+  gap: 50px; 
+  align-items: start;
+}
+
+/* --- A MÁGICA DA NOVA DIVISÃO DE INFORMAÇÕES --- */
+.perfil-info-coluna {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr; /* Esquerda (Nome/Saúde) um pouco maior que a Direita (Sobre Mim) */
+  gap: 40px;
+  min-width: 0; 
+}
+
+.info-corpo-esquerda {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.info-corpo-direita {
   display: flex;
   flex-direction: column;
 }
 
+/* --- ESTILOS INTERNOS DA INFO --- */
 .perfil-cabecalho {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
+  border-bottom: 2px solid rgba(255,255,255,0.1);
   padding-bottom: 15px;
 }
 
-.perfil-cabecalho h1 {
-  font-size: 3rem;
-  margin: 0;
-  color: var(--white);
-}
+.perfil-cabecalho h1 { font-size: 3rem; margin: 0; }
 
 .badge-status-branco {
-  font-size: 0.9rem;
-  padding: 8px 15px;
+  padding: 8px 16px;
   border-radius: 20px;
   font-weight: bold;
+  font-size: 1.1rem;
+  white-space: nowrap;
 }
 
-.badge-status-branco.disponível { background-color: #1e8e3e; color: white; }
-.badge-status-branco.pendente { background-color: #f29900; color: white; }
-.badge-status-branco.adotado { background-color: #5f6368; color: white; }
+.badge-status-branco.disponível { background-color: #e6f4ea; color: #1e8e3e; }
+.badge-status-branco.adotado { background-color: #f1f3f4; color: #5f6368; }
+.badge-status-branco.pendente { background-color: #fef7e0; color: #f29900; }
 
-.perfil-info-basica {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 25px;
-  font-size: 1.2rem;
-}
+.perfil-info-basica { display: flex; gap: 40px; font-size: 1.2rem; }
 
 .perfil-saude-transparente {
-  background-color: rgba(255, 255, 255, 0.1); /* Fundo transparente */
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 25px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .perfil-saude-transparente h3, .perfil-descricao h3 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  color: var(--unifor-blue-light); /* Destaque no azul claro */
+  color: var(--unifor-blue-light);
+  margin-bottom: 15px;
+  font-size: 1.5rem;
 }
 
 .perfil-saude-transparente ul {
-  list-style: none;
-  padding: 0;
+  list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; font-size: 1.1rem;
+}
+
+.perfil-descricao p { 
+  font-size: 1.2rem; 
+  line-height: 1.8; 
+  color: #e0e0e0; 
   margin: 0;
-  line-height: 1.8;
 }
 
-.perfil-descricao p {
-  line-height: 1.7;
-  font-size: 1.1rem;
-  margin-bottom: 40px;
+/* --- RESPONSIVIDADE BLINDADA --- */
+@media (max-width: 1400px) {
+  /* Se a tela diminuir, o "Sobre Mim" desce para debaixo da Saúde automaticamente */
+  .perfil-info-coluna { grid-template-columns: 1fr; }
 }
 
-.btn-quero-adotar-forms {
-  margin-top: auto;
-  background-color: var(--unifor-blue-light);
-  color: white;
-  padding: 18px 30px;
-  border: none;
-  border-radius: 10px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s;
-  align-self: flex-start;
+@media (max-width: 1100px) {
+  /* Em tablets, o formulário vai para debaixo das informações */
+  .perfil-dados-brancos { grid-template-columns: 1fr; gap: 60px; }
 }
 
-.btn-quero-adotar-forms:hover {
-  background-color: white;
-  color: var(--unifor-blue-dark);
-  transform: translateY(-3px);
-}
-
-.perfil-erro {
-  text-align: center;
-  padding: 100px;
-  color: var(--unifor-blue-dark);
-}
-
-/* Ajustes da Seção de Regras que já veio do Adote.css */
-.perfil-regras {
-  margin: 60px 10%;
-}
-
-@media (max-width: 768px) {
-  .perfil-conteudo {
-    flex-direction: column;
-  }
-  .btn-quero-adotar-forms {
-    width: 100%;
-  }
-}
-/* Animação de entrada suave */
-@keyframes fadeSlideUp {
-  0% { opacity: 0; transform: translateY(40px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-.perfil-conteudo {
-  animation: fadeSlideUp 0.8s ease-out forwards;
-}
-
-.perfil-regras {
-  opacity: 0;
-  animation: fadeSlideUp 0.8s ease-out 0.3s forwards;
+@media (max-width: 850px) {
+  /* Em celulares, a foto também vai pro topo */
+  .perfil-conteudo { flex-direction: column; align-items: center; }
+  .perfil-imagem { flex: auto; max-width: 100%; }
+  .perfil-cabecalho h1 { font-size: 2.2rem; }
 }

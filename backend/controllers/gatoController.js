@@ -1,9 +1,28 @@
 const Gato = require('../models/Gato');
+const mongoose = require('mongoose');
 
-// 1. CADASTRAR UM NOVO GATO (Create)
+// Função para gerar URL amigável (Slug)
+const gerarSlug = async (nome) => {
+    let slugBase = nome.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, '-');
+    let slug = slugBase;
+    let contador = 1;
+    // Verifica se já existe, se sim, adiciona número
+    while (await Gato.findOne({ slug })) {
+        slug = `${slugBase}-${contador}`;
+        contador++;
+    }
+    return slug;
+};
+
+// 1. CADASTRAR UM NOVO GATO
 const criarGato = async (req, res) => {
     try {
-        const novoGato = new Gato(req.body);
+        const dados = req.body;
+        if (dados.nome) {
+            dados.slug = await gerarSlug(dados.nome);
+        }
+        
+        const novoGato = new Gato(dados);
         const gatoSalvo = await novoGato.save();
         res.status(201).json(gatoSalvo);
     } catch (error) {
@@ -11,10 +30,9 @@ const criarGato = async (req, res) => {
     }
 };
 
-// 2. LISTAR TODOS OS GATOS (Read)
+// 2. LISTAR TODOS OS GATOS
 const listarGatos = async (req, res) => {
     try {
-        // Busca todos os gatos, ordenando pelos mais recentes
         const gatos = await Gato.find().sort({ dataCadastro: -1 });
         res.status(200).json(gatos);
     } catch (error) {
@@ -22,10 +40,16 @@ const listarGatos = async (req, res) => {
     }
 };
 
-// 3. BUSCAR UM GATO ESPECÍFICO PELO ID (Read)
+// 3. BUSCAR UM GATO ESPECÍFICO (Agora busca por SLUG ou ID)
 const buscarGatoPorId = async (req, res) => {
     try {
-        const gato = await Gato.findById(req.params.id);
+        const identificador = req.params.id;
+        const ehIdValido = mongoose.Types.ObjectId.isValid(identificador);
+        
+        // Tenta buscar pelo nome na URL (slug). Se não achar, tenta pelo ID antigo.
+        const gato = await Gato.findOne({ slug: identificador }) || 
+                     (ehIdValido ? await Gato.findById(identificador) : null);
+                     
         if (!gato) return res.status(404).json({ mensagem: 'Gatinho não encontrado' });
         
         res.status(200).json(gato);
@@ -34,20 +58,18 @@ const buscarGatoPorId = async (req, res) => {
     }
 };
 
-// 4. ATUALIZAR DADOS DO GATO (Update - Ex: Mudar status para 'Adotado')
+// 4. ATUALIZAR DADOS DO GATO
 const atualizarGato = async (req, res) => {
     try {
-        // Se o status mudar para 'Adotado', podemos registrar a data automaticamente
         if (req.body.status === 'Adotado' && !req.body.dataAdocao) {
             req.body.dataAdocao = new Date();
         }
+        // Se o nome mudar, atualiza o slug também
+        if (req.body.nome) {
+            req.body.slug = await gerarSlug(req.body.nome);
+        }
 
-        const gatoAtualizado = await Gato.findByIdAndUpdate(
-            req.params.id, 
-            req.body, 
-            { new: true } // Retorna o gato já com as informações novas
-        );
-
+        const gatoAtualizado = await Gato.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!gatoAtualizado) return res.status(404).json({ mensagem: 'Gatinho não encontrado' });
         
         res.status(200).json(gatoAtualizado);
@@ -56,22 +78,15 @@ const atualizarGato = async (req, res) => {
     }
 };
 
-// 5. DELETAR UM GATO (Delete)
+// 5. DELETAR UM GATO
 const deletarGato = async (req, res) => {
     try {
         const gatoDeletado = await Gato.findByIdAndDelete(req.params.id);
         if (!gatoDeletado) return res.status(404).json({ mensagem: 'Gatinho não encontrado' });
-        
         res.status(200).json({ mensagem: 'Gatinho removido com sucesso!' });
     } catch (error) {
         res.status(500).json({ mensagem: 'Erro ao deletar gato', erro: error.message });
     }
 };
 
-module.exports = {
-    criarGato,
-    listarGatos,
-    buscarGatoPorId,
-    atualizarGato,
-    deletarGato
-};
+module.exports = { criarGato, listarGatos, buscarGatoPorId, atualizarGato, deletarGato };

@@ -90,3 +90,74 @@
   margin-bottom: 20px;
   line-height: 1.6;
 }
+/* --- RESPONSIVIDADE PARA MONITORES GRANDES (CONTATO) --- */
+@media (min-width: 1440px) {
+  .contato-container {
+    padding: 80px 15%;
+  }
+  
+  .contato-header h1 {
+    font-size: 4rem; /* Título gigante e imponente */
+  }
+  
+  .contato-header p {
+    font-size: 1.4rem;
+  }
+  
+  .contato-content {
+    max-width: 1400px; /* Destrava a largura antiga de 1100px */
+    gap: 80px;
+    grid-template-columns: 1.5fr 450px; /* Faz o formulário e a caixa de info crescerem proporcionalmente */
+  }
+  
+  .contato-form, .contato-info {
+    padding: 60px; /* Caixas mais gordinhas e espaçosas */
+  }
+  
+  .form-group label {
+    font-size: 1.2rem;
+  }
+  
+  .form-group input, .form-group textarea {
+    font-size: 1.1rem;
+    padding: 15px; /* Campos de digitar maiores */
+  }
+  
+  .btn-enviar {
+    font-size: 1.2rem;
+    padding: 18px 30px; /* Botão mais clicável */
+  }
+  
+  .contato-info h3 {
+    font-size: 1.8rem;
+  }
+  
+  .contato-info p {
+    font-size: 1.2rem;
+  }
+}
+/* --- RESPONSIVIDADE PARA TABLETS E CELULARES (CONTATO) --- */
+@media (max-width: 992px) {
+  .contato-content {
+    grid-template-columns: 1fr; /* Transforma em uma única coluna */
+    gap: 40px;
+  }
+
+  .contato-info {
+    order: -1; /* Opcional: Faz a caixa azul de informações aparecer ANTES do formulário no celular */
+  }
+}
+
+@media (max-width: 768px) {
+  .contato-container {
+    padding: 40px 5%;
+  }
+
+  .contato-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .contato-form, .contato-info {
+    padding: 25px; /* Reduz o espaço interno das caixas para não espremer os textos */
+  }
+}

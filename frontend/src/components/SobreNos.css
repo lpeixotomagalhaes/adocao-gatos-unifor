@@ -1,0 +1,70 @@
+.sobre-section {
+  padding: 100px 10%;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.sobre-titulo {
+  color: var(--unifor-blue-dark);
+  font-size: 2.8rem;
+  margin: 0 0 15px 0;
+  font-weight: 700;
+}
+
+.sobre-linha {
+  width: 80px;
+  height: 5px;
+  background-color: var(--unifor-blue-light);
+  border-radius: 5px;
+  margin-bottom: 40px;
+}
+
+.sobre-texto {
+  line-height: 1.8;
+  color: var(--text-color, #333);
+  font-size: 1.2rem;
+  max-width: 850px;
+  margin: 0;
+}
+
+/* --- RESPONSIVIDADE PARA MONITORES GRANDES --- */
+@media (min-width: 1440px) {
+  .sobre-section {
+    padding: 120px 15%; /* Dá mais respiro em cima e embaixo */
+  }
+
+  .sobre-titulo {
+    font-size: 3.5rem; /* Título cresce para acompanhar o do Hero */
+    margin-bottom: 25px;
+  }
+
+  .sobre-linha {
+    width: 120px; /* A linha decorativa fica um pouco mais larga */
+    height: 6px;
+    margin-bottom: 50px;
+  }
+
+  .sobre-texto {
+    font-size: 1.5rem; /* O texto fica bem maior e mais fácil de ler */
+    max-width: 1100px; /* Permite que o texto estique mais para as laterais */
+    line-height: 1.9;
+  }
+}
+/* --- RESPONSIVIDADE PARA CELULARES (SOBRE NOS) --- */
+@media (max-width: 768px) {
+  .sobre-section {
+    padding: 60px 5%;
+  }
+
+  .sobre-titulo {
+    font-size: 2.2rem;
+  }
+
+  .sobre-texto {
+    font-size: 1.05rem; /* Texto menor para não gerar rolagem infinita */
+    text-align: justify; /* Melhora a leitura no celular */
+  }
+}

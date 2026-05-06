@@ -18,7 +18,8 @@ const GatoSchema = new mongoose.Schema({
     dataCadastro: { type: Date, default: Date.now },
     // Campos para os seus gráficos da Dashboard futuramente:
     dataVacinacao: { type: Date },
-    dataAdocao: { type: Date }
+    dataAdocao: { type: Date },
+    slug: { type: String, unique: true },
 });
 
 module.exports = mongoose.model('Gato', GatoSchema);

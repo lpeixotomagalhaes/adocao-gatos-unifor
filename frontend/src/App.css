@@ -1,0 +1,12 @@
+/* --- ANIMAÇÕES DE SCROLL DA HOME (IntersectionObserver) --- */
+.esconder {
+  opacity: 0;
+  transform: translateY(50px); /* O elemento começa 50px mais para baixo */
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform; /* Dica para o navegador renderizar mais rápido */
+}
+
+.mostrar {
+  opacity: 1;
+  transform: translateY(0); /* Volta para a posição original */
+}

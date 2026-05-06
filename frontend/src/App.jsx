@@ -13,7 +13,7 @@ import AdminGatos from './pages/AdminGatos';
 import AdminSolicitacoes from './pages/AdminSolicitacoes';
 import AdminAdotantes from './pages/AdminAdotantes';
 import AdminPerfil from './pages/AdminPerfil';
-import AdotarForm from './pages/AdotarForm';
+
 
 function App() {
   const location = useLocation();
@@ -39,7 +39,6 @@ function App() {
         <Route path="/admin/solicitacoes" element={<AdminSolicitacoes />} />
         <Route path="/admin/adotantes" element={<AdminAdotantes />} />
         <Route path="/admin/perfil" element={<AdminPerfil />} />
-        <Route path="/adotar/:id" element={<AdotarForm />} />
       </Routes>
 
       {/* Se NÃO for a área admin, mostra o Footer */}

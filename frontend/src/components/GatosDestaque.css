@@ -25,10 +25,9 @@
   width: 280px;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Prepara para a animação */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efeito de crescer ao passar o mouse */
 .destaque-card:hover {
   transform: translateY(-10px) scale(1.03);
   box-shadow: 0 15px 30px rgba(0,0,0,0.15);
@@ -87,4 +86,46 @@
 .btn-ver-todos:hover {
   transform: scale(1.05);
   background-color: var(--unifor-blue-dark);
+}
+
+/* --- RESPONSIVIDADE (Telas Gigantes) --- */
+@media (min-width: 1440px) {
+  .destaque-section {
+    padding: 100px 10%; /* Mais respiro em volta da seção */
+  }
+
+  .destaque-titulo {
+    font-size: 3.2rem; /* Título da seção maior */
+    margin-bottom: 60px;
+  }
+
+  .destaque-grid {
+    gap: 40px; /* Afasta mais os cards uns dos outros */
+  }
+
+  .destaque-card {
+    width: 340px; /* Os cards ficam bem mais largos */
+  }
+
+  .destaque-foto {
+    height: 280px; /* A foto do gato dentro do card cresce junto */
+  }
+
+  .destaque-info h3 {
+    font-size: 1.8rem; /* Nome do gato maior */
+  }
+
+  .destaque-info p {
+    font-size: 1.1rem; /* Textinho de idade/sexo maior */
+  }
+
+  .btn-saiba-mais-mini {
+    font-size: 1.1rem;
+    padding: 12px;
+  }
+
+  .btn-ver-todos {
+    font-size: 1.3rem;
+    padding: 20px 45px;
+  }
 }

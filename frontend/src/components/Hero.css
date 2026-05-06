@@ -22,6 +22,7 @@
   margin: 0;
   font-weight: 800;
   line-height: 1.1;
+  animation: fadeSlideUp 0.8s ease-out forwards;
 }
 
 .highlight {
@@ -34,70 +35,10 @@
   line-height: 1.6;
   color: #e0e0e0;
   max-width: 90%;
-}
-
-.hero-btn {
-  background-color: var(--white);
-  color: var(--unifor-blue-dark);
-  padding: 18px 40px;
-  border: none;
-  border-radius: 30px;
-  font-weight: bold;
-  font-size: 1.2rem;
-  cursor: pointer;
-  /* Animação inicial de entrada */
-  opacity: 0;
-  animation: fadeSlideUp 0.8s ease-out 0.4s forwards;
-  
-  /* Preparando para o efeito Hover */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra inicial levinha */
-  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* O mesmo efeito do botão "Conheça os gatinhos" */
-.hero-btn:hover {
-  transform: scale(1.05) translateY(-3px) !important;
-  background-color: var(--unifor-blue-dark) !important;
-  color: var(--white) !important;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-}
-.hero-image-wrapper {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.hero-image-wrapper img {
-  width: 100%;
-  max-width: 550px;
-  border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  object-fit: cover;
-}
-/* --- ANIMAÇÕES DO HERO --- */
-@keyframes fadeSlideUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hero-content h1 {
-  /* Título entra primeiro */
-  animation: fadeSlideUp 0.8s ease-out forwards;
-}
-
-.hero-content p {
-  opacity: 0; /* Começa invisível */
-  /* Entra 0.2 segundos depois do título */
+  opacity: 0; 
   animation: fadeSlideUp 0.8s ease-out 0.2s forwards; 
 }
 
-/* --- ESTILO E HOVER DO BOTÃO --- */
 .hero-btn {
   background-color: var(--white);
   color: var(--unifor-blue-dark);
@@ -107,27 +48,14 @@
   font-weight: bold;
   font-size: 1.2rem;
   cursor: pointer;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* --- ESTILO E HOVER DO BOTÃO --- */
-.hero-btn {
-  background-color: var(--white);
-  color: var(--unifor-blue-dark);
-  padding: 18px 40px;
-  border: none;
-  border-radius: 30px;
-  font-weight: bold;
-  font-size: 1.2rem;
-  cursor: pointer;
+  opacity: 0;
+  animation: fadeSlideUp 0.8s ease-out 0.4s forwards;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hero-btn:hover {
   transform: scale(1.05) translateY(-3px) !important;
-  /* Mudamos a cor para o azul claro igual o outro botão! */
   background-color: var(--unifor-blue-light) !important;
   color: var(--white) !important;
   box-shadow: 0 10px 20px rgba(0, 170, 255, 0.3);
@@ -145,9 +73,23 @@
   border-radius: 24px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   object-fit: cover;
+  /* NOVIDADE: Efeito do gatinho respirando/flutuando */
+  animation: flutuarSuave 6s ease-in-out infinite;
 }
 
-/* --- ANIMAÇÕES DE SCROLL EXCLUSIVAS DO HERO --- */
+/* --- ANIMAÇÕES DO HERO --- */
+@keyframes fadeSlideUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* NOVIDADE: Keyframe do Flutuar */
+@keyframes flutuarSuave {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
 .hero-esconder {
   opacity: 0;
   transform: translateY(40px);
@@ -157,4 +99,67 @@
 .hero-esconder.mostrar {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* --- RESPONSIVIDADE (Telas Gigantes) --- */
+@media (min-width: 1440px) {
+  .hero-container {
+    padding: 0 15%; /* Empurra os elementos mais para o centro */
+  }
+
+  .hero-content h1 {
+    font-size: 5.5rem; /* Título bem mais imponente */
+  }
+
+  .hero-content p {
+    font-size: 1.5rem; /* Texto de apoio mais legível */
+    max-width: 100%;
+  }
+
+  .hero-btn {
+    font-size: 1.3rem;
+    padding: 22px 50px; /* Botão maior */
+  }
+
+  .hero-image-wrapper img {
+    max-width: 700px; /* Deixa a foto do gato bem maior para preencher o espaço */
+  }
+}
+/* --- RESPONSIVIDADE PARA TABLETS E NOTEBOOKS MENORES --- */
+@media (max-width: 1024px) {
+  .hero-container {
+    flex-direction: column; /* Coloca o texto em cima e a foto embaixo */
+    text-align: center;
+    padding: 60px 5%;
+    gap: 50px;
+  }
+
+  .hero-content {
+    align-items: center; /* Centraliza o texto e o botão */
+  }
+
+  .hero-image-wrapper {
+    justify-content: center;
+  }
+}
+
+/* --- RESPONSIVIDADE PARA CELULARES --- */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 3rem; /* Diminui o título para caber na tela */
+  }
+
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+
+  .hero-btn {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    width: 100%; /* Botão ocupa a largura toda no celular (mais fácil de clicar) */
+  }
+
+  .hero-image-wrapper img {
+    max-width: 100%; /* A foto ocupa o espaço certinho da tela */
+  }
 }

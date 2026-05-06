@@ -348,3 +348,154 @@
   padding: 50px;
   color: #666;
 }
+/* --- RESPONSIVIDADE PARA MONITORES GRANDES (ADOTE) --- */
+@media (min-width: 1440px) {
+  .adote-container {
+    padding: 80px 12%;
+  }
+  
+  /* --- Regras Amigáveis Esticadas --- */
+  .regras-amigaveis {
+    padding: 70px;
+  }
+  
+  .regras-amigaveis h2 {
+    font-size: 3.2rem;
+  }
+  
+  .regras-amigaveis p {
+    font-size: 1.4rem;
+  }
+  
+  .regra-icone {
+    width: 100px;
+    height: 100px;
+    font-size: 3rem; /* Ícones maiores */
+  }
+  
+  .regra-item h3 {
+    font-size: 1.5rem;
+  }
+  
+  .regra-item p {
+    font-size: 1.1rem;
+  }
+
+  /* --- Filtros Expandidos --- */
+  .filtros-panel {
+    max-width: 1400px; /* Destrava a largura de 1000px */
+    padding: 50px;
+  }
+  
+  .busca-box-nova input {
+    font-size: 1.3rem;
+  }
+  
+  .busca-icone {
+    font-size: 1.5rem;
+  }
+  
+  .filtro-grupo > label {
+    font-size: 1.3rem;
+  }
+  
+  .filtro-grupo select {
+    font-size: 1.1rem;
+    padding: 15px 30px;
+    min-width: 220px;
+  }
+  
+  .checkbox-label-grande {
+    font-size: 1.3rem;
+  }
+  
+  .checkbox-label-grande input[type="checkbox"] {
+    width: 26px; /* Quadrados do checkbox maiores */
+    height: 26px;
+  }
+  
+  .resultados-resumo p {
+    font-size: 1.5rem;
+  }
+
+  /* --- Grid e Cards Mais Robustos --- */
+  .gatos-grid {
+    /* Faz os cards terem pelo menos 380px de largura, preenchendo melhor a tela */
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 50px;
+  }
+  
+  .gato-foto {
+    height: 320px; /* Foto do gato cresce acompanhando o card largo */
+  }
+  
+  .card-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .status-badge {
+    font-size: 1rem;
+    padding: 8px 14px;
+  }
+  
+  .gato-dados-basicos {
+    font-size: 1.2rem;
+  }
+  
+  .tag {
+    font-size: 1rem;
+    padding: 8px 12px;
+  }
+  
+  .fiv-felv-info {
+    font-size: 1.1rem;
+  }
+  
+  .btn-adotar-card {
+    font-size: 1.2rem;
+    padding: 15px;
+  }
+}
+/* --- RESPONSIVIDADE PARA TABLETS E CELULARES (ADOTE) --- */
+@media (max-width: 992px) {
+  .regras-cards {
+    flex-direction: column; /* Empilha os 3 ícones de regras */
+    align-items: center;
+    gap: 40px;
+  }
+
+  .regra-item {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .adote-container {
+    padding: 30px 5%;
+  }
+
+  .regras-amigaveis {
+    padding: 30px 20px;
+  }
+
+  .regras-amigaveis h2 {
+    font-size: 2rem;
+  }
+
+  .filtros-panel {
+    padding: 25px;
+  }
+
+  .busca-box-nova {
+    flex-direction: column;
+    border-radius: 15px;
+  }
+
+  .filtro-grupo select {
+    width: 100%; /* Os botões de filtro ocupam a tela toda no mobile */
+  }
+
+  .gatos-grid {
+    grid-template-columns: 1fr; /* Força os cards a ficarem 1 por linha em telas muito pequenas */
+  }
+}

@@ -139,7 +139,7 @@ const Adote = () => {
               </div>
               <button 
   className="btn-adotar-card" 
-  onClick={() => navigate(`/gato/${gato._id}`)}
+  onClick={() => navigate(`/gato/${gato.slug || gato._id}`)}
 >
   Saiba Mais
 </button>
