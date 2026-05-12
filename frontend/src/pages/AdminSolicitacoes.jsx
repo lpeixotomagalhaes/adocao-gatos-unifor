@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './AdminSolicitacoes.css';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
@@ -7,7 +6,6 @@ import AdminHeader from '../components/AdminHeader';
 function AdminSolicitacoes() {
   const [solicitacoes, setSolicitacoes] = useState([]);
   const [carregando, setCarregando] = useState(true);
-  const navegarPara = useNavigate();
 
   const carregarSolicitacoes = async () => {
     try {
@@ -16,39 +14,31 @@ function AdminSolicitacoes() {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
-      // TRAVA DE SEGURANÇA 1: Se o servidor der o erro 400 da sua foto, a gente para por aqui e não quebra a tela.
       if (!resposta.ok) {
         console.error("Servidor retornou erro:", resposta.status);
-        setSolicitacoes([]); // Deixa a tabela vazia
-        setCarregando(false);
+        setSolicitacoes([]); 
         return;
       }
 
       const dados = await resposta.json();
       
-      // TRAVA DE SEGURANÇA 2: Garante que os dados são realmente uma lista antes de salvar
       if (Array.isArray(dados)) {
         setSolicitacoes(dados);
       } else {
         setSolicitacoes([]);
       }
       
-      setCarregando(false);
     } catch (erro) {
       console.error("Erro ao carregar solicitações", erro);
       setSolicitacoes([]);
+    } finally {
       setCarregando(false);
     }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('tokenAdmin');
-    if (!token) {
-      navegarPara('/admin');
-      return;
-    }
     carregarSolicitacoes();
-  }, [navegarPara]);
+  }, []);
 
   const alterarStatus = async (formId, gatoId, novoStatus) => {
     if (!window.confirm(`Tem certeza que deseja ${novoStatus.toLowerCase()} esta solicitação?`)) return;
@@ -82,7 +72,6 @@ function AdminSolicitacoes() {
     }
   };
 
-  // TRAVA DE SEGURANÇA 3: O React só vai fazer o .map() numa lista válida
   const listaSegura = Array.isArray(solicitacoes) ? solicitacoes : [];
 
   return (

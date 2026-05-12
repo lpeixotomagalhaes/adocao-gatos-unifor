@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './AdminSidebar.css'; // <-- Importando o CSS exclusivo dela!
+import './AdminSidebar.css'; 
 
 const AdminSidebar = () => {
   const navegarPara = useNavigate();
@@ -26,19 +26,32 @@ const AdminSidebar = () => {
       </div>
 
       <div className="sidebar-menu-group">
-        <span className="menu-title">GESTÃO</span>
+        <span className="menu-title">GESTÃO DE ANIMAIS</span>
         <button className={`menu-btn ${taAtivo('/admin/gatos')}`} onClick={() => navegarPara('/admin/gatos')}>
-          <span className="icone">🐈</span> <span className="texto">Resgatados</span>
+          <span className="icone">🐈</span> <span className="texto">No Campus</span>
         </button>
         <button className={`menu-btn ${taAtivo('/admin/adotantes')}`} onClick={() => navegarPara('/admin/adotantes')}>
-          <span className="icone">👥</span> <span className="texto">Adotantes</span>
+          <span className="icone">👥</span> <span className="texto">Adotados</span>
+        </button>
+        {/* NOVO BOTÃO */}
+        <button className={`menu-btn ${taAtivo('/admin/arquivados')}`} onClick={() => navegarPara('/admin/arquivados')}>
+          <span className="icone">🗄️</span> <span className="texto">Arquivados</span>
+        </button>
+      </div>
+
+      <div className="sidebar-menu-group">
+        <span className="menu-title">SISTEMA</span>
+        {/* NOVO BOTÃO */}
+        <button className={`menu-btn ${taAtivo('/admin/historico')}`} onClick={() => navegarPara('/admin/historico')}>
+          <span className="icone">📜</span> <span className="texto">Auditoria</span>
         </button>
         <button className={`menu-btn ${taAtivo('/admin/perfil')}`} onClick={() => navegarPara('/admin/perfil')}>
           <span className="icone">👤</span> <span className="texto">Meu Perfil</span>
         </button>
       </div>
 
-      <button className="btn-sair-loca" onClick={() => { localStorage.removeItem('tokenAdmin'); navegarPara('/admin/login'); }}>
+      {/* Rota fantasma corrigida aqui: */}
+      <button className="btn-sair-loca" onClick={() => { localStorage.removeItem('tokenAdmin'); navegarPara('/admin'); }}>
         <span className="icone">🚪</span> <span className="texto">Sair do Sistema</span>
       </button>
     </aside>

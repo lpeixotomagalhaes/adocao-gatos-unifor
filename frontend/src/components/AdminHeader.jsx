@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdminHeader.css'; 
 
 const AdminHeader = () => {
   const navegarPara = useNavigate();
+  const [admin, setAdmin] = useState({ nome: 'Administrador', email: '', inicial: 'A' });
+
+  // Quando o componente carrega, ele busca os dados reais salvos no login
+  useEffect(() => {
+    const nomeSalvo = localStorage.getItem('adminNome') || 'Administrador';
+    const emailSalvo = localStorage.getItem('adminEmail') || 'admin@unifor.br';
+    
+    setAdmin({
+      nome: nomeSalvo,
+      email: emailSalvo,
+      inicial: nomeSalvo.charAt(0).toUpperCase() // Pega a primeira letra
+    });
+  }, []);
 
   return (
     <header className="loca-header animar-subida">
@@ -11,16 +24,16 @@ const AdminHeader = () => {
         <div className="user-profile" onClick={() => navegarPara('/admin/perfil')}>
           
           <div className="user-info-text">
-            <span className="user-name">Lucas Peixoto</span>
+            <span className="user-name">{admin.nome}</span>
             <span className="user-role">Administrador</span>
           </div>
           
-          <div className="avatar">L</div>
+          <div className="avatar">{admin.inicial}</div>
           
           {/* DROPDOWN DO PERFIL */}
           <div className="perfil-dropdown">
-            <p className="dropdown-email">lucas@unifor.br</p>
-            <p className="dropdown-curso">Ciências da Computação</p>
+            <p className="dropdown-email">{admin.email}</p>
+            <p className="dropdown-curso">Gestão do Sistema</p>
             <hr />
             <p className="dropdown-acao">Meu Perfil <span style={{ color: 'var(--unifor-blue-light)' }}>➔</span></p>
           </div>

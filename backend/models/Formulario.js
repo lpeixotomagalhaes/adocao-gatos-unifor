@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const FormularioSchema = new mongoose.Schema({
-    // O ref: 'Gato' avisa o banco que esse ID pertence à coleção de gatos
     gatoId: { type: mongoose.Schema.Types.ObjectId, ref: 'Gato', required: true },
     nomeCandidato: { type: String, required: true },
     vinculoUnifor: { type: String, required: true },
@@ -15,6 +14,14 @@ const FormularioSchema = new mongoose.Schema({
         enum: ['Pendente', 'Aprovado', 'Reprovado'], 
         default: 'Pendente' 
     },
+    
+    // CAMPO PARA O ACOMPANHAMENTO PÓS-ADOÇÃO
+    notasAcompanhamento: [{
+        data: { type: Date, default: Date.now },
+        nota: { type: String },
+        adminNome: { type: String }
+    }],
+
     dataEnvio: { type: Date, default: Date.now }
 });
 

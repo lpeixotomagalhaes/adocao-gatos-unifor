@@ -1,19 +1,17 @@
 /* --- HEADER E BOTÃO DE PERFIL PREMIUM --- */
 .loca-header {
-  height: 85px;
+  height: 90px; /* ALTURA EXATAMENTE IGUAL AO SIDEBAR HEADER */
   background-color: #ffffff;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  /* Alinha o header perfeitamente com a largura do conteúdo da dashboard */
   padding: 0 50px; 
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0; /* A linha que vai se conectar perfeitamente */
   z-index: 5;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Centraliza o conteúdo dentro da linha de limite do Dashboard */
 .loca-header-container {
   max-width: 1600px;
   width: 100%;
@@ -23,13 +21,14 @@
   align-items: center;
 }
 
+/* O BOTÃO PÍLULA */
 .user-profile {
   display: flex;
   align-items: center;
-  gap: 22px;
-  padding: 10px 20px 10px 28px;
+  gap: 20px;
+  padding: 8px 16px 8px 24px;
   background-color: #f8fafc;
-  border: 1.8px solid #cbd5e1;
+  border: 1.5px solid #cbd5e1;
   border-radius: 50px; 
   cursor: pointer;
   position: relative;
@@ -53,14 +52,14 @@
 }
 
 .user-name {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: #0f172a;
   font-weight: 800;
   line-height: 1.2;
 }
 
 .user-role {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--unifor-blue-light, #00AAFF);
   font-weight: 800;
   letter-spacing: 0.6px;
@@ -69,8 +68,8 @@
 }
 
 .avatar {
-  width: 48px;
-  height: 48px;
+  width: 45px;
+  height: 45px;
   background: linear-gradient(135deg, var(--unifor-blue-light, #00AAFF), var(--unifor-blue-dark, #0a2a5e));
   color: #ffffff;
   border-radius: 50%;
@@ -78,11 +77,11 @@
   justify-content: center;
   align-items: center;
   font-weight: 900;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   box-shadow: 0 4px 12px rgba(0, 170, 255, 0.25);
 }
 
-/* --- DROPDOWN --- */
+/* --- DROPDOWN DO PERFIL --- */
 .perfil-dropdown {
   position: absolute;
   top: 125%; 
@@ -98,6 +97,7 @@
   transform: translateY(-8px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 100;
+  text-align: left; /* Garante que os textos do dropdown não fiquem alinhados à direita */
 }
 
 .user-profile:hover .perfil-dropdown {
@@ -138,12 +138,24 @@
   align-items: center;
 }
 
-@media (max-width: 768px) {
+/* --- RESPONSIVIDADE DO HEADER --- */
+@media (max-width: 900px) {
   .loca-header { 
-    padding: 0 20px; 
-    height: 75px;
+    padding: 0 25px; 
+    height: 75px; /* Diminui junto no celular para poupar espaço de tela */
   }
-  .user-info-text { display: none; }
-  .user-profile { padding: 6px; border-radius: 50%; gap: 0; }
-  .perfil-dropdown { width: 230px; }
+
+  .user-info-text { 
+    display: none; /* No celular, some o texto e deixa só a bolinha de foto */
+  }
+
+  .user-profile {
+    padding: 5px;
+    border-radius: 50%;
+    gap: 0;
+  }
+
+  .perfil-dropdown {
+    width: 240px;
+  }
 }

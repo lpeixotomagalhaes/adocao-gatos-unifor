@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import './AdminDashboard.css';
 
-// Importando nossos componentes
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
 import AdminCard from '../components/AdminCard';
@@ -16,35 +15,31 @@ function AdminDashboard() {
   useEffect(() => {
     const carregarDados = async () => {
       const token = localStorage.getItem('tokenAdmin');
-      if (!token) return navegarPara('/admin/login');
-
+      
       try {
-        const resposta = await fetch('http://localhost:5000/api/admin/dashboard', {
+        const resposta = await fetch('http://127.0.0.1:5000/api/admin/dashboard', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
         if (!resposta.ok) {
-          console.error("Erro no servidor. Faça login novamente.");
+          console.error("Sessão expirada ou erro no servidor.");
           localStorage.removeItem('tokenAdmin');
-          return navegarPara('/admin/login');
+          return navegarPara('/admin'); 
         }
 
         const dados = await resposta.json();
         
-        const total = dados.totalGatos || 0; 
-        const castrados = Math.floor(total * 0.8);
-        const vacinados = Math.floor(total * 0.9);
-
+        // Povoando os estados com os dados REAIS processados pelo MongoDB
         setEstatisticas({
-            totalGatos: total,
+            totalGatos: dados.totalGatos || 0,
             formulariosPendentes: dados.formulariosPendentes || 0,
             gatosAdotados: dados.gatosAdotados || 0,
             gatosDisponiveis: dados.gatosDisponiveis || 0,
-            gatosCastrados: castrados,
-            faltamCastrar: total - castrados,
-            gatosVacinados: vacinados,
-            faltamVacinar: total - vacinados,
-            graficoAdocoes: dados.graficoAdocoes || [] // Puxando o gráfico do Backend!
+            gatosCastrados: dados.saude?.castrados || 0,
+            faltamCastrar: dados.saude?.naoCastrados || 0,
+            gatosVacinados: dados.saude?.vacinados || 0,
+            faltamVacinar: dados.saude?.naoVacinados || 0,
+            graficoAdocoes: dados.graficoAdocoes || []
         });
       } catch (erro) {
         console.error("Erro ao conectar com a API:", erro);
@@ -60,19 +55,19 @@ function AdminDashboard() {
   return (
     <div className="loca-dashboard-container">
       <AdminSidebar />
-
       <main className="loca-main-content">
         <AdminHeader />
-
         <div className="dashboard-content">
           
+          {/* 1. CARDS REORGANIZADOS: Total > Adotados > Disponíveis > Pendentes */}
           <div className="loca-cards-grid animar-subida atraso-1">
             <AdminCard titulo="Total Resgatados" valor={estatisticas.totalGatos} corTexto="text-dark" />
-            <AdminCard titulo="Adoções Pendentes" valor={estatisticas.formulariosPendentes} corTexto="text-orange" />
             <AdminCard titulo="Gatos Adotados" valor={estatisticas.gatosAdotados} corTexto="text-green" />
             <AdminCard titulo="Gatos Disponíveis" valor={estatisticas.gatosDisponiveis} corTexto="text-blue" />
+            <AdminCard titulo="Adoções Pendentes" valor={estatisticas.formulariosPendentes} corTexto="text-orange" />
           </div>
 
+          {/* 2. DADOS DE SAÚDE REAIS */}
           <div className="loca-cards-grid secondary-grid animar-subida atraso-2">
             <AdminSplitCard 
               titulo="Controle de Castração" 
@@ -87,16 +82,21 @@ function AdminDashboard() {
           </div>
 
           <div className="loca-charts-grid animar-subida atraso-3">
+            {/* 3. GRÁFICO DE BARRAS ATUALIZADO (Adoções, Castração e Vacinação Mensal) */}
             <div className="loca-chart-box">
-              <h3>Evolução de Adoções Mensais</h3>
+              <h3>Evolução Mensal</h3>
               <ResponsiveContainer width="100%" height={250}>
-                {/* AQUI O GRÁFICO É CONECTADO AO BANCO */}
                 <BarChart data={estatisticas.graficoAdocoes}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
                   <XAxis dataKey="mes" axisLine={false} tickLine={false} />
                   <YAxis axisLine={false} tickLine={false} />
                   <Tooltip cursor={{fill: '#f4f7f6'}} />
-                  <Bar dataKey="adotados" fill="#00AAFF" radius={[4, 4, 0, 0]} barSize={40} />
+                  <Legend verticalAlign="top" height={36} wrapperStyle={{ fontSize: "0.85rem", paddingBottom: "10px" }}/>
+                  
+                  {/* Três barras de métricas para cada mês */}
+                  <Bar dataKey="adotados" name="Adotados" fill="#1E8E3E" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="castrados" name="Castrados" fill="#00AAFF" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="vacinados" name="Vacinados" fill="#8B5CF6" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './AdminGatos.css'; 
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
 
 function AdminAdotantes() {
   const [adotantes, setAdotantes] = useState([]);
-  const navegarPara = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('tokenAdmin');
-    if (!token) return navegarPara('/admin');
-
     const carregarAdotantes = async () => {
+      const token = localStorage.getItem('tokenAdmin');
       try {
         const resposta = await fetch('http://localhost:5000/api/formularios', {
           headers: { 'Authorization': `Bearer ${token}` }
@@ -26,16 +22,13 @@ function AdminAdotantes() {
       }
     };
     carregarAdotantes();
-  }, [navegarPara]);
+  }, []);
 
   return (
     <div className="loca-dashboard-container">
-      
       <AdminSidebar />
-
       <main className="loca-main-content">
         <AdminHeader />
-
         <div className="dashboard-content animar-subida atraso-1">
           <div className="page-header">
             <div>

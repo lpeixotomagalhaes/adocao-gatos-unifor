@@ -4,10 +4,10 @@ const GatoSchema = new mongoose.Schema({
     nome: { type: String, required: true },
     sexo: { type: String, required: true },
     idade: { type: String, required: true },
-    foto: { type: String }, // Guardaremos o link da imagem
+    foto: { type: String }, 
     status: { 
         type: String, 
-        enum: ['Disponível', 'Pendente', 'Adotado'], 
+        enum: ['Disponível', 'Pendente', 'Adotado', 'Arquivado'], // Adicionado Arquivado
         default: 'Disponível' 
     },
     castrado: { type: Boolean, default: false },
@@ -16,7 +16,13 @@ const GatoSchema = new mongoose.Schema({
     felv: { type: String, default: 'Negativo' },
     descricao: { type: String },
     dataCadastro: { type: Date, default: Date.now },
-    // Campos para os seus gráficos da Dashboard futuramente:
+    
+    // CAMPOS DE ARQUIVAMENTO (Soft Delete)
+    motivoArquivamento: { type: String },
+    justificativaArquivamento: { type: String },
+    arquivadoPor: { type: String }, // Nome de quem arquivou
+    dataArquivamento: { type: Date },
+
     dataVacinacao: { type: Date },
     dataAdocao: { type: Date },
     slug: { type: String, unique: true },

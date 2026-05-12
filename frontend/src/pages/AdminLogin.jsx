@@ -2,76 +2,125 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdminLogin.css';
 
-function AdminLogin() {
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [erro, setErro] = useState('');
-  const navigate = useNavigate();
+// 1. Importando a imagem diretamente da sua pasta assets!
+import logoUnifor from '../assets/unifor-h-negativa.svg'; 
 
-  const handleLogin = async (e) => {
-    e.preventDefault(); // Evita que a página recarregue ao enviar o formulário
+function AdminLogin() {
+  const [credenciais, setCredenciais] = useState({ email: '', senha: '' });
+  const [erro, setErro] = useState('');
+  const [carregando, setCarregando] = useState(false);
+  const navegarPara = useNavigate();
+
+  const lidarMudanca = (e) => {
+    setCredenciais({ ...credenciais, [e.target.name]: e.target.value });
+  };
+
+  const fazerLogin = async (e) => {
+    e.preventDefault();
+    setCarregando(true);
     setErro('');
 
     try {
-      // Fazendo a requisição para o nosso backend que acabamos de criar!
-      const resposta = await fetch('http://localhost:5000/api/admin/login', {
+      const resposta = await fetch('http://127.0.0.1:5000/api/admin/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, senha }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credenciais)
       });
 
       const dados = await resposta.json();
 
       if (resposta.ok) {
-        // Se o login deu certo, guardamos o Token mágico no navegador
         localStorage.setItem('tokenAdmin', dados.token);
-        
-        // E mandamos o admin direto para a Dashboard
-        navigate('/admin/dashboard');
+        localStorage.setItem('adminNome', dados.admin.nome); // SALVA O NOME REAL
+        localStorage.setItem('adminEmail', dados.admin.email); // SALVA O E-MAIL REAL
+        navegarPara('/admin/dashboard');
       } else {
-        // Se errou a senha ou email, mostra o erro
-        setErro(dados.mensagem || 'Erro ao fazer login.');
+        setErro(dados.mensagem || 'E-mail ou senha incorretos.');
       }
     } catch (error) {
-      setErro('Erro de conexão com o servidor. Verifique se o backend está rodando.');
+      setErro('Erro de conexão com o servidor.');
+    } finally {
+      setCarregando(false);
     }
   };
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h2>Área Administrativa</h2>
-        <p>Acesso exclusivo para a equipe Resgatinhos Unifor.</p>
+    <div className="unifor-login-layout">
+      {/* LADO ESQUERDO: Imagem e Logo animada */}
+      <div className="unifor-login-esquerda">
+        <div className="unifor-bg-imagem"></div>
+        <div className="unifor-bg-overlay"></div>
         
-        {erro && <div className="mensagem-erro">{erro}</div>}
-
-        <form onSubmit={handleLogin}>
-          <div className="input-grupo">
-            <label>E-mail</label>
-            <input 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              placeholder="admin@unifor.br"
-              required 
+        <div className="unifor-conteudo-esquerda">
+          <div className="unifor-logo-container animar-deslize-esquerda">
+            
+            {/* 2. Usando a imagem importada na tag src */}
+            <img 
+              src={logoUnifor} 
+              alt="Logo Unifor" 
+              className="unifor-logo-img"
             />
+            
+            <h1 className="unifor-logo-texto" style={{marginTop: '15px'}}>Projeto Resgatinhos</h1>
+            <p className="unifor-sublogo">Sistema de Gestão de Felinos do Campus</p>
           </div>
 
-          <div className="input-grupo">
-            <label>Senha</label>
-            <input 
-              type="password" 
-              value={senha} 
-              onChange={(e) => setSenha(e.target.value)} 
-              placeholder="••••••••"
-              required 
-            />
+          <div className="unifor-rodape-esquerda animar-deslize-esquerda atraso-1">
+            <p>Universidade de Fortaleza | Administração do Projeto</p>
+          </div>
+        </div>
+      </div>
+
+      {/* LADO DIREITO: Área do Formulário */}
+      <div className="unifor-login-direita">
+        <div className="unifor-pattern-direita"></div>
+
+        <div className="unifor-card-login animar-entrada-suave">
+          <div className="unifor-card-cabecalho">
+            <div className="unifor-icone-escudo">🐾</div>
+            <h2>Acesso Restrito</h2>
+            <p>Painel administrativo para voluntários e gestão do projeto.</p>
           </div>
 
-          <button type="submit" className="btn-login">Entrar</button>
-        </form>
+          <form onSubmit={fazerLogin} className="unifor-form">
+            {erro && <div className="unifor-erro shake">{erro}</div>}
+            
+            <div className="unifor-input-group">
+              <label>E-mail Institucional</label>
+              <input 
+                type="email" 
+                name="email" 
+                placeholder="nome@unifor.br"
+                value={credenciais.email} 
+                onChange={lidarMudanca} 
+                required 
+              />
+            </div>
+            
+            <div className="unifor-input-group">
+              <label>Senha de Administrador</label>
+              <input 
+                type="password" 
+                name="senha" 
+                placeholder="••••••••"
+                value={credenciais.senha} 
+                onChange={lidarMudanca} 
+                required 
+              />
+            </div>
+
+            <div className="unifor-form-opcoes">
+              <label className="unifor-checkbox">
+                <input type="checkbox" /> Manter conectado
+              </label>
+              <a href="#" className="unifor-link-esqueci">Esqueceu a senha?</a>
+            </div>
+
+            <button type="submit" className="unifor-btn-acessar" disabled={carregando}>
+              {carregando ? <span className="unifor-spinner"></span> : 'Entrar no Painel'}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
