@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ArrowRight, ArrowLeft, Check, PartyPopper, Heart, CircleAlert } from 'lucide-react';
 import './FormularioAdocao.css';
 import { apiFetch } from '../api';
 
@@ -6,6 +7,7 @@ const FormularioAdocao = ({ gatoId, gatoNome, gatoStatus }) => {
   const [etapa, setEtapa] = useState(1);
   const [enviado, setEnviado] = useState(false);
   const [erroValidacao, setErroValidacao] = useState('');
+  const [enviando, setEnviando] = useState(false);
 
   const [formData, setFormData] = useState({
     nomeCandidato: '', email: '', telefone: '', vinculoUnifor: 'Aluno',
@@ -84,6 +86,7 @@ const FormularioAdocao = ({ gatoId, gatoNome, gatoStatus }) => {
     if (!termos.custos || !termos.interno) return setErroValidacao('Concorde com os termos marcando as caixinhas.');
 
     setErroValidacao('');
+    setEnviando(true);
     try {
       const response = await apiFetch('/api/formularios', {
         method: 'POST',
@@ -94,106 +97,131 @@ const FormularioAdocao = ({ gatoId, gatoNome, gatoStatus }) => {
         const dados = await response.json().catch(() => ({}));
         setErroValidacao(dados.mensagem || 'Erro ao enviar. Tente novamente.');
       }
-    } catch (error) { setErroValidacao('Erro de servidor.'); }
+    } catch (error) {
+      setErroValidacao('Erro de servidor.');
+    } finally {
+      setEnviando(false);
+    }
   };
 
   if (gatoStatus === 'Adotado') return (
-    <div className="form-adocao-wrapper text-center">
-      <h3 style={{ color: '#aaa', fontSize: '1.6rem' }}>Gatinho adotado! ❤️</h3>
-      <p style={{ marginTop: '10px' }}>O {gatoNome} já encontrou uma família.</p>
+    <div className="form-adocao-wrapper form-adocao-estado">
+      <Heart size={40} className="form-adocao-estado__icone" fill="currentColor" />
+      <h3>Gatinho adotado!</h3>
+      <p>O {gatoNome} já encontrou uma família.</p>
     </div>
   );
 
   if (enviado) return (
-    <div className="form-adocao-wrapper text-center" style={{ border: '2px solid #bbf7d0', backgroundColor: '#f0fdf4' }}>
-      <h2 style={{ color: '#16a34a', fontSize: '1.8rem' }}>🎉 Enviado!</h2>
-      <p style={{ marginTop: '10px', color: '#15803d' }}>Agradecemos o interesse no <strong>{gatoNome}</strong>!</p>
+    <div className="form-adocao-wrapper form-adocao-estado form-adocao-estado--sucesso">
+      <PartyPopper size={40} className="form-adocao-estado__icone" />
+      <h2>Enviado!</h2>
+      <p>Agradecemos o interesse no <strong>{gatoNome}</strong>!</p>
     </div>
   );
 
   return (
     <div className="form-adocao-wrapper">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-        <h3 className="form-adocao-titulo" style={{ margin: 0, border: 'none' }}>Interesse de Adoção</h3>
-        <div style={{ fontSize: '0.9rem', color: '#888', fontWeight: 'bold' }}>Passo {etapa} de 3</div>
+      <div className="form-adocao-header">
+        <h3 className="form-adocao-titulo">Interesse de Adoção</h3>
+        <div className="form-adocao-passo">Passo {etapa} de 3</div>
       </div>
-      
-      {erroValidacao && <p style={{ color: '#ef4444', fontWeight: 'bold', fontSize: '0.95rem', marginBottom: '20px', padding: '12px', backgroundColor: '#fef2f2', borderRadius: '8px' }}>⚠ {erroValidacao}</p>}
-      
+
+      <div className="form-adocao-progresso">
+        <span className={`progresso-dot ${etapa >= 1 ? 'on' : ''}`} />
+        <span className={`progresso-line ${etapa >= 2 ? 'on' : ''}`} />
+        <span className={`progresso-dot ${etapa >= 2 ? 'on' : ''}`} />
+        <span className={`progresso-line ${etapa >= 3 ? 'on' : ''}`} />
+        <span className={`progresso-dot ${etapa >= 3 ? 'on' : ''}`} />
+      </div>
+
+      {erroValidacao && (
+        <p className="form-adocao-erro">
+          <CircleAlert size={16} /> {erroValidacao}
+        </p>
+      )}
+
       <form onSubmit={handleSubmit}>
-        
+
         {etapa === 1 && (
           <div className="animar-fade">
-            <h4 className="form-adocao-secao">1. Dados Pessoais</h4>
-            <input className="input-padrao" style={{ marginBottom: '20px' }} type="text" name="nomeCandidato" placeholder="Nome Completo" value={formData.nomeCandidato} onChange={handleInputChange} />
-            <input className="input-padrao" style={{ marginBottom: '20px' }} type="email" name="email" placeholder="E-mail" value={formData.email} onChange={handleInputChange} />
-            <input className="input-padrao" style={{ marginBottom: '20px' }} type="text" name="telefone" placeholder="WhatsApp" value={formData.telefone} onChange={handleInputChange} />
-            <select className="input-padrao" style={{ marginBottom: '10px' }} name="vinculoUnifor" value={formData.vinculoUnifor} onChange={handleInputChange}>
-              <option value="Aluno">Sou Aluno Unifor</option>
-              <option value="Funcionario">Funcionário/Professor</option>
-              <option value="Externo">Comunidade Externa</option>
-            </select>
-            
+            <h4 className="form-adocao-secao">Dados Pessoais</h4>
+            <div className="form-adocao-campos">
+              <input className="input-padrao" type="text" name="nomeCandidato" placeholder="Nome Completo" value={formData.nomeCandidato} onChange={handleInputChange} />
+              <input className="input-padrao" type="email" name="email" placeholder="E-mail" value={formData.email} onChange={handleInputChange} />
+              <input className="input-padrao" type="text" name="telefone" placeholder="WhatsApp" value={formData.telefone} onChange={handleInputChange} />
+              <select className="input-padrao" name="vinculoUnifor" value={formData.vinculoUnifor} onChange={handleInputChange}>
+                <option value="Aluno">Sou Aluno Unifor</option>
+                <option value="Funcionario">Funcionário/Professor</option>
+                <option value="Externo">Comunidade Externa</option>
+              </select>
+            </div>
+
             <div className="form-navegacao">
-              <button type="button" onClick={avancarParaEtapa2} className="btn-seta" title="Avançar para o Endereço">➔</button>
+              <button type="button" onClick={avancarParaEtapa2} className="btn-seta" title="Avançar"><ArrowRight size={18} /></button>
             </div>
           </div>
         )}
 
         {etapa === 2 && (
           <div className="animar-fade">
-            <h4 className="form-adocao-secao">2. Endereço</h4>
-            <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
-              <input className="input-padrao" style={{ width: '140px' }} type="text" name="cep" placeholder="CEP" maxLength="9" value={formData.cep} onChange={handleInputChange} />
-              <input className="input-padrao" style={{ flex: 1 }} type="text" name="rua" placeholder="Rua" value={formData.rua} onChange={handleInputChange} />
+            <h4 className="form-adocao-secao">Endereço</h4>
+            <div className="form-adocao-campos">
+              <div className="form-linha">
+                <input className="input-padrao form-cep" type="text" name="cep" placeholder="CEP" maxLength="9" value={formData.cep} onChange={handleInputChange} />
+                <input className="input-padrao form-flex" type="text" name="rua" placeholder="Rua" value={formData.rua} onChange={handleInputChange} />
+              </div>
+              <div className="form-linha">
+                <input className="input-padrao form-num" type="text" name="numero" placeholder="Nº" value={formData.numero} onChange={handleInputChange} />
+                <input className="input-padrao form-flex" type="text" name="complemento" placeholder="Complemento (opcional)" value={formData.complemento} onChange={handleInputChange} />
+              </div>
+              <div className="form-linha">
+                <input className="input-padrao form-flex" type="text" name="bairro" placeholder="Bairro" value={formData.bairro} onChange={handleInputChange} />
+                <input className="input-padrao form-flex" type="text" name="cidade" placeholder="Cidade" value={formData.cidade} onChange={handleInputChange} />
+              </div>
             </div>
-            
-            <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
-              <input className="input-padrao" style={{ width: '120px' }} type="text" name="numero" placeholder="Nº" value={formData.numero} onChange={handleInputChange} />
-              <input className="input-padrao" style={{ flex: 1 }} type="text" name="complemento" placeholder="Complemento (Opcional)" value={formData.complemento} onChange={handleInputChange} />
-            </div>
-            <div style={{ display: 'flex', gap: '20px', marginBottom: '10px' }}>
-              <input className="input-padrao" style={{ flex: 1 }} type="text" name="bairro" placeholder="Bairro" value={formData.bairro} onChange={handleInputChange} />
-              <input className="input-padrao" style={{ flex: 1 }} type="text" name="cidade" placeholder="Cidade" value={formData.cidade} onChange={handleInputChange} />
-            </div>
-            
+
             <div className="form-navegacao">
-              <button type="button" onClick={() => { setEtapa(1); setErroValidacao(''); }} className="btn-seta" title="Voltar">←</button>
-              <button type="button" onClick={avancarParaEtapa3} className="btn-seta" title="Avançar para Sobre o Lar">➔</button>
+              <button type="button" onClick={() => { setEtapa(1); setErroValidacao(''); }} className="btn-seta btn-seta--secundario" title="Voltar"><ArrowLeft size={18} /></button>
+              <button type="button" onClick={avancarParaEtapa3} className="btn-seta" title="Avançar"><ArrowRight size={18} /></button>
             </div>
           </div>
         )}
 
         {etapa === 3 && (
           <div className="animar-fade">
-            <h4 className="form-adocao-secao">3. Sobre o Lar</h4>
-            <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
-              <select className="input-padrao" style={{ flex: 1 }} name="tipoMoradia" value={formData.tipoMoradia} onChange={handleInputChange}>
-                <option value="Casa">Casa</option>
-                <option value="Apartamento">Apartamento</option>
-              </select>
-              <select className="input-padrao" style={{ flex: 1 }} name="telasProtecao" value={formData.telasProtecao} onChange={handleInputChange}>
-                <option value="Sim">Possui telas</option>
-                <option value="Nao">Sem telas</option>
-              </select>
+            <h4 className="form-adocao-secao">Sobre o Lar</h4>
+            <div className="form-adocao-campos">
+              <div className="form-linha">
+                <select className="input-padrao form-flex" name="tipoMoradia" value={formData.tipoMoradia} onChange={handleInputChange}>
+                  <option value="Casa">Casa</option>
+                  <option value="Apartamento">Apartamento</option>
+                </select>
+                <select className="input-padrao form-flex" name="telasProtecao" value={formData.telasProtecao} onChange={handleInputChange}>
+                  <option value="Sim">Possui telas</option>
+                  <option value="Nao">Sem telas</option>
+                </select>
+              </div>
+              <textarea className="input-padrao textarea-padrao" name="outrosAnimais" placeholder="Outros animais (Opcional)" rows="1" value={formData.outrosAnimais} onChange={handleInputChange}></textarea>
+              <textarea className="input-padrao textarea-padrao" name="rotinaGato" placeholder="Rotina do gato (viagens, etc)" rows="2" value={formData.rotinaGato} onChange={handleInputChange}></textarea>
             </div>
-            <textarea className="input-padrao textarea-padrao" style={{ marginBottom: '20px' }} name="outrosAnimais" placeholder="Outros animais (Opcional)" rows="1" value={formData.outrosAnimais} onChange={handleInputChange}></textarea>
-            <textarea className="input-padrao textarea-padrao" style={{ marginBottom: '15px' }} name="rotinaGato" placeholder="Rotina do gato (viagens, etc)" rows="2" value={formData.rotinaGato} onChange={handleInputChange}></textarea>
 
-            <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            <div className="form-adocao-termos">
               <label className="checkbox-termos">
-                <input type="checkbox" name="custos" checked={termos.custos} onChange={handleTermosChange} /> 
+                <input type="checkbox" name="custos" checked={termos.custos} onChange={handleTermosChange} />
                 <span>Ciente dos custos diários e veterinário.</span>
               </label>
               <label className="checkbox-termos">
-                <input type="checkbox" name="interno" checked={termos.interno} onChange={handleTermosChange} /> 
+                <input type="checkbox" name="interno" checked={termos.interno} onChange={handleTermosChange} />
                 <span>Garantia de acesso APENAS interno (sem rua).</span>
               </label>
             </div>
 
-            <div className="form-navegacao" style={{ marginTop: '35px' }}>
-              <button type="button" onClick={() => { setEtapa(2); setErroValidacao(''); }} className="btn-seta" title="Voltar">←</button>
-              <button type="submit" className="btn-finalizar-mini">Enviar ✔</button>
+            <div className="form-navegacao">
+              <button type="button" onClick={() => { setEtapa(2); setErroValidacao(''); }} className="btn-seta btn-seta--secundario" title="Voltar"><ArrowLeft size={18} /></button>
+              <button type="submit" className="btn-finalizar-mini" disabled={enviando}>
+                {enviando ? 'Enviando...' : (<><Check size={16} /> Enviar</>)}
+              </button>
             </div>
           </div>
         )}

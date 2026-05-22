@@ -1,12 +1,5 @@
-/* src/index.css */
-:root {
-  --unifor-blue-dark: #003366; 
-  --unifor-blue-light: #00aaff; /* Ajustei para um azul mais vibrante */
-  --white: #ffffff;
-  --text-color: #333333;
-}
+@import './styles/tokens.css';
 
-/* Isso aqui é crucial: tira as margens padrão do navegador e garante que a tela possa ser 100% preenchida */
 * {
   margin: 0;
   padding: 0;
@@ -14,36 +7,36 @@
 }
 
 body {
-  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--text-color);
-  background-color: var(--white);
+  color: var(--text-default);
+  background-color: var(--surface-0);
   min-height: 100vh;
 }
 
-/* Remove a restrição chata que o Vite coloca por padrão */
 #root {
   width: 100%;
   max-width: 100%;
   margin: 0;
   padding: 0;
 }
-/* Hover para os links do Footer */
+
 footer a {
   display: inline-block;
-  transition: transform 0.2s ease, color 0.2s ease !important;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 footer a:hover {
-  transform: scale(1.1);
-  color: var(--unifor-blue-light) !important;
+  transform: translateY(-2px);
+  color: var(--brand-primary);
 }
+
 /* --- ANIMAÇÕES DE SCROLL GLOBAIS --- */
 .esconder {
   opacity: 0;
   transform: translateY(60px);
-  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); /* Transição super suave */
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
 }
 
 .mostrar {
@@ -51,7 +44,6 @@ footer a:hover {
   transform: translateY(0);
 }
 
-/* Atrasos para os itens aparecerem em escadinha */
 .atraso-1 { transition-delay: 0.1s; }
 .atraso-2 { transition-delay: 0.2s; }
 .atraso-3 { transition-delay: 0.3s; }

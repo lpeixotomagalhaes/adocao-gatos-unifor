@@ -1,36 +1,43 @@
-/* Estilos específicos para as tags coloridas da Auditoria */
+@import './AdminGatos.css';
+
 .badge-acao {
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: inline-block;
+  font-family: var(--font-sans);
 }
 
 .badge-acao-padrao {
-  background-color: #f1f5f9;
-  color: #475569;
+  background-color: var(--surface-2);
+  color: var(--text-muted);
 }
 
 .badge-acao-verde {
-  background-color: #dcfce7;
+  background-color: var(--success-soft);
   color: #166534;
 }
 
 .badge-acao-vermelha {
-  background-color: #fee2e2;
+  background-color: var(--danger-soft);
   color: #991b1b;
 }
 
 .badge-acao-azul {
-  background-color: #e0f2fe;
-  color: #0369a1;
+  background-color: var(--info-soft);
+  color: #1d4ed8;
 }
 
 .font-mono {
-  font-family: 'Courier New', Courier, monospace;
-  font-weight: 600;
-  color: #64748b;
+  font-family: 'JetBrains Mono', 'Fira Mono', 'Courier New', monospace;
+  font-weight: 500;
+  color: var(--text-soft);
+  font-size: 0.78rem;
+}
+
+.col-data {
+  white-space: nowrap;
 }

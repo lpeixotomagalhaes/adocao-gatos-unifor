@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { PawPrint } from 'lucide-react';
 import './AdminLogin.css';
 import { apiFetch } from '../api';
 
@@ -73,7 +74,7 @@ function AdminLogin() {
 
         <div className="unifor-card-login animar-entrada-suave">
           <div className="unifor-card-cabecalho">
-            <div className="unifor-icone-escudo">🐾</div>
+            <div className="unifor-icone-escudo"><PawPrint size={28} /></div>
             <h2>Acesso Restrito</h2>
             <p>Painel administrativo para voluntários e gestão do projeto.</p>
           </div>

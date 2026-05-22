@@ -1,10 +1,10 @@
 .footer-container {
-  background-color: var(--unifor-blue-dark);
-  color: var(--white);
+  background-color: var(--brand-dark);
+  color: var(--surface-0);
   padding: 60px 10% 20px 10%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--font-sans);
   margin-top: auto;
-  overflow: hidden; /* Evita que a animação crie barra de rolagem horizontal */
+  overflow: hidden;
 }
 
 .footer-content {
@@ -23,12 +23,21 @@
 }
 
 .footer-logo-icone {
-  font-size: 1.8rem;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(135deg, rgba(0, 170, 255, 0.18), rgba(0, 170, 255, 0.05));
   border: 1px solid rgba(0, 170, 255, 0.3);
-  padding: 10px 12px;
   border-radius: 12px;
-  line-height: 1;
+  color: var(--brand-primary);
+}
+
+.footer-heart {
+  color: var(--danger);
+  vertical-align: middle;
+  margin: 0 2px;
 }
 
 .footer-logo-texto {

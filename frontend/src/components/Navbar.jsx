@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { PawPrint } from 'lucide-react';
 import './Navbar.css';
 
 const Navbar = () => {
-  const location = useLocation(); // Descobre em qual página estamos
+  const location = useLocation();
 
   return (
-    // O key={location.pathname} força a animação a rodar de novo ao mudar de página
     <nav className="navbar" key={location.pathname}>
       <div className="logo">
-        <Link to="/">🐾 Resgatinhos Unifor</Link>
+        <Link to="/"><PawPrint size={20} /> Resgatinhos Unifor</Link>
       </div>
       <ul className="nav-links">
         <li className="nav-item anim-1"><Link to="/">Sobre Nós</Link></li>

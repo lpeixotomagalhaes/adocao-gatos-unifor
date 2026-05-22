@@ -1,8 +1,8 @@
 .loca-dashboard-container {
   display: flex;
   min-height: 100vh;
-  background-color: #f4f7fa;
-  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--surface-1);
+  font-family: var(--font-sans);
 }
 
 /* O CSS da SIDEBAR saiu daqui, ele vive no AdminSidebar.css agora! */
@@ -40,48 +40,49 @@
 }
 
 .loca-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
+  background: var(--surface-0);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
   padding: 18px 20px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .loca-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.07);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
 .loca-card-title {
-  color: #64748b;
-  font-size: 0.78rem;
+  color: var(--text-soft);
+  font-size: 0.72rem;
   font-weight: 700;
   margin-bottom: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.7px;
 }
 
 .loca-card-value {
-  font-size: 2.1rem;
-  font-weight: 900;
+  font-size: 2rem;
+  font-weight: 800;
   line-height: 1;
+  letter-spacing: -0.8px;
 }
 
 .loca-card-value small {
-  font-size: 0.95rem;
-  color: #94a3b8;
+  font-size: 0.85rem;
+  color: var(--text-faint);
   font-weight: 500;
   margin-left: 6px;
 }
 
 /* CORES DOS NÚMEROS */
-.text-dark { color: #0f172a; }
+.text-dark { color: var(--text-strong); }
 .text-orange { color: #ea580c; }
-.text-blue { color: #0284c7; }
-.text-green { color: #16a34a; }
+.text-blue { color: var(--brand-primary); }
+.text-green { color: var(--success); }
 
 /* GRÁFICOS */
 .loca-charts-grid {
@@ -91,18 +92,18 @@
 }
 
 .loca-chart-box {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
+  background: var(--surface-0);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
   padding: 18px 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  box-shadow: var(--shadow-xs);
 }
 
 .loca-chart-box h3 {
-  font-size: 1rem;
-  color: #1e293b;
+  font-size: 0.92rem;
+  color: var(--text-strong);
   margin: 0 0 14px 0;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .legend-item { display: flex; align-items: center; gap: 8px; }

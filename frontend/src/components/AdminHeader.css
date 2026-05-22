@@ -94,8 +94,8 @@
 .avatar {
   width: 36px;
   height: 36px;
-  background: linear-gradient(135deg, var(--unifor-blue-light, #00AAFF), var(--unifor-blue-dark, #0a2a5e));
-  color: #ffffff;
+  background: var(--gradient-brand);
+  color: var(--surface-0);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -214,7 +214,7 @@
 /* --- RESPONSIVIDADE DO HEADER --- */
 @media (max-width: 900px) {
   .loca-header {
-    padding: 0 18px;
+    padding: 0 18px 0 70px; /* espaço para o hamburger */
     height: 64px;
   }
 

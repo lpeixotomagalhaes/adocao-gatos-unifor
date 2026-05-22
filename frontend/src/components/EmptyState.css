@@ -1,0 +1,45 @@
+.ui-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--text-soft);
+  gap: 12px;
+}
+
+.ui-empty--compacto {
+  padding: 24px 16px;
+}
+
+.ui-empty__icone {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-faint);
+}
+
+.ui-empty--compacto .ui-empty__icone {
+  width: 56px;
+  height: 56px;
+}
+
+.ui-empty__titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-default);
+  margin: 0;
+}
+
+.ui-empty__descricao {
+  font-size: 0.875rem;
+  color: var(--text-soft);
+  margin: 0;
+  max-width: 360px;
+  line-height: 1.5;
+}

@@ -1,10 +1,20 @@
 /* --- FUNDO GERAL --- */
 .perfil-banner-azul {
-  background-color: var(--unifor-blue-dark);
+  background: linear-gradient(135deg, var(--brand-dark) 0%, #001f4d 100%);
   padding: 60px 5% 80px 5%;
   display: flex;
   justify-content: center;
   color: white;
+  font-family: var(--font-sans);
+}
+
+.perfil-erro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: var(--text-soft);
+  font-family: var(--font-sans);
 }
 
 /* --- LAYOUT PRINCIPAL --- */
@@ -108,6 +118,19 @@
   gap: 10px;
   font-size: 1.05rem;
 }
+
+.perfil-saude-transparente li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.perfil-check {
+  flex-shrink: 0;
+}
+
+.perfil-check.on { color: #4ade80; }
+.perfil-check.off { color: #fca5a5; }
 
 .perfil-descricao p {
   font-size: 1.1rem;

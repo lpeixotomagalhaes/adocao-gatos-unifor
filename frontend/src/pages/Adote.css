@@ -44,17 +44,22 @@
 }
 
 .regra-icone {
-  font-size: 2.5rem;
+  color: var(--brand-primary);
   background-color: white;
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  box-shadow: 0 8px 20px rgba(0, 51, 102, 0.08);
   margin-bottom: 20px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.regra-item:hover .regra-icone {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 170, 255, 0.18);
 }
 
 .regra-item:hover .regra-icone {
@@ -103,9 +108,10 @@
 }
 
 .busca-icone {
-  font-size: 1.2rem;
   margin-right: 10px;
-  opacity: 0.6;
+  color: var(--text-faint);
+  display: inline-flex;
+  align-items: center;
 }
 
 .busca-box-nova input {
@@ -209,14 +215,18 @@
 
 .btn-limpar {
   background-color: transparent;
-  color: var(--unifor-blue-light);
-  border: 2px solid var(--unifor-blue-light);
-  padding: 10px 25px;
+  color: var(--brand-primary);
+  border: 2px solid var(--brand-primary);
+  padding: 9px 22px;
   border-radius: 30px;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 0.92rem;
+  font-family: var(--font-sans);
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .btn-limpar:hover {
@@ -302,19 +312,27 @@
 
 .saude-tags {
   display: flex;
-  gap: 10px;
-  margin: 10px 0 15px 0;
+  gap: 8px;
+  margin: 10px 0 16px 0;
+  flex-wrap: wrap;
 }
 
-.tag {
-  font-size: 0.8rem;
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-weight: bold;
+.saude-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
-.tag.positiva { background-color: #e6f4ea; color: #1e8e3e; border: 1px solid #ceead6; }
-.tag.alerta { background-color: #fce8e6; color: #d93025; border: 1px solid #fad2cf; }
+.saude-pill.on { background: var(--success-soft); color: var(--success); }
+.saude-pill.off { background: var(--surface-2); color: var(--text-faint); }
+
+.gatos-grid-empty {
+  grid-column: 1 / -1;
+}
 
 .fiv-felv-info {
   font-size: 0.9rem;

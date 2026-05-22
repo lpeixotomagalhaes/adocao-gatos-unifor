@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { MapPin, Clock, Mail } from 'lucide-react';
+import { toast } from 'sonner';
 import './Contato.css';
 
 const Contato = () => {
@@ -9,14 +11,12 @@ const Contato = () => {
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('mostrar');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('mostrar');
       });
     }, { threshold: 0.1 });
 
-    const hiddenElements = document.querySelectorAll('.esconder');
-    hiddenElements.forEach((el) => observer.observe(el));
+    const hidden = document.querySelectorAll('.esconder');
+    hidden.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, []);
@@ -30,6 +30,7 @@ const Contato = () => {
       `Nome: ${dados.nome}\nE-mail: ${dados.email}\nWhatsApp: ${dados.whatsapp}\n\nMensagem:\n${dados.mensagem}`
     );
     window.location.href = `mailto:veterinaria@unifor.br?subject=${assunto}&body=${corpo}`;
+    toast.success('Abrindo seu app de e-mail...');
   };
 
   return (
@@ -66,9 +67,9 @@ const Contato = () => {
 
         <div className="contato-info esconder atraso-2">
           <h3>Informações Úteis</h3>
-          <p><strong>📍 Localização:</strong> Bloco M - Medicina Veterinária Unifor</p>
-          <p><strong>⏰ Atendimento:</strong> Segunda a Sexta, 08h às 18h</p>
-          <p><strong>📧 E-mail:</strong> veterinaria@unifor.br</p>
+          <p><MapPin size={18} /> <span><strong>Localização:</strong> Bloco M - Medicina Veterinária Unifor</span></p>
+          <p><Clock size={18} /> <span><strong>Atendimento:</strong> Segunda a Sexta, 08h às 18h</span></p>
+          <p><Mail size={18} /> <span><strong>E-mail:</strong> veterinaria@unifor.br</span></p>
         </div>
       </section>
     </main>

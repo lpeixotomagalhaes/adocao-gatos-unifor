@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { ChevronDown, ArrowRight } from 'lucide-react';
 import './AdminHeader.css';
 
 const TITULOS_POR_ROTA = {
@@ -56,16 +57,13 @@ const AdminHeader = () => {
             <span className="user-role">Administrador</span>
           </div>
 
-          <svg className="user-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
+          <ChevronDown size={14} className="user-chevron" strokeWidth={2.5} />
 
-          {/* DROPDOWN DO PERFIL */}
           <div className="perfil-dropdown">
             <p className="dropdown-email">{admin.email}</p>
             <p className="dropdown-curso">Gestão do Sistema</p>
             <hr />
-            <p className="dropdown-acao">Meu Perfil <span style={{ color: 'var(--unifor-blue-light)' }}>➔</span></p>
+            <p className="dropdown-acao">Meu Perfil <ArrowRight size={14} /></p>
           </div>
         </div>
       </div>

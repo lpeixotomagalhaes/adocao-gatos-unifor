@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Archive } from 'lucide-react';
 import './AdminGatos.css';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
+import StatusBadge from '../components/StatusBadge';
+import EmptyState from '../components/EmptyState';
+import { SkeletonTable } from '../components/Skeleton';
 import { apiFetch } from '../api';
 
 function AdminArquivados() {
@@ -26,9 +30,7 @@ function AdminArquivados() {
 
         const dados = await resposta.json();
         setArquivados(Array.isArray(dados) ? dados : []);
-
-      } catch (erro) {
-        console.error("Erro ao carregar gatos arquivados", erro);
+      } catch {
         setArquivados([]);
       } finally {
         setCarregando(false);
@@ -52,39 +54,44 @@ function AdminArquivados() {
           </div>
 
           <div className="tabela-container">
-            {carregando ? (
-              <p className="loading-text">Buscando registros...</p>
-            ) : (
-              <table className="loca-tabela">
-                <thead>
+            <table className="loca-tabela">
+              <thead>
+                <tr>
+                  <th>Gato</th>
+                  <th>Motivo</th>
+                  <th>Justificativa</th>
+                  <th>Arquivado Por</th>
+                  <th>Data</th>
+                </tr>
+              </thead>
+              {carregando ? (
+                <SkeletonTable linhas={4} colunas={5} />
+              ) : arquivados.length === 0 ? (
+                <tbody>
                   <tr>
-                    <th>Gato</th>
-                    <th>Motivo Principal</th>
-                    <th>Justificativa / Detalhes</th>
-                    <th>Arquivado Por</th>
-                    <th>Data</th>
+                    <td colSpan="5">
+                      <EmptyState
+                        icone={Archive}
+                        titulo="Nenhum registro arquivado"
+                        descricao="Gatos arquivados pela página de gestão aparecerão aqui."
+                      />
+                    </td>
                   </tr>
-                </thead>
+                </tbody>
+              ) : (
                 <tbody>
                   {arquivados.map((gato) => (
                     <tr key={gato._id}>
-                      <td className="col-nome">{gato.nome}</td>
-                      <td>
-                        <span className="badge status-reprovado" style={{ backgroundColor: '#fee2e2', color: '#b91c1c' }}>
-                          {gato.motivoArquivamento || 'Não informado'}
-                        </span>
-                      </td>
+                      <td className="col-nome"><div className="cell-titulo">{gato.nome}</div></td>
+                      <td><StatusBadge cor="danger">{gato.motivoArquivamento || 'Não informado'}</StatusBadge></td>
                       <td><span className="info-secundaria">{gato.justificativaArquivamento || 'Sem detalhes'}</span></td>
                       <td><span className="info-secundaria">{gato.arquivadoPor || 'Desconhecido'}</span></td>
                       <td>{gato.dataArquivamento ? new Date(gato.dataArquivamento).toLocaleDateString('pt-BR') : '-'}</td>
                     </tr>
                   ))}
-                  {arquivados.length === 0 && (
-                    <tr><td colSpan="5" className="nenhum-registro">Nenhum gato nos arquivados.</td></tr>
-                  )}
                 </tbody>
-              </table>
-            )}
+              )}
+            </table>
           </div>
         </div>
       </main>

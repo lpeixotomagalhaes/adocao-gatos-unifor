@@ -38,12 +38,19 @@
 }
 
 .logo a {
-  font-weight: bold;
-  font-size: 1.5rem;
-  color: var(--unifor-blue-dark);
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: var(--brand-dark);
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   transition: transform 0.2s ease;
+  letter-spacing: -0.3px;
+}
+
+.logo a > svg {
+  color: var(--brand-primary);
 }
 
 .logo a:hover {

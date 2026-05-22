@@ -2,14 +2,9 @@
 @import './AdminGatos.css'; 
 
 /* Ajustes Específicos para Solicitações */
-.col-destaque {
-  font-weight: bold;
-  color: #00AAFF;
-}
-
 .info-secundaria.small {
-  font-size: 0.85rem;
-  color: #94a3b8;
+  font-size: 0.78rem;
+  color: var(--text-faint);
 }
 
 /* Badges de Status das Solicitações */
@@ -31,40 +26,52 @@
 }
 
 .btn-decisao {
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 0.85rem;
+  border: 1px solid transparent;
+  padding: 7px 12px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.82rem;
+  font-family: var(--font-sans);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.18s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .btn-decisao.aprovar {
-  background-color: #e6f4ea;
-  color: #16a34a;
-  border: 1px solid #bbf7d0;
+  background-color: var(--success-soft);
+  color: var(--success);
+  border-color: #bbf7d0;
 }
 
 .btn-decisao.aprovar:hover {
-  background-color: #16a34a;
-  color: white;
+  background-color: var(--success);
+  color: var(--surface-0);
+  border-color: var(--success);
 }
 
 .btn-decisao.rejeitar {
-  background-color: #fce8e6;
-  color: #ef4444;
-  border: 1px solid #fecaca;
+  background-color: var(--danger-soft);
+  color: var(--danger);
+  border-color: #fecaca;
 }
 
 .btn-decisao.rejeitar:hover {
-  background-color: #ef4444;
-  color: white;
+  background-color: var(--danger);
+  color: var(--surface-0);
+  border-color: var(--danger);
 }
 
 .decisao-tomada {
-  font-size: 0.85rem;
-  color: #94a3b8;
+  font-size: 0.82rem;
+  color: var(--text-faint);
   font-style: italic;
-  padding: 8px 0;
+  padding: 6px 0;
+}
+
+.cell-vinculo {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text-strong);
 }

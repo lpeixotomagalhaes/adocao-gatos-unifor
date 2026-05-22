@@ -1,57 +1,112 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import {
+  LayoutDashboard,
+  Inbox,
+  Cat,
+  Users,
+  Archive,
+  ScrollText,
+  CircleUser,
+  LogOut,
+  PawPrint,
+  Menu,
+  X,
+} from 'lucide-react';
 import './AdminSidebar.css';
+
+const GRUPOS = [
+  {
+    titulo: 'Operação',
+    itens: [
+      { rota: '/admin/dashboard',    label: 'Dashboard',    Icone: LayoutDashboard },
+      { rota: '/admin/solicitacoes', label: 'Solicitações', Icone: Inbox },
+    ],
+  },
+  {
+    titulo: 'Gestão de Animais',
+    itens: [
+      { rota: '/admin/gatos',      label: 'No Campus',  Icone: Cat },
+      { rota: '/admin/adotantes',  label: 'Adotados',   Icone: Users },
+      { rota: '/admin/arquivados', label: 'Arquivados', Icone: Archive },
+    ],
+  },
+  {
+    titulo: 'Sistema',
+    itens: [
+      { rota: '/admin/historico', label: 'Auditoria',  Icone: ScrollText },
+      { rota: '/admin/perfil',    label: 'Meu Perfil', Icone: CircleUser },
+    ],
+  },
+];
 
 const AdminSidebar = () => {
   const navegarPara = useNavigate();
   const localizacao = useLocation();
+  const [aberto, setAberto] = useState(false);
 
-  const taAtivo = (caminho) => localizacao.pathname === caminho ? 'active' : '';
+  const ativo = (rota) => localizacao.pathname === rota;
+
+  const irPara = (rota) => {
+    navegarPara(rota);
+    setAberto(false);
+  };
+
+  const sair = () => {
+    localStorage.removeItem('tokenAdmin');
+    localStorage.removeItem('adminNome');
+    localStorage.removeItem('adminEmail');
+    navegarPara('/admin');
+  };
 
   return (
-    <aside className="loca-sidebar">
-      <div className="sidebar-header">
-        <span className="logo-icon animar-pulso">🐾</span>
-        <h2 className="logo-texto">Admin Unifor</h2>
-      </div>
-
-      <div className="sidebar-menu-group">
-        <span className="menu-title">OPERAÇÃO</span>
-        <button data-tooltip="Dashboard" className={`menu-btn ${taAtivo('/admin/dashboard')}`} onClick={() => navegarPara('/admin/dashboard')}>
-          <span className="icone">📊</span> <span className="texto">Dashboard</span>
-        </button>
-        <button data-tooltip="Solicitações" className={`menu-btn ${taAtivo('/admin/solicitacoes')}`} onClick={() => navegarPara('/admin/solicitacoes')}>
-          <span className="icone">📋</span> <span className="texto">Solicitações</span>
-        </button>
-      </div>
-
-      <div className="sidebar-menu-group">
-        <span className="menu-title">GESTÃO DE ANIMAIS</span>
-        <button data-tooltip="No Campus" className={`menu-btn ${taAtivo('/admin/gatos')}`} onClick={() => navegarPara('/admin/gatos')}>
-          <span className="icone">🐈</span> <span className="texto">No Campus</span>
-        </button>
-        <button data-tooltip="Adotados" className={`menu-btn ${taAtivo('/admin/adotantes')}`} onClick={() => navegarPara('/admin/adotantes')}>
-          <span className="icone">👥</span> <span className="texto">Adotados</span>
-        </button>
-        <button data-tooltip="Arquivados" className={`menu-btn ${taAtivo('/admin/arquivados')}`} onClick={() => navegarPara('/admin/arquivados')}>
-          <span className="icone">🗄️</span> <span className="texto">Arquivados</span>
-        </button>
-      </div>
-
-      <div className="sidebar-menu-group">
-        <span className="menu-title">SISTEMA</span>
-        <button data-tooltip="Auditoria" className={`menu-btn ${taAtivo('/admin/historico')}`} onClick={() => navegarPara('/admin/historico')}>
-          <span className="icone">📜</span> <span className="texto">Auditoria</span>
-        </button>
-        <button data-tooltip="Meu Perfil" className={`menu-btn ${taAtivo('/admin/perfil')}`} onClick={() => navegarPara('/admin/perfil')}>
-          <span className="icone">👤</span> <span className="texto">Meu Perfil</span>
-        </button>
-      </div>
-
-      <button data-tooltip="Sair" className="btn-sair-loca" onClick={() => { localStorage.removeItem('tokenAdmin'); navegarPara('/admin'); }}>
-        <span className="icone">🚪</span> <span className="texto">Sair do Sistema</span>
+    <>
+      <button
+        className="sidebar-hamburger"
+        onClick={() => setAberto(true)}
+        aria-label="Abrir menu"
+      >
+        <Menu size={22} />
       </button>
-    </aside>
+
+      {aberto && <div className="sidebar-backdrop" onClick={() => setAberto(false)} />}
+
+      <aside className={`loca-sidebar ${aberto ? 'loca-sidebar--aberta' : ''}`}>
+        <div className="sidebar-header">
+          <span className="logo-icon"><PawPrint size={20} /></span>
+          <h2 className="logo-texto">Admin Unifor</h2>
+          <button
+            className="sidebar-fechar"
+            onClick={() => setAberto(false)}
+            aria-label="Fechar menu"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        {GRUPOS.map((grupo) => (
+          <div className="sidebar-menu-group" key={grupo.titulo}>
+            <span className="menu-title">{grupo.titulo}</span>
+            {grupo.itens.map(({ rota, label, Icone }) => (
+              <button
+                key={rota}
+                data-tooltip={label}
+                className={`menu-btn ${ativo(rota) ? 'active' : ''}`}
+                onClick={() => irPara(rota)}
+              >
+                <span className="icone"><Icone size={18} /></span>
+                <span className="texto">{label}</span>
+              </button>
+            ))}
+          </div>
+        ))}
+
+        <button data-tooltip="Sair" className="btn-sair-loca" onClick={sair}>
+          <span className="icone"><LogOut size={18} /></span>
+          <span className="texto">Sair do Sistema</span>
+        </button>
+      </aside>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Check, X, UserCheck, MapPin, House as HomeIcon, ClipboardList } from 'lucide-react';
 import FormularioAdocao from "../components/FormularioAdocao";
 import "./PerfilGato.css";
 import { apiUrl, buildMediaUrl } from '../api';
@@ -15,23 +16,28 @@ const PerfilGato = () => {
   }, []);
 
   useEffect(() => {
-    async function buscarGatoPorId() {
+    async function buscar() {
       try {
         const resposta = await fetch(apiUrl(`/api/gatos/${id}`));
         if (!resposta.ok) return navegarPara("/adote");
 
         const dados = await resposta.json();
         setGato(dados);
-        setCarregando(false);
-      } catch (erro) {
+      } catch {
         navegarPara("/adote");
+      } finally {
+        setCarregando(false);
       }
     }
-    buscarGatoPorId();
+    buscar();
   }, [id, navegarPara]);
 
-  if (carregando) return <div className="perfil-erro"><h2>Buscando gatinho... 🐾</h2></div>;
-  if (!gato) return <div className="perfil-erro"><h2>Gatinho não encontrado 😿</h2></div>;
+  if (carregando) return <div className="perfil-erro"><h2>Buscando gatinho…</h2></div>;
+  if (!gato) return <div className="perfil-erro"><h2>Gatinho não encontrado</h2></div>;
+
+  const IconeStatus = ({ ativo }) => ativo
+    ? <Check size={16} className="perfil-check on" />
+    : <X size={16} className="perfil-check off" />;
 
   return (
     <main>
@@ -58,9 +64,9 @@ const PerfilGato = () => {
             <div className="perfil-saude-transparente">
               <h3>Histórico Médico</h3>
               <ul>
-                <li>{gato.castrado ? "✔ Castrado" : "✖ Não Castrado"}</li>
-                <li>{gato.vacinado ? "✔ Vacinado" : "✖ Não Vacinado"}</li>
-                <li>FIV: <strong>{gato.fiv}</strong> | FeLV: <strong>{gato.felv}</strong></li>
+                <li><IconeStatus ativo={gato.castrado} /> {gato.castrado ? "Castrado" : "Não Castrado"}</li>
+                <li><IconeStatus ativo={gato.vacinado} /> {gato.vacinado ? "Vacinado" : "Não Vacinado"}</li>
+                <li>FIV: <strong>{gato.fiv}</strong> &nbsp;|&nbsp; FeLV: <strong>{gato.felv}</strong></li>
               </ul>
             </div>
 
@@ -85,22 +91,22 @@ const PerfilGato = () => {
         <p>Adoção é um ato de amor e muita responsabilidade. Veja o que é preciso:</p>
         <div className="regras-cards">
           <div className="regra-item">
-            <div className="regra-icone">👤</div>
+            <div className="regra-icone"><UserCheck size={28} strokeWidth={1.7} /></div>
             <h3>Maior de 18 anos</h3>
             <p>É necessário ser maior de idade ou ter a autorização formal de um responsável legal.</p>
           </div>
           <div className="regra-item">
-            <div className="regra-icone">📍</div>
+            <div className="regra-icone"><MapPin size={28} strokeWidth={1.7} /></div>
             <h3>Morar na Região</h3>
             <p>Residir em Fortaleza ou região metropolitana (Eusébio, etc).</p>
           </div>
           <div className="regra-item">
-            <div className="regra-icone">🏠</div>
+            <div className="regra-icone"><HomeIcon size={28} strokeWidth={1.7} /></div>
             <h3>Casa Segura</h3>
             <p>Apartamentos devem ter telas de proteção. Casas sem acesso livre à rua.</p>
           </div>
           <div className="regra-item">
-            <div className="regra-icone">📋</div>
+            <div className="regra-icone"><ClipboardList size={28} strokeWidth={1.7} /></div>
             <h3>Formulário</h3>
             <p>Preencher nosso formulário online e aguardar o contato da equipe.</p>
           </div>
