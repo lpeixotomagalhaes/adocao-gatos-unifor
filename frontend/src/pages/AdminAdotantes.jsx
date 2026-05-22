@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import './AdminGatos.css'; 
+import './AdminGatos.css';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
+import { apiFetch } from '../api';
 
 function AdminAdotantes() {
   const [adotantes, setAdotantes] = useState([]);
 
   useEffect(() => {
     const carregarAdotantes = async () => {
-      const token = localStorage.getItem('tokenAdmin');
       try {
-        const resposta = await fetch('http://localhost:5000/api/formularios', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const resposta = await apiFetch('/api/formularios');
         const dados = await resposta.json();
-        
-        const apenasAprovados = dados.filter(form => form.statusAnalise === 'Aprovado');
+
+        const apenasAprovados = Array.isArray(dados)
+          ? dados.filter(form => form.statusAnalise === 'Aprovado')
+          : [];
         setAdotantes(apenasAprovados);
       } catch (erro) {
         console.error("Erro ao carregar adotantes", erro);

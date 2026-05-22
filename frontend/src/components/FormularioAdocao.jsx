@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './FormularioAdocao.css';
+import { apiFetch } from '../api';
 
 const FormularioAdocao = ({ gatoId, gatoNome, gatoStatus }) => {
   const [etapa, setEtapa] = useState(1);
@@ -41,7 +42,9 @@ const FormularioAdocao = ({ gatoId, gatoNome, gatoStatus }) => {
       } else {
         setErroValidacao('CEP não encontrado.');
       }
-    } catch (err) {}
+    } catch (err) {
+      setErroValidacao('Não foi possível validar o CEP agora.');
+    }
   };
 
   const handleInputChange = (e) => {
@@ -82,13 +85,15 @@ const FormularioAdocao = ({ gatoId, gatoNome, gatoStatus }) => {
 
     setErroValidacao('');
     try {
-      const response = await fetch('http://localhost:5000/api/formularios', {
+      const response = await apiFetch('/api/formularios', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, ...termos, gatoId: gatoId }) 
+        body: JSON.stringify({ ...formData, ...termos, gatoId })
       });
       if (response.ok) setEnviado(true);
-      else setErroValidacao('Erro ao enviar. Tente novamente.');
+      else {
+        const dados = await response.json().catch(() => ({}));
+        setErroValidacao(dados.mensagem || 'Erro ao enviar. Tente novamente.');
+      }
     } catch (error) { setErroValidacao('Erro de servidor.'); }
   };
 

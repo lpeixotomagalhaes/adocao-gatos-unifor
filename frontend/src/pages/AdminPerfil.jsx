@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import './AdminGatos.css'; 
+import './AdminGatos.css';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
+import { apiFetch } from '../api';
 
 const AdminPerfil = () => {
   const [metricas, setMetricas] = useState(null);
@@ -9,18 +10,13 @@ const AdminPerfil = () => {
   const [admin, setAdmin] = useState({ nome: 'Carregando...', email: '', inicial: '' });
 
   useEffect(() => {
-    // 1. Puxa os dados pessoais do localStorage
     const nomeSalvo = localStorage.getItem('adminNome') || 'Administrador';
     const emailSalvo = localStorage.getItem('adminEmail') || 'admin@unifor.br';
     setAdmin({ nome: nomeSalvo, email: emailSalvo, inicial: nomeSalvo.charAt(0).toUpperCase() });
 
-    // 2. Puxa as métricas do banco de dados (Backend)
     const buscarDadosImpacto = async () => {
-      const token = localStorage.getItem('tokenAdmin');
       try {
-        const resposta = await fetch('http://127.0.0.1:5000/api/admin/dashboard', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const resposta = await apiFetch('/api/admin/dashboard');
         const dados = await resposta.json();
         setMetricas(dados);
       } catch (erro) {
@@ -47,7 +43,6 @@ const AdminPerfil = () => {
           </div>
 
           <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '15px', border: '1px solid #e2e8f0', display: 'flex', gap: '25px', alignItems: 'center', marginBottom: '30px' }}>
-            {/* Avatar Dinâmico com a cor azul oficial */}
             <div style={{ width: '80px', height: '80px', backgroundColor: '#0b45d2', color: 'white', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '2rem', fontWeight: 'bold' }}>
               {admin.inicial}
             </div>

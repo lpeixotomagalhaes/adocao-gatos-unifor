@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react';
 import './AdminGatos.css';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
+import { apiFetch, apiUrl } from '../api';
 
 function AdminGatos() {
   const [gatos, setGatos] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [modalAberto, setModalAberto] = useState(false);
   const [modalArquivarAberto, setModalArquivarAberto] = useState(false);
-  const [gatoAlvo, setGatoAlvo] = useState(null); 
+  const [gatoAlvo, setGatoAlvo] = useState(null);
   const [editando, setEditando] = useState(false);
-  
+
   const [formGato, setFormGato] = useState({
-    nome: '', sexo: 'Macho', idade: '', foto: null, status: 'Disponível', 
+    nome: '', sexo: 'Macho', idade: '', foto: null, status: 'Disponível',
     castrado: false, vacinado: false, descricao: ''
   });
 
@@ -20,16 +21,15 @@ function AdminGatos() {
 
   const carregarGatos = async () => {
     try {
-      const resposta = await fetch('http://127.0.0.1:5000/api/gatos');
+      const resposta = await fetch(apiUrl('/api/gatos'));
       const dados = await resposta.json();
       setGatos(Array.isArray(dados) ? dados : []);
-    } catch (erro) { console.error("Erro ao carregar gatos", erro); } 
+    } catch (erro) { console.error("Erro ao carregar gatos", erro); }
     finally { setCarregando(false); }
   };
 
-  useEffect(() => { carregarGatos(); }, []); 
+  useEffect(() => { carregarGatos(); }, []);
 
-  // --- CONTROLE DOS MODAIS ---
   const abrirModalCadastro = () => {
     setEditando(false);
     setGatoAlvo(null);
@@ -48,12 +48,11 @@ function AdminGatos() {
       castrado: gato.castrado,
       vacinado: gato.vacinado,
       descricao: gato.descricao,
-      foto: null // A foto só muda se o usuário escolher um novo arquivo
+      foto: null
     });
     setModalAberto(true);
   };
 
-  // --- LÓGICA DE SALVAMENTO (POST OU PUT) ---
   const lidarMudancaForm = (e) => {
     const { name, value, type, checked, files } = e.target;
     setFormGato({
@@ -65,9 +64,6 @@ function AdminGatos() {
   const salvarGato = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('tokenAdmin');
-      const tokenPayload = JSON.parse(atob(token.split('.')[1])); 
-
       const formData = new FormData();
       Object.keys(formGato).forEach(key => {
         if (key === 'foto') {
@@ -76,20 +72,15 @@ function AdminGatos() {
             formData.append(key, formGato[key]);
         }
       });
-      formData.append('adminNome', tokenPayload.nome);
 
-      const url = editando ? `http://127.0.0.1:5000/api/gatos/${gatoAlvo._id}` : 'http://127.0.0.1:5000/api/gatos';
+      const url = editando ? `/api/gatos/${gatoAlvo._id}` : '/api/gatos';
       const metodo = editando ? 'PUT' : 'POST';
 
-      const resposta = await fetch(url, {
-        method: metodo,
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
-      });
+      const resposta = await apiFetch(url, { method: metodo, body: formData });
 
       if (resposta.ok) {
         setModalAberto(false);
-        carregarGatos(); 
+        carregarGatos();
       }
     } catch (erro) { console.error("Erro ao processar gato", erro); }
   };
@@ -97,12 +88,7 @@ function AdminGatos() {
   const excluirPermanente = async (id, nome) => {
     if (window.confirm(`Tem certeza que deseja EXCLUIR PERMANENTEMENTE o gato ${nome}? Esta ação não pode ser desfeita.`)) {
       try {
-        const token = localStorage.getItem('tokenAdmin');
-        const tokenPayload = JSON.parse(atob(token.split('.')[1]));
-        const resposta = await fetch(`http://127.0.0.1:5000/api/gatos/${id}?adminNome=${tokenPayload.nome}`, {
-          method: 'DELETE',
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const resposta = await apiFetch(`/api/gatos/${id}`, { method: 'DELETE' });
         if (resposta.ok) carregarGatos();
       } catch (erro) { console.error(erro); }
     }
@@ -155,7 +141,6 @@ function AdminGatos() {
           </div>
         </div>
 
-        {/* MODAL DE CADASTRO / EDIÇÃO */}
         {modalAberto && (
           <div className="modal-overlay">
             <div className="modal-box">
@@ -209,7 +194,6 @@ function AdminGatos() {
           </div>
         )}
 
-        {/* MODAL DE ARQUIVAMENTO (Soft Delete) */}
         {modalArquivarAberto && (
           <div className="modal-overlay">
             <div className="modal-box" style={{maxWidth: '450px'}}>
@@ -233,12 +217,9 @@ function AdminGatos() {
                 <div className="modal-footer">
                   <button className="btn-secundario" onClick={() => setModalArquivarAberto(false)}>Cancelar</button>
                   <button className="btn-primario" style={{backgroundColor: '#ef4444'}} onClick={async () => {
-                      const token = localStorage.getItem('tokenAdmin');
-                      const tokenPayload = JSON.parse(atob(token.split('.')[1]));
-                      await fetch(`http://127.0.0.1:5000/api/gatos/${gatoAlvo._id}/arquivar`, {
+                      await apiFetch(`/api/gatos/${gatoAlvo._id}/arquivar`, {
                         method: 'PUT',
-                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                        body: JSON.stringify({...formArquivar, adminNome: tokenPayload.nome})
+                        body: JSON.stringify(formArquivar)
                       });
                       setModalArquivarAberto(false);
                       carregarGatos();

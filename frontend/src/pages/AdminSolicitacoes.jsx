@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './AdminSolicitacoes.css';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
+import { apiFetch } from '../api';
 
 function AdminSolicitacoes() {
   const [solicitacoes, setSolicitacoes] = useState([]);
@@ -9,25 +10,16 @@ function AdminSolicitacoes() {
 
   const carregarSolicitacoes = async () => {
     try {
-      const token = localStorage.getItem('tokenAdmin');
-      const resposta = await fetch('http://localhost:5000/api/formularios', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      
+      const resposta = await apiFetch('/api/formularios');
+
       if (!resposta.ok) {
         console.error("Servidor retornou erro:", resposta.status);
-        setSolicitacoes([]); 
+        setSolicitacoes([]);
         return;
       }
 
       const dados = await resposta.json();
-      
-      if (Array.isArray(dados)) {
-        setSolicitacoes(dados);
-      } else {
-        setSolicitacoes([]);
-      }
-      
+      setSolicitacoes(Array.isArray(dados) ? dados : []);
     } catch (erro) {
       console.error("Erro ao carregar solicitações", erro);
       setSolicitacoes([]);
@@ -44,24 +36,14 @@ function AdminSolicitacoes() {
     if (!window.confirm(`Tem certeza que deseja ${novoStatus.toLowerCase()} esta solicitação?`)) return;
 
     try {
-      const token = localStorage.getItem('tokenAdmin');
-      
-      await fetch(`http://localhost:5000/api/formularios/${formId}`, {
+      await apiFetch(`/api/formularios/${formId}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
         body: JSON.stringify({ statusAnalise: novoStatus })
       });
 
       if (novoStatus === 'Aprovado' && gatoId) {
-        await fetch(`http://localhost:5000/api/gatos/${gatoId}`, {
+        await apiFetch(`/api/gatos/${gatoId}`, {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
           body: JSON.stringify({ status: 'Adotado' })
         });
       }

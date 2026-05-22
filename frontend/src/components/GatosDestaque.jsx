@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './GatosDestaque.css';
+import { apiUrl, buildMediaUrl } from '../api';
 
 const GatosDestaque = () => {
   const navigate = useNavigate();
@@ -10,15 +11,15 @@ const GatosDestaque = () => {
   useEffect(() => {
     async function carregarDestaques() {
       try {
-        const resposta = await fetch('http://localhost:5000/api/gatos');
+        const resposta = await fetch(apiUrl('/api/gatos'));
         const dados = await resposta.json();
-        
-        // Pega apenas os disponíveis e corta para mostrar só os 3 mais recentes
-        const disponiveis = dados.filter(gato => gato.status === 'Disponível').slice(0, 3);
+
+        const lista = Array.isArray(dados) ? dados : [];
+        const disponiveis = lista.filter(gato => gato.status === 'Disponível').slice(0, 3);
         setGatosDestaque(disponiveis);
-        setCarregando(false);
       } catch (erro) {
         console.error("Erro ao carregar destaques", erro);
+      } finally {
         setCarregando(false);
       }
     }
@@ -28,23 +29,23 @@ const GatosDestaque = () => {
   return (
     <section className="destaque-section">
       <h2 className="destaque-titulo">Adote um resgatinho</h2>
-      
+
       <div className="destaque-grid">
         {carregando ? (
           <p style={{ textAlign: 'center', width: '100%', gridColumn: '1 / -1' }}>Buscando destaques...</p>
         ) : (
           gatosDestaque.map((gato) => (
             <div key={gato._id} className="destaque-card">
-              <img 
-                src={gato.foto || 'https://via.placeholder.com/320x260?text=Sem+Foto'} 
-                alt={`Foto do gato ${gato.nome}`} 
+              <img
+                src={buildMediaUrl(gato.foto) || 'https://via.placeholder.com/320x260?text=Sem+Foto'}
+                alt={`Foto do gato ${gato.nome}`}
                 className="destaque-foto"
               />
               <div className="destaque-info">
                 <h3>{gato.nome}</h3>
-                <button 
-                  className="btn-saiba-mais-mini" 
-                  onClick={() => navigate(`/gato/${gato._id}`)}
+                <button
+                  className="btn-saiba-mais-mini"
+                  onClick={() => navigate(`/gato/${gato.slug || gato._id}`)}
                 >
                   Saiba Mais
                 </button>
@@ -54,7 +55,7 @@ const GatosDestaque = () => {
         )}
       </div>
 
-      <button 
+      <button
         className="btn-ver-todos"
         onClick={() => navigate('/adote')}
       >

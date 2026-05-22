@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Mesma trava de segurança aqui
-import './AdminHistorico.css'; 
+import { useNavigate } from 'react-router-dom';
+import './AdminHistorico.css';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
+import { apiFetch } from '../api';
 
 function AdminHistorico() {
   const [logs, setLogs] = useState([]);
@@ -12,12 +13,8 @@ function AdminHistorico() {
   useEffect(() => {
     const carregarLogs = async () => {
       try {
-        const token = localStorage.getItem('tokenAdmin');
-        const resposta = await fetch('http://localhost:5000/api/admin/logs', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const resposta = await apiFetch('/api/admin/logs?pagina=1&limite=100');
 
-        // TRAVA 1
         if (!resposta.ok) {
           if (resposta.status === 401 || resposta.status === 403) {
             localStorage.removeItem('tokenAdmin');
@@ -28,10 +25,8 @@ function AdminHistorico() {
         }
 
         const dados = await resposta.json();
-        
-        // TRAVA 2
-        setLogs(Array.isArray(dados) ? dados : []);
-
+        const lista = Array.isArray(dados) ? dados : (dados.logs || []);
+        setLogs(lista);
       } catch (erro) {
         console.error("Erro ao carregar histórico", erro);
         setLogs([]);
@@ -39,18 +34,18 @@ function AdminHistorico() {
         setCarregando(false);
       }
     };
-    
+
     carregarLogs();
   }, [navegarPara]);
 
   const renderBadgeAcao = (acao) => {
     if (!acao) return <span className="badge-acao badge-acao-padrao">Ação Oculta</span>;
-    
+
     let classeCor = 'badge-acao-padrao';
     if (acao.includes('Aprovou')) classeCor = 'badge-acao-verde';
     if (acao.includes('Arquivou') || acao.includes('Reprovou')) classeCor = 'badge-acao-vermelha';
     if (acao.includes('Cadastrou')) classeCor = 'badge-acao-azul';
-    
+
     return <span className={`badge-acao ${classeCor}`}>{acao}</span>;
   };
 

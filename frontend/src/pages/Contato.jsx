@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Contato.css';
 
 const Contato = () => {
-  // Ativando o motor de animação de scroll
+  const [dados, setDados] = useState({ nome: '', email: '', whatsapp: '', mensagem: '' });
+
   useEffect(() => {
-    // Rola para o topo ao abrir a página
     window.scrollTo(0, 0);
 
     const observer = new IntersectionObserver((entries) => {
@@ -21,41 +21,49 @@ const Contato = () => {
     return () => observer.disconnect();
   }, []);
 
+  const handleChange = (e) => setDados({ ...dados, [e.target.id]: e.target.value });
+
+  const enviarPorEmail = (e) => {
+    e.preventDefault();
+    const assunto = encodeURIComponent(`Contato site Resgatinhos — ${dados.nome}`);
+    const corpo = encodeURIComponent(
+      `Nome: ${dados.nome}\nE-mail: ${dados.email}\nWhatsApp: ${dados.whatsapp}\n\nMensagem:\n${dados.mensagem}`
+    );
+    window.location.href = `mailto:veterinaria@unifor.br?subject=${assunto}&body=${corpo}`;
+  };
+
   return (
     <main className="contato-container">
-      {/* Cabeçalho animado (entra rápido) */}
       <section className="contato-header esconder">
         <h1>Fale Conosco</h1>
         <p>Tem alguma dúvida sobre o processo de adoção? Entre em contato com a gente!</p>
       </section>
 
       <section className="contato-content">
-        {/* Formulário com pequeno atraso */}
-        <form className="contato-form esconder atraso-1">
+        <form className="contato-form esconder atraso-1" onSubmit={enviarPorEmail}>
           <div className="form-group">
             <label htmlFor="nome">Nome Completo</label>
-            <input type="text" id="nome" placeholder="Digite seu nome" required />
+            <input type="text" id="nome" placeholder="Digite seu nome" value={dados.nome} onChange={handleChange} required />
           </div>
 
           <div className="form-group">
             <label htmlFor="email">E-mail Acadêmico ou Pessoal</label>
-            <input type="email" id="email" placeholder="exemplo@unifor.br" required />
+            <input type="email" id="email" placeholder="exemplo@unifor.br" value={dados.email} onChange={handleChange} required />
           </div>
 
           <div className="form-group">
             <label htmlFor="whatsapp">WhatsApp / Telefone</label>
-            <input type="tel" id="whatsapp" placeholder="(85) 99999-9999" />
+            <input type="tel" id="whatsapp" placeholder="(85) 99999-9999" value={dados.whatsapp} onChange={handleChange} />
           </div>
 
           <div className="form-group">
             <label htmlFor="mensagem">Como podemos te ajudar?</label>
-            <textarea id="mensagem" rows="5" placeholder="Escreva sua mensagem aqui..." required></textarea>
+            <textarea id="mensagem" rows="5" placeholder="Escreva sua mensagem aqui..." value={dados.mensagem} onChange={handleChange} required></textarea>
           </div>
 
           <button type="submit" className="btn-enviar">Enviar Mensagem</button>
         </form>
 
-        {/* Informações da direita com atraso maior para dar efeito cascata */}
         <div className="contato-info esconder atraso-2">
           <h3>Informações Úteis</h3>
           <p><strong>📍 Localização:</strong> Bloco M - Medicina Veterinária Unifor</p>

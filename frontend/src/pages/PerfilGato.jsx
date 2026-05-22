@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import FormularioAdocao from "../components/FormularioAdocao";
 import "./PerfilGato.css";
+import { apiUrl, buildMediaUrl } from '../api';
 
 const PerfilGato = () => {
   const { id } = useParams();
@@ -16,7 +17,7 @@ const PerfilGato = () => {
   useEffect(() => {
     async function buscarGatoPorId() {
       try {
-        const resposta = await fetch(`http://localhost:5000/api/gatos/${id}`);
+        const resposta = await fetch(apiUrl(`/api/gatos/${id}`));
         if (!resposta.ok) return navegarPara("/adote");
 
         const dados = await resposta.json();
@@ -36,13 +37,11 @@ const PerfilGato = () => {
     <main>
       <section className="perfil-banner-azul">
         <div className="perfil-conteudo">
-          
-          {/* COLUNA 1: IMAGEM */}
+
           <div className="perfil-imagem">
-            <img src={gato.foto} alt={`Foto de ${gato.nome}`} />
+            <img src={buildMediaUrl(gato.foto)} alt={`Foto de ${gato.nome}`} />
           </div>
 
-          {/* COLUNA 2: INFORMAÇÕES DO GATO */}
           <div className="perfil-info-coluna">
             <div className="perfil-cabecalho">
               <h1>{gato.nome}</h1>
@@ -71,7 +70,6 @@ const PerfilGato = () => {
             </div>
           </div>
 
-          {/* COLUNA 3: FORMULÁRIO WIZARD */}
           <div className="perfil-form-coluna">
             <FormularioAdocao
               gatoId={gato._id}
@@ -82,7 +80,6 @@ const PerfilGato = () => {
         </div>
       </section>
 
-      {/* REGRAS AMIGÁVEIS */}
       <section className="regras-amigaveis perfil-regras">
         <h2>Tudo o que você precisa saber para adotar</h2>
         <p>Adoção é um ato de amor e muita responsabilidade. Veja o que é preciso:</p>

@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Faltava importar o useNavigate!
-import './AdminGatos.css'; 
+import { useNavigate } from 'react-router-dom';
+import './AdminGatos.css';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminHeader from '../components/AdminHeader';
+import { apiFetch } from '../api';
 
 function AdminArquivados() {
   const [arquivados, setArquivados] = useState([]);
   const [carregando, setCarregando] = useState(true);
-  const navegarPara = useNavigate(); // Agora podemos redirecionar se der erro
+  const navegarPara = useNavigate();
 
   useEffect(() => {
     const carregarArquivados = async () => {
       try {
-        const token = localStorage.getItem('tokenAdmin');
-        const resposta = await fetch('http://localhost:5000/api/gatos/arquivados', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const resposta = await apiFetch('/api/gatos/arquivados');
 
-        // TRAVA 1: Se o servidor der erro (ex: Token expirado), desloga e vai pro login
         if (!resposta.ok) {
           if (resposta.status === 401 || resposta.status === 403) {
             localStorage.removeItem('tokenAdmin');
@@ -28,18 +25,16 @@ function AdminArquivados() {
         }
 
         const dados = await resposta.json();
-        
-        // TRAVA 2: Só salva se for realmente uma lista, senão salva lista vazia
         setArquivados(Array.isArray(dados) ? dados : []);
 
       } catch (erro) {
         console.error("Erro ao carregar gatos arquivados", erro);
-        setArquivados([]); // Evita tela branca se o backend cair
+        setArquivados([]);
       } finally {
         setCarregando(false);
       }
     };
-    
+
     carregarArquivados();
   }, [navegarPara]);
 
