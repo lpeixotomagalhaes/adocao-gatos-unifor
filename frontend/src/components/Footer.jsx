@@ -27,8 +27,19 @@ const Footer = () => {
         
         {/* A marca desliza da esquerda */}
         <div className="footer-brand footer-esconder desliza-esquerda">
-          <h3 className="footer-logo">🐾 Resgatinhos Unifor</h3>
-          <p>Projeto dedicado ao bem-estar e adoção responsável dos gatinhos do campus. Parceiro da Medicina Veterinária.</p>
+          <div className="footer-logo">
+            <span className="footer-logo-icone">🐾</span>
+            <div className="footer-logo-texto">
+              <h3>Resgatinhos</h3>
+              <span className="footer-logo-sub">Unifor</span>
+            </div>
+          </div>
+          <p className="footer-brand-descricao">
+            Projeto dedicado ao bem-estar e à adoção responsável dos gatinhos do campus.
+          </p>
+          <span className="footer-brand-parceria">
+            Em parceria com a <strong>Medicina Veterinária</strong>
+          </span>
         </div>
         
         {/* O resto sobe em cascata */}

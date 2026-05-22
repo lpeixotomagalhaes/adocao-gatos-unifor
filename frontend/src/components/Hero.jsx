@@ -29,7 +29,7 @@ const Hero = () => {
       {/* Adicionamos o hero-esconder aqui */}
       <div className="hero-content hero-esconder">
         <h1>
-          Não compre, <br />
+          Não compre <br />
           <span className="highlight">adote.</span>
         </h1>
         <p>

@@ -85,7 +85,7 @@ function AdminDashboard() {
             {/* 3. GRÁFICO DE BARRAS ATUALIZADO (Adoções, Castração e Vacinação Mensal) */}
             <div className="loca-chart-box">
               <h3>Evolução Mensal</h3>
-              <ResponsiveContainer width="100%" height={250}>
+              <ResponsiveContainer width="100%" height={210}>
                 <BarChart data={estatisticas.graficoAdocoes}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
                   <XAxis dataKey="mes" axisLine={false} tickLine={false} />
@@ -103,7 +103,7 @@ function AdminDashboard() {
 
             <div className="loca-chart-box">
               <h3>Distribuição por Status</h3>
-              <ResponsiveContainer width="100%" height={250}>
+              <ResponsiveContainer width="100%" height={210}>
                 <PieChart>
                   <Pie
                     data={[
@@ -111,8 +111,8 @@ function AdminDashboard() {
                       { name: 'Disponíveis', value: estatisticas.gatosDisponiveis },
                       { name: 'Pendentes', value: estatisticas.formulariosPendentes }
                     ]}
-                    innerRadius={60}
-                    outerRadius={80}
+                    innerRadius={50}
+                    outerRadius={70}
                     paddingAngle={5}
                     dataKey="value"
                   >

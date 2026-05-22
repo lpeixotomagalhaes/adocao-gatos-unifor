@@ -1,27 +1,27 @@
 .loca-dashboard-container {
   display: flex;
-  height: 100vh;
-  background-color: #f4f7fa; 
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  overflow: hidden; 
+  min-height: 100vh;
+  background-color: #f4f7fa;
+  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* O CSS da SIDEBAR saiu daqui, ele vive no AdminSidebar.css agora! */
 
-/* CONTEÚDO PRINCIPAL */
+/* CONTEÚDO PRINCIPAL (offset de 72px definido em AdminSidebar.css) */
 .loca-main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: auto; 
+  min-height: 100vh;
+  min-width: 0;
 }
 
 /* O CSS DO HEADER saiu daqui, ele vive no AdminHeader.css agora! */
 
 /* --- ÁREA DA DASHBOARD E CARDS --- */
 .dashboard-content {
-  padding: 40px 50px 50px 50px;
-  max-width: 1600px;
+  padding: 22px 30px 30px 30px;
+  max-width: 1500px;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
@@ -29,21 +29,21 @@
 
 .loca-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* CARDS LARGOS */
-  gap: 35px;
-  margin-bottom: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
 }
 
 .secondary-grid {
-  grid-template-columns: repeat(2, minmax(300px, 1fr));
-  margin-bottom: 50px;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  margin-bottom: 24px;
 }
 
 .loca-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 30px;
+  border-radius: 14px;
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
@@ -51,30 +51,30 @@
 }
 
 .loca-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.07);
 }
 
 .loca-card-title {
   color: #64748b;
-  font-size: 1.1rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.6px;
 }
 
 .loca-card-value {
-  font-size: 3.2rem; /* NÚMEROS GIGANTES */
+  font-size: 2.1rem;
   font-weight: 900;
   line-height: 1;
 }
 
 .loca-card-value small {
-  font-size: 1.2rem;
+  font-size: 0.95rem;
   color: #94a3b8;
   font-weight: 500;
-  margin-left: 8px;
+  margin-left: 6px;
 }
 
 /* CORES DOS NÚMEROS */
@@ -87,21 +87,21 @@
 .loca-charts-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 30px;
+  gap: 20px;
 }
 
 .loca-chart-box {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 30px;
+  border-radius: 14px;
+  padding: 18px 20px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
 }
 
 .loca-chart-box h3 {
-  font-size: 1.3rem;
+  font-size: 1rem;
   color: #1e293b;
-  margin-bottom: 30px;
+  margin: 0 0 14px 0;
   font-weight: 800;
 }
 
@@ -113,14 +113,14 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 .metric-part { display: flex; flex-direction: column; }
-.metric-part small { font-size: 1rem; color: #94a3b8; font-weight: 600; margin-top: 5px; }
+.metric-part small { font-size: 0.75rem; color: #94a3b8; font-weight: 600; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
 
 .metric-divider {
-  width: 2px; height: 50px; background-color: #f1f5f9; margin: 0 40px;
+  width: 2px; height: 38px; background-color: #f1f5f9; margin: 0 22px;
 }
 
 /* ANIMAÇÕES VERTICAIS DE ENTRADA */
@@ -142,12 +142,12 @@
 @media (max-width: 900px) {
   /* Espaço para a barra inferior do celular (Sidebar) */
   .loca-dashboard-container { padding-bottom: 75px; }
-  
-  .dashboard-content { padding: 20px; }
-  
-  .loca-cards-grid, .secondary-grid { grid-template-columns: 1fr; gap: 20px; }
 
-  .loca-card-value { font-size: 2.5rem; }
-  
-  .metric-divider { margin: 0 20px; } /* Encolhe o divisor em telas pequenas */
+  .dashboard-content { padding: 16px; }
+
+  .loca-cards-grid, .secondary-grid { grid-template-columns: 1fr; gap: 14px; }
+
+  .loca-card-value { font-size: 1.8rem; }
+
+  .metric-divider { margin: 0 16px; }
 }

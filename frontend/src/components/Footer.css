@@ -14,17 +14,68 @@
   margin-bottom: 40px;
 }
 
+/* --- BLOCO DA MARCA --- */
 .footer-logo {
-  font-size: 1.8rem;
-  margin-bottom: 15px;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
 }
 
-.footer-brand p {
-  color: #ccc;
-  line-height: 1.6;
-  font-size: 1rem;
-  max-width: 80%;
+.footer-logo-icone {
+  font-size: 1.8rem;
+  background: linear-gradient(135deg, rgba(0, 170, 255, 0.18), rgba(0, 170, 255, 0.05));
+  border: 1px solid rgba(0, 170, 255, 0.3);
+  padding: 10px 12px;
+  border-radius: 12px;
+  line-height: 1;
+}
+
+.footer-logo-texto {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.footer-logo-texto h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--white);
+  margin: 0;
+  letter-spacing: -0.4px;
+}
+
+.footer-logo-sub {
+  font-size: 0.72rem;
+  color: var(--unifor-blue-light);
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.footer-brand-descricao {
+  color: #cbd5e1;
+  line-height: 1.65;
+  font-size: 0.95rem;
+  margin: 0 0 14px 0;
+  max-width: 90%;
+}
+
+.footer-brand-parceria {
+  display: inline-block;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  background-color: rgba(255, 255, 255, 0.04);
+  border-left: 3px solid var(--unifor-blue-light);
+  padding: 8px 14px;
+  border-radius: 0 6px 6px 0;
+  letter-spacing: 0.3px;
+}
+
+.footer-brand-parceria strong {
+  color: var(--white);
+  font-weight: 700;
 }
 
 .footer-container h4 {
@@ -117,18 +168,23 @@
     padding: 80px 15% 40px 15%; /* Mais espaçamento interno */
   }
 
-  .footer-logo {
-    font-size: 2.2rem; /* Logo do rodapé maior */
+  .footer-logo-icone {
+    font-size: 2.2rem;
+    padding: 12px 14px;
+  }
+
+  .footer-logo-texto h3 {
+    font-size: 1.75rem;
   }
 
   .footer-container h4 {
-    font-size: 1.4rem; /* Títulos das colunas maiores */
+    font-size: 1.4rem;
   }
 
-  .footer-brand p,
-  .footer-links a, 
-  .footer-contact a, 
+  .footer-brand-descricao,
+  .footer-links a,
+  .footer-contact a,
   .social-links a {
-    font-size: 1.15rem; /* Textos de parágrafos e links maiores */
+    font-size: 1.05rem;
   }
 }

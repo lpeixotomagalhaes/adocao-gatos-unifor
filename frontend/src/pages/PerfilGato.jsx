@@ -42,55 +42,42 @@ const PerfilGato = () => {
             <img src={gato.foto} alt={`Foto de ${gato.nome}`} />
           </div>
 
-          {/* CAIXA DIREITA DIVIDIDA ENTRE INFOS E FORMULÁRIO */}
-          <div className="perfil-dados-brancos">
-            
-            {/* COLUNA 2: INFORMAÇÕES DO GATO (AGORA DIVIDIDA EM DUAS!) */}
-            <div className="perfil-info-coluna">
-              
-              {/* LADO ESQUERDO: Nome, Sexo, Idade, Saúde */}
-              <div className="info-corpo-esquerda">
-                <div className="perfil-cabecalho">
-                  <h1>{gato.nome}</h1>
-                  <span className={`badge-status-branco ${gato.status.toLowerCase()}`}>
-                    {gato.status}
-                  </span>
-                </div>
-
-                <div className="perfil-info-basica">
-                  <p><strong>Sexo:</strong> {gato.sexo}</p>
-                  <p><strong>Idade:</strong> {gato.idade}</p>
-                </div>
-
-                <div className="perfil-saude-transparente">
-                  <h3>Histórico Médico</h3>
-                  <ul>
-                    <li>{gato.castrado ? "✔ Castrado" : "✖ Não Castrado"}</li>
-                    <li>{gato.vacinado ? "✔ Vacinado" : "✖ Não Vacinado"}</li>
-                    <li>FIV: <strong>{gato.fiv}</strong> | FeLV: <strong>{gato.felv}</strong></li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* LADO DIREITO: Sobre Mim */}
-              <div className="info-corpo-direita">
-                <div className="perfil-descricao">
-                  <h3>Sobre mim</h3>
-                  <p>{gato.descricao}</p>
-                </div>
-              </div>
-
+          {/* COLUNA 2: INFORMAÇÕES DO GATO */}
+          <div className="perfil-info-coluna">
+            <div className="perfil-cabecalho">
+              <h1>{gato.nome}</h1>
+              <span className={`badge-status-branco ${gato.status.toLowerCase()}`}>
+                {gato.status}
+              </span>
             </div>
 
-            {/* COLUNA 3: FORMULÁRIO WIZARD */}
-            <div className="perfil-form-coluna">
-              <FormularioAdocao 
-                gatoId={gato._id} 
-                gatoNome={gato.nome} 
-                gatoStatus={gato.status} 
-              />
+            <div className="perfil-info-basica">
+              <p><strong>Sexo:</strong> {gato.sexo}</p>
+              <p><strong>Idade:</strong> {gato.idade}</p>
             </div>
 
+            <div className="perfil-saude-transparente">
+              <h3>Histórico Médico</h3>
+              <ul>
+                <li>{gato.castrado ? "✔ Castrado" : "✖ Não Castrado"}</li>
+                <li>{gato.vacinado ? "✔ Vacinado" : "✖ Não Vacinado"}</li>
+                <li>FIV: <strong>{gato.fiv}</strong> | FeLV: <strong>{gato.felv}</strong></li>
+              </ul>
+            </div>
+
+            <div className="perfil-descricao">
+              <h3>Sobre mim</h3>
+              <p>{gato.descricao}</p>
+            </div>
+          </div>
+
+          {/* COLUNA 3: FORMULÁRIO WIZARD */}
+          <div className="perfil-form-coluna">
+            <FormularioAdocao
+              gatoId={gato._id}
+              gatoNome={gato.nome}
+              gatoStatus={gato.status}
+            />
           </div>
         </div>
       </section>

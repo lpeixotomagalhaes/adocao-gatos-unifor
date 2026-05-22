@@ -1,42 +1,78 @@
-/* --- SIDEBAR BASE --- */
+/* --- OFFSET DO CONTEÚDO PARA A SIDEBAR FIXA --- */
+.loca-main-content {
+  margin-left: 72px;
+}
+
+@media (max-width: 900px) {
+  .loca-main-content {
+    margin-left: 0;
+    padding-bottom: 70px;
+  }
+}
+
+/* --- SIDEBAR BASE (COLAPSÁVEL COM HOVER) --- */
 .loca-sidebar {
-  width: 280px; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 72px;
   background-color: #ffffff;
   border-right: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
-  padding: 0 0 30px 0; /* Zeramos o padding do topo para o header colar lá em cima */
+  padding: 0 0 14px 0;
   z-index: 50;
-  box-shadow: 4px 0 15px rgba(0,0,0,0.02);
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.28s ease;
+  overflow: hidden;
 }
 
-/* --- LOGO ADMIN UNIFOR (ALINHADO COM O HEADER) --- */
+.loca-sidebar:hover {
+  width: 240px;
+  box-shadow: 8px 0 30px rgba(15, 23, 42, 0.08);
+}
+
+/* --- LOGO ADMIN UNIFOR --- */
 .sidebar-header {
-  height: 90px; /* ALTURA EXATAMENTE IGUAL AO ADMIN HEADER */
+  height: 68px;
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 0 30px;
-  border-bottom: 1px solid #e2e8f0; /* Linha exata que vai se conectar com o topo */
-  margin-bottom: 30px; 
+  gap: 12px;
+  padding: 0 22px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 14px;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .logo-icon {
-  font-size: 2rem; 
+  font-size: 1.35rem;
   background-color: #f0f7ff;
-  padding: 8px;
-  border-radius: 12px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  line-height: 1;
 }
 
 .logo-texto {
-  font-size: 1.6rem;
+  font-size: 1.1rem;
   margin: 0;
-  font-weight: 900;
+  font-weight: 800;
   background: linear-gradient(90deg, var(--unifor-blue-dark), var(--unifor-blue-light));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.4px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease 0.05s, transform 0.25s ease 0.05s;
+}
+
+.loca-sidebar:hover .logo-texto {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .animar-pulso {
@@ -48,57 +84,83 @@
   100% { transform: scale(1); }
 }
 
-/* --- BOTÕES DO MENU --- */
+/* --- GRUPOS DO MENU --- */
 .sidebar-menu-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 35px;
+  margin-bottom: 18px;
 }
 
 .menu-title {
-  font-size: 0.8rem;
+  font-size: 0.65rem;
   color: #94a3b8;
   font-weight: 800;
-  letter-spacing: 2px;
-  padding: 0 30px;
-  margin-bottom: 15px;
+  letter-spacing: 1.3px;
+  padding: 0 22px;
+  margin-bottom: 6px;
+  height: 16px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  text-transform: uppercase;
 }
 
+.loca-sidebar:hover .menu-title {
+  opacity: 1;
+}
+
+/* --- BOTÕES DO MENU --- */
 .menu-btn {
   background: transparent;
   border: none;
   text-align: left;
-  padding: 15px 30px;
+  padding: 10px 22px;
   color: #64748b;
-  font-size: 1.1rem; 
+  font-size: 0.92rem;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border-left: 5px solid transparent;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border-left: 3px solid transparent;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
+  white-space: nowrap;
+  position: relative;
 }
 
 .menu-btn .icone {
-  font-size: 1.3rem;
-  transition: transform 0.3s;
+  font-size: 1.2rem;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.menu-btn .texto {
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.22s ease;
+}
+
+.loca-sidebar:hover .menu-btn .texto {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .menu-btn:hover {
   background-color: #f8fafc;
   color: #0f172a;
-  padding-left: 35px; 
 }
 .menu-btn:hover .icone {
-  transform: scale(1.2); 
+  transform: scale(1.12);
 }
 
 .menu-btn.active {
   background-color: #f0f7ff;
   color: var(--unifor-blue-light);
   border-left-color: var(--unifor-blue-light);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .btn-sair-loca {
@@ -106,42 +168,94 @@
   background: transparent;
   border: none;
   color: #ef4444;
-  padding: 25px 30px;
+  padding: 14px 22px;
   text-align: left;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 0.92rem;
   font-weight: 700;
+  font-family: inherit;
   border-top: 1px solid #f1f5f9;
-  transition: all 0.3s;
+  transition: background-color 0.25s ease;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
+  white-space: nowrap;
+}
+
+.btn-sair-loca .icone {
+  font-size: 1.2rem;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.btn-sair-loca .texto {
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.22s ease;
+}
+
+.loca-sidebar:hover .btn-sair-loca .texto {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .btn-sair-loca:hover {
   background-color: #fef2f2;
-  padding-left: 35px;
+}
+
+/* --- TOOLTIP NO MODO COLAPSADO --- */
+.menu-btn::after,
+.btn-sair-loca::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(100% + 14px);
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #0f172a;
+  color: #ffffff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 100;
+}
+
+.loca-sidebar:not(:hover) .menu-btn:hover::after,
+.loca-sidebar:not(:hover) .btn-sair-loca:hover::after {
+  opacity: 1;
 }
 
 /* --- MÁGICA PARA SMARTPHONES (BOTTOM NAV) --- */
 @media (max-width: 900px) {
   .loca-sidebar {
     position: fixed;
+    top: auto;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 75px;
+    height: 70px;
     flex-direction: row;
     padding: 0;
     border-right: none;
     border-top: 1px solid #e2e8f0;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+    overflow: visible;
   }
-  
+
+  .loca-sidebar:hover {
+    width: 100%;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+  }
+
   .sidebar-header, .menu-title, .btn-sair-loca {
-    display: none; 
+    display: none;
   }
-  
+
   .sidebar-menu-group {
     flex-direction: row;
     margin: 0;
@@ -149,22 +263,27 @@
     justify-content: space-around;
     align-items: center;
   }
-  
+
   .menu-btn {
     padding: 10px;
     flex-direction: column;
-    gap: 5px;
-    font-size: 0.75rem;
+    gap: 4px;
+    font-size: 0.72rem;
     border-left: none;
-    border-top: 4px solid transparent; 
+    border-top: 3px solid transparent;
   }
 
   .menu-btn .icone {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
+    width: auto;
+  }
+
+  .menu-btn .texto {
+    opacity: 1;
+    transform: none;
   }
 
   .menu-btn:hover {
-    padding-left: 10px; 
     background-color: transparent;
   }
 
@@ -172,5 +291,10 @@
     border-left: none;
     border-top-color: var(--unifor-blue-light);
     background-color: transparent;
+  }
+
+  .menu-btn::after,
+  .btn-sair-loca::after {
+    display: none;
   }
 }

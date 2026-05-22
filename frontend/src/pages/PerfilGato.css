@@ -1,7 +1,7 @@
 /* --- FUNDO GERAL --- */
 .perfil-banner-azul {
   background-color: var(--unifor-blue-dark);
-  padding: 60px 5% 80px 5%; 
+  padding: 60px 5% 80px 5%;
   display: flex;
   justify-content: center;
   color: white;
@@ -9,16 +9,17 @@
 
 /* --- LAYOUT PRINCIPAL --- */
 .perfil-conteudo {
-  max-width: 1550px; /* Alargamos um pouco mais para caber a nova divisão horizontal */
+  max-width: 1550px;
   width: 100%;
-  display: flex;
-  gap: 50px; 
-  align-items: flex-start; 
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr) 440px;
+  gap: 40px;
+  align-items: start;
 }
 
 /* Coluna 1: Imagem */
 .perfil-imagem {
-  flex: 0 0 380px; /* Tamanho ideal para dar espaço aos textos */
+  width: 100%;
 }
 
 .perfil-imagem img {
@@ -26,34 +27,22 @@
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   object-fit: cover;
+  display: block;
 }
 
-/* Caixa das Infos + Formulário */
-.perfil-dados-brancos {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 1fr 450px; /* O Formulário tem 450px fixos, as infos pegam todo o resto */
-  gap: 50px; 
-  align-items: start;
-}
-
-/* --- A MÁGICA DA NOVA DIVISÃO DE INFORMAÇÕES --- */
+/* Coluna 2: Informações (stacked) */
 .perfil-info-coluna {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr; /* Esquerda (Nome/Saúde) um pouco maior que a Direita (Sobre Mim) */
-  gap: 40px;
-  min-width: 0; 
-}
-
-.info-corpo-esquerda {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 28px;
+  min-width: 0;
 }
 
+.info-corpo-esquerda,
 .info-corpo-direita {
   display: flex;
   flex-direction: column;
+  gap: 28px;
 }
 
 /* --- ESTILOS INTERNOS DA INFO --- */
@@ -61,17 +50,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   border-bottom: 2px solid rgba(255,255,255,0.1);
-  padding-bottom: 15px;
+  padding-bottom: 18px;
 }
 
-.perfil-cabecalho h1 { font-size: 3rem; margin: 0; }
+.perfil-cabecalho h1 {
+  font-size: 2.8rem;
+  margin: 0;
+  line-height: 1.1;
+}
 
 .badge-status-branco {
   padding: 8px 16px;
   border-radius: 20px;
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1rem;
   white-space: nowrap;
 }
 
@@ -79,46 +73,72 @@
 .badge-status-branco.adotado { background-color: #f1f3f4; color: #5f6368; }
 .badge-status-branco.pendente { background-color: #fef7e0; color: #f29900; }
 
-.perfil-info-basica { display: flex; gap: 40px; font-size: 1.2rem; }
+.perfil-info-basica {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 48px;
+  font-size: 1.15rem;
+}
+
+.perfil-info-basica p {
+  margin: 0;
+  white-space: nowrap;
+}
 
 .perfil-saude-transparente {
   background-color: rgba(255, 255, 255, 0.05);
-  padding: 25px;
+  padding: 24px 26px;
   border-radius: 15px;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.perfil-saude-transparente h3, .perfil-descricao h3 {
+.perfil-saude-transparente h3,
+.perfil-descricao h3 {
   color: var(--unifor-blue-light);
-  margin-bottom: 15px;
-  font-size: 1.5rem;
+  margin: 0 0 14px 0;
+  font-size: 1.4rem;
 }
 
 .perfil-saude-transparente ul {
-  list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; font-size: 1.1rem;
-}
-
-.perfil-descricao p { 
-  font-size: 1.2rem; 
-  line-height: 1.8; 
-  color: #e0e0e0; 
+  list-style: none;
+  padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 1.05rem;
 }
 
-/* --- RESPONSIVIDADE BLINDADA --- */
-@media (max-width: 1400px) {
-  /* Se a tela diminuir, o "Sobre Mim" desce para debaixo da Saúde automaticamente */
-  .perfil-info-coluna { grid-template-columns: 1fr; }
+.perfil-descricao p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #e0e0e0;
+  margin: 0;
+  text-align: justify;
 }
 
+/* Coluna 3: Formulário */
+.perfil-form-coluna {
+  width: 100%;
+}
+
+/* --- RESPONSIVIDADE --- */
 @media (max-width: 1100px) {
-  /* Em tablets, o formulário vai para debaixo das informações */
-  .perfil-dados-brancos { grid-template-columns: 1fr; gap: 60px; }
+  .perfil-conteudo {
+    grid-template-columns: 300px minmax(0, 1fr);
+  }
+  .perfil-form-coluna {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 850px) {
-  /* Em celulares, a foto também vai pro topo */
-  .perfil-conteudo { flex-direction: column; align-items: center; }
-  .perfil-imagem { flex: auto; max-width: 100%; }
+  .perfil-conteudo {
+    grid-template-columns: 1fr;
+  }
+  .perfil-imagem {
+    max-width: 420px;
+    margin: 0 auto;
+  }
   .perfil-cabecalho h1 { font-size: 2.2rem; }
 }
